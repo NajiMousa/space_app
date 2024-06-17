@@ -1,17 +1,26 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
+import 'package:difaf_al_wafa_app/providers/language_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 
 class ChooseLanguageWidget extends StatelessWidget {
   ChooseLanguageWidget({Key? key}) : super(key: key);
+  final SharedPrefController sharedPrefController = SharedPrefController();
+
+  String _selectedLanguage = 'English'; // Default selected language
+  List<String> _languages = ['English', 'Arabic'];
+
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider = Provider.of<LanguageProvider>(context);
     return Container(
       // margin: EdgeInsets.only(top: 550.h),
       width: 360.w,
-      height: 360.h,
+      height: 180.h,
       // decoration: BoxDecoration(
       //     borderRadius: BorderRadius.only(
       //       topLeft: Radius.circular(24.sp),
@@ -22,12 +31,11 @@ class ChooseLanguageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         // padding: EdgeInsets.symmetric(horizontal: 32.w),
         children: [
-
           SizedBox(height: 12.h),
           Row(
             children: [
               Text(
-                'Contact Us',
+                'Choose the language you want',
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),
@@ -56,113 +64,40 @@ class ChooseLanguageWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 24.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/Home.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'Palestine / Gaza /Dire Al-Balah',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/callPhone.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                '+970595192140',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/email.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'difaf_al-wafa@info.com',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/world_website.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'difaf_al-wafa.com',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
-          ),
-          SizedBox(height: 18.h),
-          Text(
-            'Or Write Message',
-            style: TextStyle(
-                fontSize: 12.sp,
-                color: HexColor('#333333').withOpacity(0.7),
-                fontFamily: 'BreeSerif'),
-          ),
           Container(
-            margin: EdgeInsets.only(top: 10.w),
-            alignment: AlignmentDirectional.center,
-            child: TextField(
-              style: TextStyle(
-                fontFamily: 'BreeSerif',
-                fontSize: 13.sp,
-                color: HexColor('#8C9EA0'),
-              ),
-              maxLines: 2,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: 'write your massage',
-                enabledBorder: getBorder(borderColor: HexColor('#333333')),
-                focusedBorder: getBorder(borderColor: HexColor('#333333')),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(color: HexColor('#333333'), width: 1.w),
+              // Outer border color and width
+              borderRadius: BorderRadius.circular(
+                  10.sp), // Optional: border radius to make it rounded
+            ),
+            padding: EdgeInsets.only(left: 15.w, right: 15.w),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _selectedLanguage,
+                onChanged: (String? newValue) {
+                  _selectedLanguage = newValue!;
+
+                },
+                items: _languages.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
             ),
           ),
-          SizedBox(height: 15.h),
+          SizedBox(
+            height: 24.h,
+          ),
           Container(
             // margin: EdgeInsets.symmetric(horizontal: 24.w),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<LanguageProvider>(context, listen: false).changeLanguage();
+              },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(
                     vertical: 8.h, horizontal: 12.w),
@@ -173,7 +108,7 @@ class ChooseLanguageWidget extends StatelessWidget {
                     BorderRadiusDirectional.circular(50.sp)),
               ),
               child: Text(
-                'Send Message',
+                'Save',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 10.sp,
@@ -186,6 +121,7 @@ class ChooseLanguageWidget extends StatelessWidget {
       ),
     );
   }
+
   OutlineInputBorder getBorder({Color borderColor = Colors.white}) {
     return OutlineInputBorder(
       borderSide: BorderSide(

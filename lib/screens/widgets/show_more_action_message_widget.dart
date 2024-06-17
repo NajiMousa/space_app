@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../profile_screens/martyr_profile_screen.dart';
+
 class ShowMoreActionMessageWidget extends StatelessWidget {
   ShowMoreActionMessageWidget({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +67,21 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
           ),
           SizedBox(height: 18.h),
           ListTile(
-            onTap: () => Navigator.pushNamed(context, '/user_profile_screen'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return MartyrProfileScreen();
+                },
+              ));
+            },
             contentPadding: EdgeInsets.zero,
             leading: Container(
               width: 50.w,
               height: 50.w,
               alignment: AlignmentDirectional.center,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.sp),color: HexColor('#21CED9')),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.sp),
+                  color: HexColor('#21CED9')),
               child: Image.asset(
                 'images/userIcon.png',
                 width: 44.w,
@@ -107,96 +116,103 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/image_icon.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'View media, files and links',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
+          InkWell(
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'images/image_icon.svg',
+                  width: 20.w,
+                  height: 20.h,
+                  color: HexColor('#333333'),
+                ),
+                SizedBox(width: 12.w),
+                Text(
+                  'View media, files and links',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: HexColor('#333333'),
+                      fontFamily: 'BreeSerif'),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 12.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/searchIcon.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'Search in Conversation',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
+          InkWell(
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'images/searchIcon.svg',
+                  width: 20.w,
+                  height: 20.h,
+                  color: HexColor('#333333'),
+                ),
+                SizedBox(width: 12.w),
+                Text(
+                  'Search in Conversation',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: HexColor('#333333'),
+                      fontFamily: 'BreeSerif'),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 12.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/notificationIcon.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'Notifications',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-
-              Spacer(),
-              Text(
-                'On',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#6699CC'),
-                    fontFamily: 'BreeSerif'),
-              ),
-              SizedBox(width: 4.w),
-              SvgPicture.asset(
-                'images/arrowForword.svg',
-                width: 9.w,
-                height: 15.h,
-                color: HexColor('#333333'),
-              ),
-            ],
+          InkWell(
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'images/notificationIcon.svg',
+                  width: 20.w,
+                  height: 20.h,
+                  color: HexColor('#333333'),
+                ),
+                SizedBox(width: 12.w),
+                Text(
+                  'Notifications',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: HexColor('#333333'),
+                      fontFamily: 'BreeSerif'),
+                ),
+                Spacer(),
+                Text(
+                  'On',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: HexColor('#6699CC'),
+                      fontFamily: 'BreeSerif'),
+                ),
+                SizedBox(width: 4.w),
+                SvgPicture.asset(
+                  'images/arrowForword.svg',
+                  width: 9.w,
+                  height: 15.h,
+                  color: HexColor('#333333'),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 12.h),
-          Row(
-            children: [
-              SvgPicture.asset(
-                'images/share_social_icon.svg',
-                width: 20.w,
-                height: 20.h,
-                color: HexColor('#333333'),
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                'Share Profile',
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-            ],
+          InkWell(
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  'images/share_social_icon.svg',
+                  width: 20.w,
+                  height: 20.h,
+                  color: HexColor('#333333'),
+                ),
+                SizedBox(width: 12.w),
+                Text(
+                  'Share Profile',
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: HexColor('#333333'),
+                      fontFamily: 'BreeSerif'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

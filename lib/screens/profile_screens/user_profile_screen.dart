@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -75,22 +73,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     _selectedTypeMessanger == 1
                         ? Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#6699CC'),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.sp),
-                                bottomLeft: Radius.circular(5.sp),
-                              ),
-                            ),
-                            width: 52.w,
-                            height: 5.h,
-                          )
+                      decoration: BoxDecoration(
+                        color: HexColor('#6699CC'),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(5.sp),
+                          bottomLeft: Radius.circular(5.sp),
+                        ),
+                      ),
+                      width: 52.w,
+                      height: 5.h,
+                    )
                         : SizedBox(
-                            height: 5.h,
-                          ),
+                      height: 5.h,
+                    ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Posts',
+                      'Follower',
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 1
@@ -114,22 +112,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     _selectedTypeMessanger == 2
                         ? Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#6699CC'),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.sp),
-                                bottomLeft: Radius.circular(5.sp),
-                              ),
-                            ),
-                            width: 55.w,
-                            height: 5.h,
-                          )
+                      decoration: BoxDecoration(
+                        color: HexColor('#6699CC'),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(5.sp),
+                          bottomLeft: Radius.circular(5.sp),
+                        ),
+                      ),
+                      width: 52.w,
+                      height: 5.h,
+                    )
                         : SizedBox(
-                            height: 5.h,
-                          ),
+                      height: 5.h,
+                    ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Photos',
+                      'Following',
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 2
@@ -150,26 +148,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               child: Padding(
                 padding: EdgeInsets.only(left: 24.w),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _selectedTypeMessanger == 3
                         ? Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#6699CC'),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.sp),
-                                bottomLeft: Radius.circular(5.sp),
-                              ),
-                            ),
-                            width: 43.w,
-                            height: 5.h,
-                          )
+                      decoration: BoxDecoration(
+                        color: HexColor('#6699CC'),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(5.sp),
+                          bottomLeft: Radius.circular(5.sp),
+                        ),
+                      ),
+                      width: 52.w,
+                      height: 5.h,
+                    )
                         : SizedBox(
-                            height: 5.h,
-                          ),
+                      height: 5.h,
+                    ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Video',
+                      'Friends',
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 3
@@ -190,7 +187,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               child: Padding(
                 padding: EdgeInsets.only(left: 24.w),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _selectedTypeMessanger == 4
                         ? Container(
@@ -201,7 +197,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 73.w,
+                            width: 52.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -209,7 +205,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Highlights',
+                      'Posts',
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 4
@@ -230,7 +226,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               child: Padding(
                 padding: EdgeInsets.only(left: 24.w),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _selectedTypeMessanger == 5
                         ? Container(
@@ -241,7 +236,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 60.w,
+                            width: 55.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -249,7 +244,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Articles',
+                      'Photos',
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 5
@@ -281,6 +276,126 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
+                            width: 43.w,
+                            height: 5.h,
+                          )
+                        : SizedBox(
+                            height: 5.h,
+                          ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      'Video',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: _selectedTypeMessanger == 6
+                              ? HexColor('#6699CC')
+                              : HexColor('#8C9EA0'),
+                          fontFamily: 'BreeSerif'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedTypeMessanger = 7;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 24.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _selectedTypeMessanger == 7
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: 73.w,
+                            height: 5.h,
+                          )
+                        : SizedBox(
+                            height: 5.h,
+                          ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      'Highlights',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: _selectedTypeMessanger == 7
+                              ? HexColor('#6699CC')
+                              : HexColor('#8C9EA0'),
+                          fontFamily: 'BreeSerif'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedTypeMessanger = 8;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 24.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _selectedTypeMessanger == 8
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: 60.w,
+                            height: 5.h,
+                          )
+                        : SizedBox(
+                            height: 5.h,
+                          ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      'Articles',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: _selectedTypeMessanger == 8
+                              ? HexColor('#6699CC')
+                              : HexColor('#8C9EA0'),
+                          fontFamily: 'BreeSerif'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedTypeMessanger = 9;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 24.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _selectedTypeMessanger == 9
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
                             width: 45.w,
                             height: 5.h,
                           )
@@ -292,7 +407,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       'Links',
                       style: TextStyle(
                           fontSize: 13.sp,
-                          color: _selectedTypeMessanger == 6
+                          color: _selectedTypeMessanger == 9
                               ? HexColor('#6699CC')
                               : HexColor('#8C9EA0'),
                           fontFamily: 'BreeSerif'),
@@ -308,9 +423,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 2.w, vertical: 2.h),
-                margin: EdgeInsets.only(left: 24.w,right: 32.w),
+                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+                margin: EdgeInsets.only(left: 24.w, right: 32.w),
                 decoration: BoxDecoration(
                   color: Colors.white, // Background color
                   shape: BoxShape.circle, // Make it a circle if desired
@@ -348,11 +462,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(75.sp)),
+                            bottomLeft: Radius.circular(42.sp)),
                         // color: Colors.red,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withOpacity(0.2),
                             spreadRadius: 1,
                             blurRadius: 10,
                             offset: Offset(0, 3), // changes position of shadow
@@ -389,15 +503,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                    left: 70.w, right: 4.w, top: 62.h, bottom: 4.h),
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                                    left: 70.w,
+                                    right: 4.w,
+                                    top: 62.h,
+                                    bottom: 4.h),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 8.h),
                                 // margin: EdgeInsets.only(left: 24.w),
                                 width: 32.w,
                                 height: 32.h,
                                 decoration: BoxDecoration(
-                                  color: HexColor('#E0EBF2'), // Background color
-                                  shape: BoxShape.circle, // Make it a circle if desired
+                                  color: HexColor('#E0EBF2'),
+                                  // Background color
+                                  shape: BoxShape
+                                      .circle, // Make it a circle if desired
                                 ),
                                 child: InkWell(
                                   onTap: () {
@@ -414,96 +533,108 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 16.w, top: 18.h, right: 24.w, ),
+                            padding: EdgeInsets.only(
+                              left: 16.w,
+                              top: 18.h,
+                              right: 24.w,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      '20.3K',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 13.sp,
-                                        color: HexColor('#333333'),
+                                InkWell(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '20.3K',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 13.sp,
+                                          color: HexColor('#333333'),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'Post',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 10.sp,
-                                        color: HexColor('#8C9EA0'),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        'Post',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 10.sp,
+                                          color: HexColor('#8C9EA0'),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(width: 12.w),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '205.6K',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 13.sp,
-                                        color: HexColor('#333333'),
+                                InkWell(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '205.6K',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 13.sp,
+                                          color: HexColor('#333333'),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'Follower',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 10.sp,
-                                        color: HexColor('#8C9EA0'),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        'Follower',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 10.sp,
+                                          color: HexColor('#8C9EA0'),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(width: 12.w),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '10.6K',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 13.sp,
-                                        color: HexColor('#333333'),
+                                InkWell(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '10.6K',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 13.sp,
+                                          color: HexColor('#333333'),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'Following',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 10.sp,
-                                        color: HexColor('#8C9EA0'),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        'Following',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 10.sp,
+                                          color: HexColor('#8C9EA0'),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(width: 12.w),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '03',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 13.sp,
-                                        color: HexColor('#333333'),
+                                InkWell(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '03',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 13.sp,
+                                          color: HexColor('#333333'),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'Link Page',
-                                      style: TextStyle(
-                                        fontFamily: 'BreeSerif',
-                                        fontSize: 10.sp,
-                                        color: HexColor('#8C9EA0'),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        'Link Page',
+                                        style: TextStyle(
+                                          fontFamily: 'BreeSerif',
+                                          fontSize: 10.sp,
+                                          color: HexColor('#8C9EA0'),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -511,7 +642,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         ],
                       ),
                     ),
-
                   ],
                 ),
                 SizedBox(height: 18.h),
@@ -562,7 +692,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           minimumSize: Size(100.w, 24.h),
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadiusDirectional.circular(50.sp)),
+                                  BorderRadiusDirectional.circular(50.sp)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -588,7 +718,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       SizedBox(width: 12.w),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/edit_user_profile_page_screen');
+                          },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(
                                 vertical: 8.h, horizontal: 26.w),
@@ -596,7 +728,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             minimumSize: Size(double.infinity, 24.h),
                             shape: RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadiusDirectional.circular(50.sp)),
+                                    BorderRadiusDirectional.circular(50.sp)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -630,7 +762,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           minimumSize: Size(24.w, 24.h),
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadiusDirectional.circular(50.sp)),
+                                  BorderRadiusDirectional.circular(50.sp)),
                         ),
                         child: SvgPicture.asset(
                           'images/icons.svg',
@@ -642,17 +774,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ],
                   ),
                 ),
-                Divider(thickness: 2,indent: 32.w,endIndent: 32.w,),
+                Divider(
+                  thickness: 2,
+                  indent: 32.w,
+                  endIndent: 32.w,
+                ),
                 SizedBox(height: 12.h),
               ],
             ),
-
           ),
           Container(
             margin: EdgeInsets.only(
                 left: 32.w, right: 24.w, top: 63.h, bottom: 0.h),
-            padding:
-            EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             // margin: EdgeInsets.only(left: 24.w),
             width: 32.w,
             height: 32.h,

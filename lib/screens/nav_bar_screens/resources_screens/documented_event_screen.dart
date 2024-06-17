@@ -25,12 +25,12 @@ class _DocumentedEventScreenState extends State<DocumentedEventScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 12.h, bottom: 6.h, right: 24.w, left: 24.w),
+                      top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
                   child: Text(
-                    '28 Aug',
+                    '28 Aug / 1996 - 2024',
                     style: TextStyle(
                         fontSize: 14.sp,
-                        color: HexColor('#333333'),
+                        color: HexColor('#333333').withOpacity(0.7),
                         fontFamily: 'BreeSerif'),
                   ),
                 ),

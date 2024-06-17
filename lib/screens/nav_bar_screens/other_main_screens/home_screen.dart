@@ -7,10 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../widgets/post_widgets/add_audio_post_widgets.dart';
-import '../widgets/post_widgets/add_instagram_post_widget.dart';
-import '../widgets/post_widgets/add_text_photo_post_widgets.dart';
-import '../widgets/post_widgets/add_videos_reels_widgets.dart';
+import '../../widgets/post_widgets/add_audio_post_widgets.dart';
+import '../../widgets/post_widgets/add_instagram_post_widget.dart';
+import '../../widgets/post_widgets/add_text_photo_post_widgets.dart';
+import '../../widgets/post_widgets/add_videos_reels_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

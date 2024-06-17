@@ -18,12 +18,12 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
       children: [
         Padding(
           padding:
-              EdgeInsets.only(top: 12.h, bottom: 6.h, right: 24.w, left: 24.w),
+              EdgeInsets.only(top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
           child: Text(
-            'Best Initiatives',
+            'For You',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),
@@ -503,10 +503,10 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
           padding:
               EdgeInsets.only(right: 24.w, left: 24.w, top: 6.h, bottom: 6.h),
           child: Text(
-            'Recent Additions',
+            'Suggestion for you',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),

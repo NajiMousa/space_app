@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/screens/other_text_screens/about_us_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/change_password_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../model/auth_page_model.dart';
 import 'otp_code_screen.dart';
 import 'sing_up_screen.dart';
-import 'terms_conditions_screen.dart';
+import '../other_text_screens/terms_conditions_screen.dart';
 
 class MainAuthScreen extends StatefulWidget {
    MainAuthScreen({Key? key, required this.selectedIndex}) : super(key: key);
@@ -41,7 +42,11 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
     AuthPageModel(
         title: 'Enter OTP code',
         widget: OtpCodeScreen(),
-        Pik: 'images/Enter_OTP-pana.svg'), //04
+        Pik: 'images/Enter_OTP-pana.svg'),
+    AuthPageModel(
+        title: 'About Us',
+        widget: AboutUsScreen(),
+        Pik: ''),//04
   ];
 
   @override
@@ -50,6 +55,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.h),
         child: AppBar(
+            automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.white,
             flexibleSpace: Center(
@@ -106,7 +112,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                 padding: EdgeInsets.only(left: 33.w),
                 child: Column(
                   children: [
-                    widget.selectedIndex == 0
+                    widget.selectedIndex == 0 || widget.selectedIndex == 4
                         ? Container(
                             decoration: BoxDecoration(
                               color: HexColor('#6699CC'),
@@ -126,7 +132,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                       'Sing Up',
                       style: TextStyle(
                           fontSize: 13.sp,
-                          color: widget.selectedIndex == 0
+                          color: widget.selectedIndex == 0 || widget.selectedIndex == 4
                               ? HexColor('#6699CC')
                               : HexColor('#8C9EA0'),
                           fontFamily: 'BreeSerif'),
@@ -167,6 +173,46 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: widget.selectedIndex == 1
+                              ? HexColor('#6699CC')
+                              : HexColor('#8C9EA0'),
+                          fontFamily: 'BreeSerif'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  widget.selectedIndex = 3;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: 24.w,),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    widget.selectedIndex == 3
+                        ? Container(
+                      decoration: BoxDecoration(
+                        color: HexColor('#6699CC'),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(5.sp),
+                          bottomLeft: Radius.circular(5.sp),
+                        ),
+                      ),
+                      width: 104.w,
+                      height: 5.h,
+                    )
+                        : SizedBox(
+                      height: 5.h,
+                    ),
+                    SizedBox(height: 20.h),
+                    Text(
+                      'Change Password',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: widget.selectedIndex == 3
                               ? HexColor('#6699CC')
                               : HexColor('#8C9EA0'),
                           fontFamily: 'BreeSerif'),
@@ -216,38 +262,39 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
               ),
             ),
             // todo: Change Password Page
+
             InkWell(
               onTap: () {
                 setState(() {
-                  widget.selectedIndex = 3;
+                  widget.selectedIndex = 5;
                 });
               },
               child: Padding(
-                padding: EdgeInsets.only(left: 24.w, right: 32.w),
+                padding: EdgeInsets.only(left: 24.w, right: 40.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    widget.selectedIndex == 3
+                    widget.selectedIndex == 5
                         ? Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#6699CC'),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.sp),
-                                bottomLeft: Radius.circular(5.sp),
-                              ),
-                            ),
-                            width: 104.w,
-                            height: 5.h,
-                          )
+                      decoration: BoxDecoration(
+                        color: HexColor('#6699CC'),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(5.sp),
+                          bottomLeft: Radius.circular(5.sp),
+                        ),
+                      ),
+                      width: 64.w,
+                      height: 5.h,
+                    )
                         : SizedBox(
-                            height: 5.h,
-                          ),
+                      height: 5.h,
+                    ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Change Password',
+                      'About Us',
                       style: TextStyle(
                           fontSize: 13.sp,
-                          color: widget.selectedIndex == 3
+                          color: widget.selectedIndex == 5
                               ? HexColor('#6699CC')
                               : HexColor('#8C9EA0'),
                           fontFamily: 'BreeSerif'),
@@ -274,20 +321,21 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
+                widget.selectedIndex == 4 ?  SizedBox(height: 40.h) : widget.selectedIndex == 3 ? SizedBox(height: 18.h): SizedBox(),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 12.h),
-                    child: widget.selectedIndex == 2
+                    child: widget.selectedIndex == 2  || widget.selectedIndex == 5
                         ? SizedBox()
                         : SvgPicture.asset(
-                            height: widget.selectedIndex == 0 ? 230.h : 270.h,
+                            height: widget.selectedIndex == 0 || widget.selectedIndex == 4 ? 230.h : 320.h,
                             _authPageModel[widget.selectedIndex].Pik,
                           ),
                   ),
                 ),
-                widget.selectedIndex == 0 || widget.selectedIndex == 1
+                widget.selectedIndex == 0 || widget.selectedIndex == 1 || widget.selectedIndex == 3
                     ? SizedBox(height: 15.h)
-                    : SizedBox(height: 30.h,),
+                    : SizedBox(),
                 _authPageModel[widget.selectedIndex].widget,
               ],
             ),

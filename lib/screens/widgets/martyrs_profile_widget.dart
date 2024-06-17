@@ -24,7 +24,7 @@ class MartyrsProfileWidget extends StatelessWidget {
               color: HexColor('#FFFFFF'),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.2),
                   spreadRadius: 1,
                   blurRadius: 2,
                   offset: Offset(0, 1), // changes position of shadow

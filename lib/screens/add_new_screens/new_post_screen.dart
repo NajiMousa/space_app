@@ -244,6 +244,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.h),
         child: AppBar(
+            automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: HexColor('#FFFFFF'),
             flexibleSpace: Center(

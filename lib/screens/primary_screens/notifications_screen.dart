@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../widgets/add_story_widget.dart';
-import '../widgets/users_storys_widget.dart';
 
 class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
@@ -312,72 +310,75 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   ),
                   child: ListView(
                     children: [
-                      isEmpty ? Column(
-                        children: [
-                          SizedBox(height: 154.h),
-                          SvgPicture.asset(
-                            'images/Notify-amico.svg',
-                            width: 250.w,
-                            height: 250.h,
-                          ),
-                          SizedBox(height: 28.h),
-                          Text(
-                            'There are no notifications yet....',
-                            style: TextStyle(
-                                fontSize: 17.sp,
-                                color: HexColor('#333333'),
-                                fontFamily: 'BreeSerif'),
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            'Any new notifications will appear here',
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                color: HexColor('#333333'),
-                                fontFamily: 'BreeSerif'),
-                          ),
-                          SizedBox(height: 24.h),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 104.w, vertical: 15.h),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/main_screen');
-                              },
-                              style: ElevatedButton.styleFrom(
-                                // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
-                                minimumSize: Size(double.infinity, 56.h),
-                                primary: HexColor('#333333'),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.sp),
+                      SizedBox(height: 8.h),
+                      isEmpty ? InkWell(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 154.h),
+                            SvgPicture.asset(
+                              'images/Notify-amico.svg',
+                              width: 250.w,
+                              height: 250.h,
+                            ),
+                            SizedBox(height: 28.h),
+                            Text(
+                              'There are no notifications yet....',
+                              style: TextStyle(
+                                  fontSize: 17.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text(
+                              'Any new notifications will appear here',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                            SizedBox(height: 24.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 104.w, vertical: 15.h),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/main_screen');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
+                                  minimumSize: Size(double.infinity, 56.h),
+                                  backgroundColor: HexColor('#333333'),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.sp),
+                                  ),
                                 ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 12.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'images/Home.svg',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      color: HexColor('#FFFFFF'),
-                                    ),
-                                    SizedBox(width:12.w),
-                                    Text(
-                                      'Go to Home',
-                                      style: TextStyle(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 12.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'images/Home.svg',
+                                        width: 20.w,
+                                        height: 20.h,
                                         color: HexColor('#FFFFFF'),
-                                        fontSize: 16.sp,
-                                        fontFamily: 'BreeSerif',
                                       ),
-                                    ),
-                                    SizedBox(width: 18.w),
-                                  ],
+                                      SizedBox(width:12.w),
+                                      Text(
+                                        'Go to Home',
+                                        style: TextStyle(
+                                          color: HexColor('#FFFFFF'),
+                                          fontSize: 16.sp,
+                                          fontFamily: 'BreeSerif',
+                                        ),
+                                      ),
+                                      SizedBox(width: 18.w),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ): Expanded(
                         child: ListView.builder(
                           itemCount: 15,

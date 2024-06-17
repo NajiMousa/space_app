@@ -18,9 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 24.h),
-        AppTextFieldWidget(labelText: 'phone'),
-        AppTextFieldWidget(labelText: 'password'),
+        AppTextFieldWidget(labelText: '059* *** *** *** ',sectionTitle: 'phone'),
+        AppTextFieldWidget(labelText: '*********',sectionTitle: 'password'),
         SizedBox(height: 6.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w),
@@ -43,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             style: ElevatedButton.styleFrom(
               // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
               minimumSize: Size(double.infinity, 56.h),
-              primary: HexColor('#333333'),
+              backgroundColor: HexColor('#333333'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.sp),
               ),
@@ -79,23 +78,29 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SvgPicture.asset(
-                'images/google_g_icon.svg',
-                width: 24.w,
-                height: 24.h,
-                color: HexColor('#333333'),
+              InkWell(
+                child: SvgPicture.asset(
+                  'images/google_g_icon.svg',
+                  width: 24.w,
+                  height: 24.h,
+                  color: HexColor('#333333'),
+                ),
               ),
-              SvgPicture.asset(
-                'images/twitter_bird_icon.svg',
-                width: 24.w,
-                height: 24.h,
-                color: HexColor('#333333'),
+              InkWell(
+                child: SvgPicture.asset(
+                  'images/twitter_bird_icon.svg',
+                  width: 24.w,
+                  height: 24.h,
+                  color: HexColor('#333333'),
+                ),
               ),
-              SvgPicture.asset(
-                'images/facebook_logo_icon.svg',
-                width: 24.w,
-                height: 24.h,
-                color: HexColor('#333333'),
+              InkWell(
+                child: SvgPicture.asset(
+                  'images/facebook_logo_icon.svg',
+                  width: 24.w,
+                  height: 24.h,
+                  color: HexColor('#333333'),
+                ),
               ),
             ],
           ),

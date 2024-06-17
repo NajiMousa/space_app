@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class OtpCodeScreen extends StatefulWidget {
@@ -16,8 +15,9 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        SizedBox(height: 24.h),
         Padding(
-          padding: EdgeInsets.only(right: 22.w, left: 32.w, top: 56.h, bottom: 22.h),
+          padding: EdgeInsets.only(right: 22.w, left: 32.w, bottom: 22.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -219,7 +219,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
           ),
         ),
         SizedBox(
-          height: 16.h,
+          height: 24.h,
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
@@ -228,7 +228,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
             style: ElevatedButton.styleFrom(
               // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
               minimumSize: Size(double.infinity, 56.h),
-              primary: HexColor('#333333'),
+              backgroundColor: HexColor('#333333'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.sp),
               ),
@@ -237,19 +237,12 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Continue',
+                  'Save',
                   style: TextStyle(
                     color: HexColor('#FFFFFF'),
                     fontSize: 16.sp,
                     fontFamily: 'BreeSerif',
                   ),
-                ),
-                SizedBox(width: 6.w),
-                SvgPicture.asset(
-                  'images/arrowForword.svg',
-                  width: 9.w,
-                  height: 15.h,
-                  color: HexColor('#FFFFFF'),
                 ),
                 SizedBox(width: 18.w),
               ],

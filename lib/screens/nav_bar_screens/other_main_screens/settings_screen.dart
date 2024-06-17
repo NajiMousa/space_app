@@ -1,11 +1,16 @@
 import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/choose_language_widget.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/show_log_out_messages_widget.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/show_more_action_message_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/show_notfication_setting_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/theme_provider.dart';
+import '../../widgets/choose_language_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -17,8 +22,13 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool isClickOnCantactUs = false;
 
+
   @override
   Widget build(BuildContext context) {
+
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+
     return Stack(
       children: [
         Column(
@@ -32,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     margin: EdgeInsets.only(
                         top: 36.h, bottom: 25.h, left: 24.w, right: 24.w),
                     padding: EdgeInsets.only(
-                        left: 130.w, right: 24.w, top: 24.h, bottom: 18.h),
+                        left: 130.w, right: 24.w, top: 24.h, bottom: 24.h),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.sp),
                         color: HexColor('#333333')),
@@ -49,9 +59,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 14.sp,
-                                    color: HexColor('#FFFFFF'),
+                                    // color: HexColor('#FFFFFF'),
+                                    color: Colors.white,
                                   ),
                                 ),
+                                // Text(
+                                //   'Mohamed Al-Sayed',
+                                //   style: theme.textTheme.bodyText1
+                                // ),
                                 SizedBox(height: 6.h),
                                 Text(
                                   'Mohamed2003@gmail.com',
@@ -145,8 +160,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       Switch(
-                        value: true,
-                        onChanged: (value) {},
+                        value: themeProvider.themeMode == ThemeMode.dark,
+                        onChanged: (value) {
+                          themeProvider.toggleTheme(value);
+                        },
+                        // value: true,
+                        // onChanged: (value) {},
                       ),
                     ],
                   ),
@@ -183,12 +202,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                         ),
-                        Text(
-                          'On',
-                          style: TextStyle(
-                            fontFamily: 'BreeSerif',
-                            fontSize: 10.sp,
-                            color: HexColor('#6699CC'),
+                        InkWell(
+                          onTap: () {
+                            _showNotificationDialog();
+                          },
+                          child: Text(
+                            'On',
+                            style: TextStyle(
+                              fontFamily: 'BreeSerif',
+                              fontSize: 10.sp,
+                              color: HexColor('#6699CC'),
+                            ),
                           ),
                         ),
                       ],
@@ -254,7 +278,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: 12.h, bottom: 16.h, right: 24.w, left: 24.w),
+                  top: 18.h, bottom: 16.h, right: 24.w, left: 24.w),
               child: Text(
                 'Account Setting',
                 style: TextStyle(
@@ -363,7 +387,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: 12.h, bottom: 16.h, right: 24.w, left: 24.w),
+                  top: 18.h, bottom: 16.h, right: 24.w, left: 24.w),
               child: Text(
                 'Support',
                 style: TextStyle(
@@ -424,13 +448,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: 10.h),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return MainAuthScreen(selectedIndex: 2,);
-                          },
-                        ),
+                      Navigator.pushNamed(
+                        context, '/about_us_screen'
                       );
                     },
                     child: Row(
@@ -528,7 +547,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: 12.h, bottom: 16.h, right: 24.w, left: 24.w),
+                  top: 18.h, bottom: 16.h, right: 24.w, left: 24.w),
               child: Text(
                 'Other',
                 style: TextStyle(
@@ -538,6 +557,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             InkWell(
+              onTap: () {
+                _confirmLogOutDialog();
+              },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Column(
@@ -624,4 +646,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
     );
   }
+
+  void _showNotificationDialog () {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: ShowNotficationSettingWidget()
+        );
+      },
+    );
+  }
+
+  void _confirmLogOutDialog () {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            content: ShowLogOutMessagesWidget()
+        );
+      },
+    );
+  }
+
 }

@@ -427,7 +427,8 @@ class _MessangerScreenState extends State<MessangerScreen> {
                             );
                           },
                         ),
-                      )
+                      ),
+                      SizedBox(height: 18.h),
                     ],
                   ),
                   // _primaryPageModel[_selectedIndex].widget,

@@ -18,12 +18,12 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       children: [
         Padding(
           padding:
-              EdgeInsets.only(top: 12.h, bottom: 6.h, right: 24.w, left: 24.w),
+              EdgeInsets.only(top: 18.h, bottom: 8.h, right: 24.w, left: 24.w),
           child: Text(
             'Recent Additions',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),
@@ -50,7 +50,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                         color: HexColor('#FFFFFF'),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withOpacity(0.2),
                             spreadRadius: 1,
                             blurRadius: 2,
                             offset: Offset(0, 0.1), // changes position of shadow

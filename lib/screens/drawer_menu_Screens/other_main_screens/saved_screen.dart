@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../widgets/add_story_widget.dart';
-import '../widgets/users_storys_widget.dart';
 
 class SavedScreen extends StatefulWidget {
   const SavedScreen({Key? key}) : super(key: key);
@@ -312,18 +310,19 @@ class _SavedScreenState extends State<SavedScreen> {
                   ),
                   child: Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                        EdgeInsets.symmetric(horizontal: 24.w),
                     child: ListView(
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 18.h),
                         Text(
                           'Most Recent',
                           style: TextStyle(
-                              fontSize: 13.sp,
+                              fontSize: 16.sp,
                               color: HexColor('#333333').withOpacity(0.7),
                               fontFamily: 'BreeSerif'),
                         ),
-                        SizedBox(height: 12.h),
+                        SizedBox(height: 4.h),
                         ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
@@ -377,11 +376,16 @@ class _SavedScreenState extends State<SavedScreen> {
                                     ],
                                   ),
                                 ),
-                                SvgPicture.asset(
-                                  'images/icons.svg',
-                                  width: 20.w,
-                                  height: 16.h,
-                                  color: HexColor('#8C9EA0'),
+                                InkWell(
+                                  child: Transform.rotate(
+                                    angle: 3.15,
+                                    child: SvgPicture.asset(
+                                      'images/icons.svg',
+                                      width: 20.w,
+                                      height: 16.h,
+                                      color: HexColor('#8C9EA0'),
+                                    ),
+                                  ),
                                 ),
                               ],
                             );
@@ -426,7 +430,7 @@ class _SavedScreenState extends State<SavedScreen> {
                         Text(
                           'Your Collection',
                           style: TextStyle(
-                              fontSize: 13.sp,
+                              fontSize: 16.sp,
                               color: HexColor('#333333').withOpacity(0.7),
                               fontFamily: 'BreeSerif'),
                         ),

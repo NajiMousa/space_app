@@ -1,9 +1,10 @@
+import 'package:difaf_al_wafa_app/screens/primary_screens/main_screen.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/show_log_out_messages_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import '../widgets/show_link_page_widget.dart';
 
 class DrawerMenuScreen extends StatefulWidget {
@@ -14,9 +15,9 @@ class DrawerMenuScreen extends StatefulWidget {
 }
 
 class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
-
   bool _showLinkPage = false;
   bool _showLogOutMessage = false;
+  bool _showContactUsMessage = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +39,38 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Difaf Al-wafa',
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.white,
-                      fontFamily: 'BreeSerif'),
+                InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(selectedIndex: 0),
+                    ),
+                  ),
+                  child: Text(
+                    'Space',
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                        fontFamily: 'BreeSerif'),
+                  ),
                 ),
                 SizedBox(
                   width: 12.w,
                 ),
-                Text(
-                  'Commemorate the Martyrs App',
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      color: HexColor('#8C9EA0'),
-                      fontFamily: 'BreeSerif'),
+                InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(selectedIndex: 0),
+                    ),
+                  ),
+                  child: Text(
+                    'Commemorate the Martyrs App',
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: HexColor('#8C9EA0'),
+                        fontFamily: 'BreeSerif'),
+                  ),
                 ),
                 SizedBox(
                   height: 12.h,
@@ -240,8 +257,11 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () =>
-                      Navigator.pushNamed(context, '/notifications_screen'),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen(selectedIndex: 6),
+                      )),
                   child: Padding(
                     padding: EdgeInsets.only(top: 20.h),
                     child: Row(
@@ -281,7 +301,12 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Navigator.pushNamed(context, '/main_screen'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(selectedIndex: 2),
+                    ),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.only(top: 20.h),
                     child: Row(
@@ -321,7 +346,8 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Navigator.pushNamed(context, '/activities_log_screen'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/activities_log_screen'),
                   child: Padding(
                     padding: EdgeInsets.only(top: 20.h, bottom: 24.h),
                     child: Row(
@@ -480,27 +506,35 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                   thickness: 1,
                   color: Colors.white,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 24.h),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        'images/ContactUs.svg',
-                        width: 16.w,
-                        height: 16.h,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 12.w,
-                      ),
-                      Text(
-                        'Contact Us',
-                        style: TextStyle(
-                            fontSize: 13.sp,
-                            color: Colors.white,
-                            fontFamily: 'BreeSerif'),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {
+                    print('object');
+                    setState(() {
+                      _showContactUsMessage = true;
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 24.h),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'images/ContactUs.svg',
+                          width: 16.w,
+                          height: 16.h,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 12.w,
+                        ),
+                        Text(
+                          'Contact Us',
+                          style: TextStyle(
+                              fontSize: 13.sp,
+                              color: Colors.white,
+                              fontFamily: 'BreeSerif'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 InkWell(
@@ -538,24 +572,30 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SvgPicture.asset(
-                        'images/whatsapp_icon.svg',
-                        width: 24.w,
-                        height: 24.h,
-                        color: Colors.white,
+                      InkWell(
+                        child: SvgPicture.asset(
+                          'images/whatsapp_icon.svg',
+                          width: 24.w,
+                          height: 24.h,
+                          color: Colors.white,
+                        ),
                       ),
-                      SvgPicture.asset(
-                        'images/twitter_bird_icon.svg',
-                        width: 24.w,
-                        height: 24.h,
-                        color: Colors.white,
+                      InkWell(
+                        child: SvgPicture.asset(
+                          'images/twitter_bird_icon.svg',
+                          width: 24.w,
+                          height: 24.h,
+                          color: Colors.white,
+                        ),
                       ),
-                      SvgPicture.asset(
-                        'images/facebook_icon.svg',
-                        width: 24.w,
-                        height: 24.h,
-                        color: Colors.white,
-                      ),
+                     InkWell(
+                       child:  SvgPicture.asset(
+                         'images/facebook_icon.svg',
+                         width: 24.w,
+                         height: 24.h,
+                         color: Colors.white,
+                       ),
+                     )
                     ],
                   ),
                 )
@@ -563,37 +603,69 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
             ),
           ),
         ),
-        Container(
-          clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.only(left: 240.w, top: 110.h),
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 24.h),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100.sp), color: Colors.white),
-          width: 92.w,
-          height: 92.h,
-          child: Image.asset(
-            'images/GIU254-20.jpg',
-            // width: 60.w,
-            // height: 50.h,
-            fit: BoxFit.fill,
+        InkWell(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainScreen(selectedIndex: 0),
+            ),
+          ),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            margin: EdgeInsets.only(left: 240.w, top: 110.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 24.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.sp),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.8),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
+            ),
+            width: 92.w,
+            height: 92.h,
+            child: Image.asset(
+              'images/GIU254-20.jpg',
+              // width: 60.w,
+              // height: 50.h,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
-        _showLinkPage || _showLogOutMessage ? InkWell(
-          onTap: () {
-            setState(() {
-              _showLinkPage = false;
-              _showLogOutMessage = false;
-            });
-          },
-          child: Container(
-            width: double.infinity,
-            color: HexColor('#333333').withOpacity(0.5),
-          ),
-        ): SizedBox(),
+        _showLinkPage || _showLogOutMessage
+            ? InkWell(
+                onTap: () {
+                  setState(() {
+                    _showLinkPage = false;
+                    _showLogOutMessage = false;
+                  });
+                },
+                child: Container(
+                  width: double.infinity,
+                  color: HexColor('#333333').withOpacity(0.5),
+                ),
+              )
+            : SizedBox(),
         _showLinkPage ? ShowLinkPageWidget() : SizedBox(),
-        _showLogOutMessage ? ShowLogOutMessagesWidget() : SizedBox(),
+        _showLogOutMessage
+            ? AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                content: ShowLogOutMessagesWidget())
+            : SizedBox(),
+        _showContactUsMessage
+            ? AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                content: ContactUsWidget())
+            : SizedBox(),
       ],
     );
   }
-
 }

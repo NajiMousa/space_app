@@ -37,93 +37,95 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#333333"),
-      bottomNavigationBar: isClickOnMoreIcon ? null :Container(
-        height: 72.0, // Set the height here
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              InkWell(
-                child: SvgPicture.asset(
-                  'images/face_smile_wink_icon.svg',
-                  height: 24.h,
-                  width: 24.w,
-                  color: HexColor('#FFFFFF'),
+      bottomNavigationBar: isClickOnMoreIcon ? null :SingleChildScrollView(
+        child: Container(
+          height: 72.0, // Set the height here
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                  child: SvgPicture.asset(
+                    'images/face_smile_wink_icon.svg',
+                    height: 24.h,
+                    width: 24.w,
+                    color: HexColor('#FFFFFF'),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                    margin: EdgeInsets.only(left: 12.w),
-                    alignment: AlignmentDirectional.center,
-                    width: 180.w,
-                    height: 45.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50.sp),
+                Expanded(
+                  child: Container(
+                      margin: EdgeInsets.only(left: 12.w),
+                      alignment: AlignmentDirectional.center,
+                      width: 180.w,
+                      height: 45.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(50.sp),
+                      ),
+                      child: TextField(
+                        // controller: widget.textEditingController,
+                        style: TextStyle(
+                          fontFamily: 'BreeSerif',
+                          fontSize: 11.sp,
+                          color: HexColor('#8C9EA0'),
+                        ),
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          labelText: 'write your massage',
+                          enabledBorder: getBorder(),
+                          focusedBorder: getBorder(),
+                        ),
+                      )),
+                ),
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12.w),
+                    child: SvgPicture.asset(
+                      'images/microphone_icon.svg',
+                      height: 20.h,
+                      width: 20.w,
+                      color: HexColor('#FFFFFF'),
                     ),
-                    child: TextField(
-                      // controller: widget.textEditingController,
-                      style: TextStyle(
-                        fontFamily: 'BreeSerif',
-                        fontSize: 11.sp,
-                        color: HexColor('#8C9EA0'),
-                      ),
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: 'write your massage',
-                        enabledBorder: getBorder(),
-                        focusedBorder: getBorder(),
-                      ),
-                    )),
-              ),
-              InkWell(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.w),
-                  child: SvgPicture.asset(
-                    'images/microphone_icon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#FFFFFF'),
                   ),
                 ),
-              ),
-              InkWell(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.w),
-                  child: SvgPicture.asset(
-                    'images/gallery_icon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#FFFFFF'),
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12.w),
+                    child: SvgPicture.asset(
+                      'images/gallery_icon.svg',
+                      height: 20.h,
+                      width: 20.w,
+                      color: HexColor('#FFFFFF'),
+                    ),
                   ),
                 ),
-              ),
-              InkWell(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.w),
-                  child: SvgPicture.asset(
-                    'images/attachment_icon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#FFFFFF'),
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12.w),
+                    child: SvgPicture.asset(
+                      'images/attachment_icon.svg',
+                      height: 20.h,
+                      width: 20.w,
+                      color: HexColor('#FFFFFF'),
+                    ),
                   ),
                 ),
-              ),
-              InkWell(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.w, right: 6.w),
-                  child: SvgPicture.asset(
-                    'images/messengerIcon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#FFFFFF'),
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12.w, right: 6.w),
+                    child: SvgPicture.asset(
+                      'images/messengerIcon.svg',
+                      height: 20.h,
+                      width: 20.w,
+                      color: HexColor('#FFFFFF'),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -162,7 +164,7 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
                               ),
                             ),
                             SizedBox(
-                              width: 12.w,
+                              width: 18.w,
                             ),
                             Image.asset(
                               'images/userIcon.png',

@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-import '../widgets/add_story_widget.dart';
-import '../widgets/users_storys_widget.dart';
-
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
@@ -423,7 +419,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               style: ElevatedButton.styleFrom(
                                 // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                                 minimumSize: Size(double.infinity, 56.h),
-                                primary: HexColor('#333333'),
+                                backgroundColor: HexColor('#333333'),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.sp),
                                 ),

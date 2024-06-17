@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../widgets/add_story_widget.dart';
-import '../widgets/users_storys_widget.dart';
 
 class ActivitiesLogScreen extends StatefulWidget {
   const ActivitiesLogScreen({Key? key}) : super(key: key);

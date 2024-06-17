@@ -19,12 +19,12 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
         // Header Featured Stories
         Padding(
           padding:
-              EdgeInsets.only(top: 12.h, bottom: 6.h, right: 24.w, left: 24.w),
+              EdgeInsets.only(top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
           child: Text(
             'Featured Stories',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),
@@ -35,145 +35,148 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
           itemBuilder: (context, index) {
           return Stack(
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 30.h, bottom: 12.h, left: 40.w, right: 24.w),
-                padding: EdgeInsets.only(top: 12.h, right: 18.w, left: 18.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  color: HexColor('#FFFFFF'),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      offset: Offset(0, 0.1), // changes position of shadow
-                    ),
-                  ],
-                ),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 28.w, right: 35.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, '/martyr_profile_screen'),
+                child: Container(
+                  margin: EdgeInsets.only(top: 30.h, bottom: 12.h, left: 40.w, right: 24.w),
+                  padding: EdgeInsets.only(top: 12.h, right: 18.w, left: 18.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.sp),
+                    color: HexColor('#FFFFFF'),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0, 0.2), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 28.w, right: 35.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Yasser Mansoor',
+                              style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: HexColor('#6699CC'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                            Text(
+                              'An adventurer at heart & Storyteller by trade',
+                              style: TextStyle(
+                                  fontSize: 10.sp,
+                                  color: HexColor('#474747').withOpacity(0.5),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                            SizedBox(height: 5.h,),
+                            Divider(
+                              height: 0.5.h,
+                              color: HexColor('#D9D9D9'),
+                              thickness: 1.h,
+                            ),
+                            SizedBox(height: 5.h,),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        'Born with an unwavering sense of duty, Yasser Mansoor dedicated their life to protecting and serving their country. With a heart full of courage, they faced every challenge with resilience and honor. Yasser Mansoor made the ultimate sacrifice in the line of duty, leaving behind ....',
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: HexColor('#474747'),
+                            fontFamily: 'BreeSerif'),
+                      ),
+                      SizedBox(height: 10.h,),
+                      Divider(
+                        height: 0.5.h,
+                        color: HexColor('#D9D9D9'),
+                        thickness: 1.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Yasser Mansoor',
-                            style: TextStyle(
-                                fontSize: 13.sp,
-                                color: HexColor('#6699CC'),
-                                fontFamily: 'BreeSerif'),
+                          Container(
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'images/likePost.svg',
+                                  height: 24.h,
+                                  width: 24.w,
+                                  color: HexColor('#FF0000'),
+                                ),
+                                SizedBox(width: 5.w),
+                                Text(
+                                  '15.9K',
+                                  style: TextStyle(
+                                      fontSize: 9.sp,
+                                      color: HexColor('#333333'),
+                                      fontFamily: 'BreeSerif'),
+                                ),
+                                SizedBox(width: 16.w),
+                                SvgPicture.asset(
+                                  'images/commentIcon.svg',
+                                  height: 24.h,
+                                  width: 24.w,
+                                  color: HexColor('#333333'),
+                                ),
+                                SizedBox(width: 5.w),
+                                Text(
+                                  '10.1K',
+                                  style: TextStyle(
+                                      fontSize: 9.sp,
+                                      color: HexColor('#333333'),
+                                      fontFamily: 'BreeSerif'),
+                                ),
+
+                                SvgPicture.asset(
+                                  'images/repostIcon.svg',
+                                  height: 45.h,
+                                  width: 45.w,
+                                  color: HexColor('#333333'),
+                                ),
+                                // SizedBox(width: 5.w),
+                                Text(
+                                  '3.6K',
+                                  style: TextStyle(
+                                      fontSize: 9.sp,
+                                      color: HexColor('#333333'),
+                                      fontFamily: 'BreeSerif'),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text(
-                            'An adventurer at heart & Storyteller by trade',
-                            style: TextStyle(
-                                fontSize: 10.sp,
-                                color: HexColor('#474747'),
-                                fontFamily: 'BreeSerif'),
+                          // SizedBox(
+                          //   width: 90.w,
+                          // ),
+                          Container(
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'images/savedIcon.svg',
+                                  height: 18.h,
+                                  width: 18.w,
+                                  color: HexColor('#8C9EA0'),
+                                ),
+                                SizedBox(width: 15.w),
+                                SvgPicture.asset(
+                                  'images/messengerIcon.svg',
+                                  height: 20.h,
+                                  width: 20.w,
+                                  color: HexColor('#8C9EA0'),
+                                ),
+                              ],
+                            ),
                           ),
-                          SizedBox(height: 5.h,),
-                          Divider(
-                            height: 0.5.h,
-                            color: HexColor('#D9D9D9'),
-                            thickness: 1.h,
-                          ),
-                          SizedBox(height: 5.h,),
                         ],
                       ),
-                    ),
-                    Text(
-                      'Born with an unwavering sense of duty, Yasser Mansoor dedicated their life to protecting and serving their country. With a heart full of courage, they faced every challenge with resilience and honor. Yasser Mansoor made the ultimate sacrifice in the line of duty, leaving behind ....',
-                      style: TextStyle(
-                          fontSize: 10.sp,
-                          color: HexColor('#474747'),
-                          fontFamily: 'BreeSerif'),
-                    ),
-                    SizedBox(height: 10.h,),
-                    Divider(
-                      height: 0.5.h,
-                      color: HexColor('#D9D9D9'),
-                      thickness: 1.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'images/likePost.svg',
-                                height: 24.h,
-                                width: 24.w,
-                                color: HexColor('#FF0000'),
-                              ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                '15.9K',
-                                style: TextStyle(
-                                    fontSize: 9.sp,
-                                    color: HexColor('#333333'),
-                                    fontFamily: 'BreeSerif'),
-                              ),
-                              SizedBox(width: 16.w),
-                              SvgPicture.asset(
-                                'images/commentIcon.svg',
-                                height: 24.h,
-                                width: 24.w,
-                                color: HexColor('#333333'),
-                              ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                '10.1K',
-                                style: TextStyle(
-                                    fontSize: 9.sp,
-                                    color: HexColor('#333333'),
-                                    fontFamily: 'BreeSerif'),
-                              ),
-
-                              SvgPicture.asset(
-                                'images/repostIcon.svg',
-                                height: 45.h,
-                                width: 45.w,
-                                color: HexColor('#333333'),
-                              ),
-                              // SizedBox(width: 5.w),
-                              Text(
-                                '3.6K',
-                                style: TextStyle(
-                                    fontSize: 9.sp,
-                                    color: HexColor('#333333'),
-                                    fontFamily: 'BreeSerif'),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 90.w,
-                        // ),
-                        Container(
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'images/savedIcon.svg',
-                                height: 20.h,
-                                width: 20.w,
-                                color: HexColor('#8C9EA0'),
-                              ),
-                              SizedBox(width: 15.w),
-                              SvgPicture.asset(
-                                'images/messengerIcon.svg',
-                                height: 20.h,
-                                width: 20.w,
-                                color: HexColor('#8C9EA0'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -288,12 +291,12 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 12.h, bottom: 6.h, right: 24.w, left: 24.w),
+          EdgeInsets.only(top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
           child: Text(
             'Recent Additions',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),

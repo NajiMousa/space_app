@@ -4,30 +4,31 @@ import 'package:difaf_al_wafa_app/screens/nav_bar_screens/martyrs_screens/martyr
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/martyrs_screens/martyrs_stories_screen.dart';
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/resources_screens/articles_screen.dart';
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/resources_screens/documented_event_screen.dart';
-import 'package:difaf_al_wafa_app/screens/nav_bar_screens/settings_screen.dart';
+import 'package:difaf_al_wafa_app/screens/nav_bar_screens/other_main_screens/settings_screen.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/drawer_menu_screen.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../model/primary_page_model.dart';
-import '../nav_bar_screens/home_screen.dart';
+import '../nav_bar_screens/other_main_screens/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
+   MainScreen({Key? key, required this.selectedIndex}) : super(key: key);
+  int selectedIndex;
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+
   bool isDrawableVisible = false;
 
   // todo: List of Screens
   final List<PrimaryPageModel> _primaryPageModel = <PrimaryPageModel>[
-    PrimaryPageModel(title: 'Difaf Al-wafa', widget: HomeScreen()),
+    PrimaryPageModel(title: 'Space', widget: HomeScreen()),
     PrimaryPageModel(
         title: 'Martyrs Profiles', widget: MartyrsProfilesScreen()),
     PrimaryPageModel(title: 'Initiatives', widget: InitiativesScreen()),
@@ -57,13 +58,13 @@ class _MainScreenState extends State<MainScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            _selectedIndex = 0;
+                            widget.selectedIndex = 0;
                           });
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _selectedIndex == 0
+                            widget.selectedIndex == 0
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -84,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                               'images/Home.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: _selectedIndex == 0
+                              color: widget.selectedIndex == 0
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -96,14 +97,14 @@ class _MainScreenState extends State<MainScreen> {
                         onTap: () {
                           setState(() {
                             print('Home Page01');
-                            _selectedIndex = 1;
+                            widget.selectedIndex = 1;
                             print('ggggggg');
                           });
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _selectedIndex == 1 || _selectedIndex == 5
+                            widget.selectedIndex == 1 || widget.selectedIndex == 5
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -124,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                               'images/martyrsIcon.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: _selectedIndex == 1 || _selectedIndex == 5
+                              color: widget.selectedIndex == 1 || widget.selectedIndex == 5
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -135,13 +136,13 @@ class _MainScreenState extends State<MainScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            _selectedIndex = 2;
+                            widget.selectedIndex = 2;
                           });
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _selectedIndex == 2 || _selectedIndex == 6
+                            widget.selectedIndex == 2 || widget.selectedIndex == 6
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -162,7 +163,7 @@ class _MainScreenState extends State<MainScreen> {
                               'images/communityIcon.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: _selectedIndex == 2 || _selectedIndex == 6
+                              color: widget.selectedIndex == 2 || widget.selectedIndex == 6
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -173,13 +174,13 @@ class _MainScreenState extends State<MainScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            _selectedIndex = 3;
+                            widget.selectedIndex = 3;
                           });
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _selectedIndex == 3 || _selectedIndex == 7
+                            widget.selectedIndex == 3 || widget.selectedIndex == 7
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -200,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
                               'images/resource.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: _selectedIndex == 3 || _selectedIndex == 7
+                              color: widget.selectedIndex == 3 || widget.selectedIndex == 7
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -211,13 +212,13 @@ class _MainScreenState extends State<MainScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            _selectedIndex = 4;
+                            widget.selectedIndex = 4;
                           });
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _selectedIndex == 4
+                            widget.selectedIndex == 4
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -238,7 +239,7 @@ class _MainScreenState extends State<MainScreen> {
                               'images/settingsIcons.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: _selectedIndex == 4
+                              color: widget.selectedIndex == 4
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -256,6 +257,7 @@ class _MainScreenState extends State<MainScreen> {
           : PreferredSize(
               preferredSize: Size.fromHeight(70.h),
               child: AppBar(
+                  automaticallyImplyLeading: false,
                   elevation: 0,
                   backgroundColor: Colors.white,
                   flexibleSpace: Center(
@@ -282,7 +284,7 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   // Screen Name
                                   Text(
-                                    _primaryPageModel[_selectedIndex].title,
+                                    _primaryPageModel[widget.selectedIndex].title,
                                     style: TextStyle(
                                         fontSize: 20.sp,
                                         color: HexColor('#333333'),
@@ -296,7 +298,7 @@ class _MainScreenState extends State<MainScreen> {
                           Container(
                             child: Row(
                               children: [
-                                _selectedIndex == 0
+                                widget.selectedIndex == 0
                                     ? InkWell(
                                         onTap: () => Navigator.pushNamed(
                                             context, '/search_screen'),
@@ -311,10 +313,10 @@ class _MainScreenState extends State<MainScreen> {
                                         onTap: () {
                                           // Navigator.pushNamed(
                                           //     context, '/new_post_screen');
-                                          _selectedIndex == 1 ||
-                                                  _selectedIndex == 2 ||
-                                                  _selectedIndex == 5 ||
-                                                  _selectedIndex == 6
+                                          widget.selectedIndex == 1 ||
+                                              widget.selectedIndex == 2 ||
+                                              widget.selectedIndex == 5 ||
+                                              widget.selectedIndex == 6
                                               ? _showChooseAddWhatDialog()
                                               : Navigator.pushNamed(
                                                   context, '/new_post_screen');
@@ -373,118 +375,120 @@ class _MainScreenState extends State<MainScreen> {
                 child: ListView(
                   // shrinkWrap: true,
                   children: [
-                    _selectedIndex == 0
+                    widget.selectedIndex == 0
                         // todo: Create new Post in HomeScreen
-                        ? InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, '/new_post_screen'),
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 15.h, right: 24.w, left: 24.w),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    // color: HexColor('#D6E0E6'),
-                                    borderRadius: BorderRadius.circular(15.sp),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Image.asset(
-                                        'images/userIcon.png',
-                                        width: 32.w,
-                                        height: 32.h,
-                                      ),
-                                      SizedBox(width: 15.w),
-                                      Text(
-                                        'What is on yor mind?',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 14.sp,
-                                          color: HexColor('#999999'),
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      SvgPicture.asset(
-                                        'images/audioIcon.svg',
-                                        width: 24.w,
-                                        height: 24.h,
-                                        color: HexColor('#333333'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                Divider(
-                                  thickness: 1,
-                                  endIndent: 24.w,
-                                  indent: 24.w,
-                                )
-                              ],
-                            ),
-                          )
-                        : _selectedIndex == 4
+                        ? AppTextFieldWidget(labelText: 'What is on yor mind', sectionTitle: '')
+                    // InkWell(
+                    //         onTap: () => Navigator.pushNamed(
+                    //             context, '/new_post_screen'),
+                    //         child: Column(
+                    //           children: [
+                    //             Container(
+                    //               margin: EdgeInsets.only(
+                    //                   top: 15.h, right: 24.w, left: 24.w),
+                    //               width: double.infinity,
+                    //               decoration: BoxDecoration(
+                    //                 // color: HexColor('#D6E0E6'),
+                    //                 borderRadius: BorderRadius.circular(15.sp),
+                    //               ),
+                    //               child: Row(
+                    //                 mainAxisAlignment: MainAxisAlignment.start,
+                    //                 children: [
+                    //                   Image.asset(
+                    //                     'images/userIcon.png',
+                    //                     width: 32.w,
+                    //                     height: 32.h,
+                    //                   ),
+                    //                   SizedBox(width: 15.w),
+                    //                   Text(
+                    //                     'What is on yor mind?',
+                    //                     style: TextStyle(
+                    //                       fontFamily: 'BreeSerif',
+                    //                       fontSize: 14.sp,
+                    //                       color: HexColor('#999999'),
+                    //                     ),
+                    //                   ),
+                    //                   Spacer(),
+                    //                   SvgPicture.asset(
+                    //                     'images/audioIcon.svg',
+                    //                     width: 24.w,
+                    //                     height: 24.h,
+                    //                     color: HexColor('#333333'),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //             SizedBox(
+                    //               height: 8.h,
+                    //             ),
+                    //             Divider(
+                    //               thickness: 1,
+                    //               endIndent: 24.w,
+                    //               indent: 24.w,
+                    //             )
+                    //           ],
+                    //         ),
+                    //       )
+                        : widget.selectedIndex == 4
                             ? SizedBox()
                             // todo: add Search container in other Screens
-                            : InkWell(
-                                onTap: () => Navigator.pushNamed(
-                                    context, 'search_screen'),
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      top: 24.h, right: 24.w, left: 24.w),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 20.w, vertical: 6.h),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('#D6E0E6'),
-                                    borderRadius: BorderRadius.circular(15.sp),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SvgPicture.asset(
-                                        'images/searchIcon.svg',
-                                        width: 24.w,
-                                        height: 24.h,
-                                        color: HexColor('#333333'),
-                                      ),
-                                      SizedBox(width: 6.w),
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          'Find what\'s on your mind',
-                                          style: TextStyle(
-                                            fontFamily: 'BreeSerif',
-                                            fontSize: 13.sp,
-                                            color: HexColor('#474747'),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 65.w),
-                                      SvgPicture.asset(
-                                        'images/filterIcon.svg',
-                                        width: 24.w,
-                                        height: 24.h,
-                                        color: HexColor('#333333'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                            : AppTextFieldWidget(labelText: 'Find what\'s on your mind', sectionTitle: ''),
+                    // InkWell(
+                    //             onTap: () => Navigator.pushNamed(
+                    //                 context, 'search_screen'),
+                    //             child: Container(
+                    //               margin: EdgeInsets.only(
+                    //                   top: 15.h, right: 24.w, left: 24.w),
+                    //               padding: EdgeInsets.symmetric(
+                    //                   horizontal: 20.w, vertical: 6.h),
+                    //               width: double.infinity,
+                    //               decoration: BoxDecoration(
+                    //                 color: HexColor('#D6E0E6'),
+                    //                 borderRadius: BorderRadius.circular(15.sp),
+                    //               ),
+                    //               child: Row(
+                    //                 mainAxisAlignment: MainAxisAlignment.start,
+                    //                 children: [
+                    //                   SvgPicture.asset(
+                    //                     'images/searchIcon.svg',
+                    //                     width: 24.w,
+                    //                     height: 24.h,
+                    //                     color: HexColor('#333333'),
+                    //                   ),
+                    //                   SizedBox(width: 6.w),
+                    //                   TextButton(
+                    //                     onPressed: () {},
+                    //                     child: Text(
+                    //                       'Find what\'s on your mind',
+                    //                       style: TextStyle(
+                    //                         fontFamily: 'BreeSerif',
+                    //                         fontSize: 13.sp,
+                    //                         color: HexColor('#474747'),
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                   SizedBox(width: 65.w),
+                    //                   SvgPicture.asset(
+                    //                     'images/filterIcon.svg',
+                    //                     width: 24.w,
+                    //                     height: 24.h,
+                    //                     color: HexColor('#333333'),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ),
                     // todo: Show content Screen
-                    _primaryPageModel[_selectedIndex].widget,
+                    _primaryPageModel[widget.selectedIndex].widget,
                   ],
                 ),
                 // _primaryPageModel[_selectedIndex].widget,
               ),
               // todo: Show one of the double pages Martyrs Screens
-              _selectedIndex == 1 || _selectedIndex == 5
+              widget.selectedIndex == 1 || widget.selectedIndex == 5
                   ? Container(
                       margin: EdgeInsets.only(
-                          bottom: 24.h, right: 30.w, left: 30.w),
+                          bottom: 24.h, right: 25.w, left: 25.w),
                       padding: EdgeInsets.symmetric(
                           horizontal: 32.w, vertical: 16.h),
                       decoration: BoxDecoration(
@@ -500,21 +504,21 @@ class _MainScreenState extends State<MainScreen> {
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
-                                color: _selectedIndex == 1
+                                color: widget.selectedIndex == 1
                                     ? HexColor('#FFFFFF')
                                     : HexColor('#8C9EA0'),
                               ),
                             ),
                             onTap: () {
                               setState(() {
-                                _selectedIndex = 1;
+                                widget.selectedIndex = 1;
                               });
                             },
                           ),
                           Container(
                             margin: EdgeInsets.only(
                                 left: 20.w,
-                                right: _selectedIndex == 7 ? 39.w : 20.w),
+                                right: widget.selectedIndex == 7 ? 39.w : 20.w),
                             alignment: AlignmentDirectional.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -526,7 +530,7 @@ class _MainScreenState extends State<MainScreen> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                _selectedIndex = 5;
+                                widget.selectedIndex = 5;
                               });
                             },
                             child: Text(
@@ -534,7 +538,7 @@ class _MainScreenState extends State<MainScreen> {
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
-                                color: _selectedIndex == 5
+                                color: widget.selectedIndex == 5
                                     ? HexColor('#FFFFFF')
                                     : HexColor('#8C9EA0'),
                               ),
@@ -545,10 +549,10 @@ class _MainScreenState extends State<MainScreen> {
                     )
                   : SizedBox(),
               // todo: Show one of the double pages Community Screens
-              _selectedIndex == 2 || _selectedIndex == 6
+              widget.selectedIndex == 2 || widget.selectedIndex == 6
                   ? Container(
                       margin: EdgeInsets.only(
-                          bottom: 24.h, right: 30.w, left: 30.w),
+                          bottom: 24.h, right: 25.w, left: 25.w),
                       padding: EdgeInsets.symmetric(
                           horizontal: 32.w, vertical: 16.h),
                       decoration: BoxDecoration(
@@ -567,14 +571,14 @@ class _MainScreenState extends State<MainScreen> {
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
-                                color: _selectedIndex == 2
+                                color: widget.selectedIndex == 2
                                     ? HexColor('#FFFFFF')
                                     : HexColor('#8C9EA0'),
                               ),
                             ),
                             onTap: () {
                               setState(() {
-                                _selectedIndex = 2;
+                                widget.selectedIndex = 2;
                               });
                             },
                           ),
@@ -591,7 +595,7 @@ class _MainScreenState extends State<MainScreen> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                _selectedIndex = 6;
+                                widget.selectedIndex = 6;
                               });
                             },
                             child: Text(
@@ -599,7 +603,7 @@ class _MainScreenState extends State<MainScreen> {
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
-                                color: _selectedIndex == 6
+                                color: widget.selectedIndex == 6
                                     ? HexColor('#FFFFFF')
                                     : HexColor('#8C9EA0'),
                               ),
@@ -610,7 +614,7 @@ class _MainScreenState extends State<MainScreen> {
                     )
                   : SizedBox(),
               // todo: Show one of the double pages Resources Screens
-              _selectedIndex == 3 || _selectedIndex == 7
+              widget.selectedIndex == 3 || widget.selectedIndex == 7
                   ? Container(
                       margin: EdgeInsets.only(
                           bottom: 24.h, right: 30.w, left: 30.w),
@@ -626,7 +630,7 @@ class _MainScreenState extends State<MainScreen> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                _selectedIndex = 3;
+                                widget.selectedIndex = 3;
                               });
                             },
                             child: Text(
@@ -634,7 +638,7 @@ class _MainScreenState extends State<MainScreen> {
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
-                                color: _selectedIndex == 3
+                                color: widget.selectedIndex == 3
                                     ? HexColor('#FFFFFF')
                                     : HexColor('#8C9EA0'),
                               ),
@@ -653,7 +657,7 @@ class _MainScreenState extends State<MainScreen> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                _selectedIndex = 7;
+                                widget.selectedIndex = 7;
                               });
                             },
                             child: Text(
@@ -661,7 +665,7 @@ class _MainScreenState extends State<MainScreen> {
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
-                                color: _selectedIndex == 7
+                                color: widget.selectedIndex == 7
                                     ? HexColor('#FFFFFF')
                                     : HexColor('#8C9EA0'),
                               ),
@@ -726,18 +730,18 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Create Post',
+                        'Create New Post',
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 13.sp,
-                          color: HexColor('#333333'),
+                          color: HexColor('#45BD62'),
                         ),
                       ),
                       SvgPicture.asset(
                         'images/arrowForword.svg',
                         width: 8.w,
                         height: 14.h,
-                        color: HexColor('#333333'),
+                        color: HexColor('#45BD62'),
                       ),
                     ],
                   ),
@@ -751,17 +755,17 @@ class _MainScreenState extends State<MainScreen> {
                 SizedBox(height: 10.h),
                 InkWell(
                   onTap: () {
-                    _selectedIndex == 1
+                    widget.selectedIndex == 1
                         ? Navigator.pushNamed(
-                            context, 'Add New Martyrs Profile')
-                        : _selectedIndex == 2
-                            ? Navigator.pushNamed(context, 'Add New Initiative')
-                            : _selectedIndex == 5
+                            context, '/new _martyrs_profile_screen')
+                        : widget.selectedIndex == 2
+                            ? Navigator.pushNamed(context, '/add_initiative_screen')
+                            : widget.selectedIndex == 5
                                 ? Navigator.pushNamed(
-                                    context, 'Add new Martyrs Story')
-                                : _selectedIndex == 5
+                                    context, '/new _martyrs_profile_screen')
+                                : widget.selectedIndex == 6
                                     ? Navigator.pushNamed(
-                                        context, 'Add New Group')
+                                        context, '/add_group_screen')
                                     : Navigator.pushNamed(
                                         context, '/new_post_screen');
                   },
@@ -769,12 +773,12 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _selectedIndex == 1
+                        widget.selectedIndex == 1
                             ? 'Create New Martyrs Profile'
-                            : _selectedIndex == 2
+                            : widget.selectedIndex == 2
                                 ? 'Create New Initiative'
-                                : _selectedIndex == 5
-                                    ? 'Create new Martyrs Story'
+                                : widget.selectedIndex == 5
+                                    ? 'Create New Martyrs Profile'
                                     : 'Create New Group',
                         style: TextStyle(
                           fontFamily: 'BreeSerif',

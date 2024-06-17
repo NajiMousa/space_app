@@ -14,7 +14,6 @@ class MartyrsProfilesScreen extends StatefulWidget {
 }
 
 class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
-
   bool hasAddedStory = false;
 
   @override
@@ -30,7 +29,7 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
             'Featured Martyrs',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),
@@ -45,17 +44,21 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                 crossAxisCount: 1, // Number of columns
                 crossAxisSpacing: 12.w,
                 mainAxisSpacing: 12.h,
-                childAspectRatio: 160 / 120),
+                childAspectRatio: 150 / 120),
             scrollDirection: Axis.horizontal,
             itemCount: 10,
-            padding: EdgeInsets.only(top: 8.h, left: 24.w,bottom: 12.h, right: 24.w),
+            padding: EdgeInsets.only(
+                top: 8.h, left: 24.w, bottom: 12.h, right: 24.w),
             itemBuilder: (context, index) {
               // if (index == 0) {
               //   return AddMartyrsWidget(hasAddedStory: hasAddedStory,);
               // } else {
               //   return MartyrsProfileWidget(index: index,);
               // }
-              return MartyrsProfileWidget(index: index);
+              return InkWell(
+                child: MartyrsProfileWidget(index: index),
+                onTap: () => Navigator.pushNamed(context, '/martyr_profile_screen'),
+              );
             },
           ),
         ),
@@ -67,7 +70,7 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
             'Recent Additions',
             style: TextStyle(
                 fontSize: 14.sp,
-                color: HexColor('#333333'),
+                color: HexColor('#333333').withOpacity(0.7),
                 fontFamily: 'BreeSerif'),
           ),
         ),
@@ -223,156 +226,166 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
           padding: EdgeInsets.only(bottom: 90.h),
           itemCount: 7,
           itemBuilder: (context, index) {
-            return Padding(
-              padding:
-              EdgeInsets.only(top: 6.h, bottom: 12.h, right: 24.w, left: 24.w),
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.sp),
-                      color: HexColor('#FFFFFF'),
-                    ),
-                    child: Container(
-                      clipBehavior: Clip.antiAlias,
+            return InkWell(
+              onTap: () => Navigator.pushNamed(context, '/martyr_profile_screen'),
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: 6.h, bottom: 12.h, right: 24.w, left: 24.w),
+                child: Stack(
+                  children: [
+                    Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.sp),
                         color: HexColor('#FFFFFF'),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: Offset(0, 1), // changes position of shadow
-                          ),
-                        ],
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.sp),
+                          color: HexColor('#FFFFFF'),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: Offset(0, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'images/coverImage.png',
+                              width: double.infinity,
+                              height: 105.h,
+                              fit: BoxFit.fill,
+                            ),
+                            SizedBox(height: 18.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 6.h),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Yasser Mansoor',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: HexColor('#333333'),
+                                        fontFamily: 'BreeSerif'),
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    '3.1K Candle || 1.2K follower',
+                                    style: TextStyle(
+                                        fontSize: 9.sp,
+                                        color: HexColor('#3396F9'),
+                                        fontFamily: 'BreeSerif'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  right: 18.w,
+                                  left: 18.w,
+                                  top: 5.h,
+                                  bottom: 15.h),
+                              child: Text(
+                                'An adventurer at heart and storyteller by trade, Maya Thompson thrives on exploring the unknown and sharing her experiences with the world.',
+                                style: TextStyle(
+                                    fontSize: 9.sp,
+                                    color: HexColor('#819395').withOpacity(0.8),
+                                    fontFamily: 'BreeSerif'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 50.h, left: 18.w, right: 16.w),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset(
-                            'images/coverImage.png',
-                            width: double.infinity,
-                            height: 105.h,
-                            fit: BoxFit.fill,
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.sp),
+                            ),
+                            child: Image.asset(
+                              'images/userIcon.png',
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                            ),
+                            width: 72.w,
+                            height: 72.h,
+                            // margin: EdgeInsets.only(top: 35.h, left: 18.w),
                           ),
-                          SizedBox(height: 18.h),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 6.h),
+                          Container(
                             child: Row(
                               children: [
-                                Text(
-                                  'Yasser Mansoor',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: HexColor('#333333'),
-                                      fontFamily: 'BreeSerif'),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8.h, horizontal: 12.w),
+                                    backgroundColor: HexColor('#333333'),
+                                    minimumSize: Size(100.w, 24.h),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.circular(
+                                                50.sp)),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'images/candle.svg',
+                                        height: 16.h,
+                                        width: 16.w,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 5.w),
+                                      Text(
+                                        'Light a Candle',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10.sp,
+                                          fontFamily: 'BreeSerif',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                SizedBox(width: 6.w),
-                                Text(
-                                  '3.1K Candle || 1.2K follower',
-                                  style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: HexColor('#3396F9'),
-                                      fontFamily: 'BreeSerif'),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8.h, horizontal: 8.w),
+                                    backgroundColor: HexColor('#333333'),
+                                    minimumSize: Size(24.w, 24.h),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.circular(
+                                                50.sp)),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    'images/addFollow.svg',
+                                    height: 16.h,
+                                    width: 16.w,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                right: 18.w, left: 18.w, top: 5.h, bottom: 15.h),
-                            child: Text(
-                              'An adventurer at heart and storyteller by trade, Maya Thompson thrives on exploring the unknown and sharing her experiences with the world.',
-                              style: TextStyle(
-                                  fontSize: 9.sp,
-                                  color: HexColor('#819395').withOpacity(0.8),
-                                  fontFamily: 'BreeSerif'),
-                            ),
-                          ),
                         ],
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 50.h, left: 18.w, right: 16.w),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.sp),
-                          ),
-                          child: Image.asset(
-                            'images/userIcon.png',
-                            width: double.infinity,
-                            fit: BoxFit.fill,
-                          ),
-                          width: 72.w,
-                          height: 72.h,
-                          // margin: EdgeInsets.only(top: 35.h, left: 18.w),
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 8.h, horizontal: 12.w),
-                                  backgroundColor: HexColor('#333333'),
-                                  minimumSize: Size(100.w, 24.h),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadiusDirectional.circular(50.sp)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'images/candle.svg',
-                                      height: 16.h,
-                                      width: 16.w,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      'Light a Candle',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10.sp,
-                                        fontFamily: 'BreeSerif',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 8.h, horizontal: 8.w),
-                                  backgroundColor: HexColor('#333333'),
-                                  minimumSize: Size(24.w, 24.h),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadiusDirectional.circular(50.sp)),
-                                ),
-                                child: SvgPicture.asset(
-                                  'images/addFollow.svg',
-                                  height: 16.h,
-                                  width: 16.w,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             );
           },

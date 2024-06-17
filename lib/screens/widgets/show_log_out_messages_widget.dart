@@ -9,29 +9,20 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 620.h),
+      margin: EdgeInsets.only(top: 0.h),
       width: double.infinity,
+      height: 160.h,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24.sp),
             topRight: Radius.circular(24.sp),
           ),
           color: Colors.white),
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 32.w),
+      child: Column(
+        // padding: EdgeInsets.symmetric(horizontal: 32.w),
         children: [
           SizedBox(height: 6.h),
-          Center(
-            child: Container(
-              width: 46.w,
-              height: 6.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.sp),
-                color: HexColor('#949493'),
-              ),
-            ),
-          ),
-          SizedBox(height: 18.h),
+
           Row(
             children: [
               Text(
@@ -76,46 +67,52 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/main_screen');
-                },
-                style: ElevatedButton.styleFrom(
-                  // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
-                  minimumSize: Size(157.w, 56.h),
-                  primary: HexColor('#333333'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.sp),
+              Container(
+                // margin: EdgeInsets.symmetric(horizontal: 24.w),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 8.h, horizontal: 12.w),
+                    backgroundColor: HexColor('#333333'),
+                    minimumSize: Size(128.w, 40.h),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadiusDirectional.circular(50.sp)),
                   ),
-                ),
-                child: Text(
-                  'Log Out',
-                  style: TextStyle(
-                    color: HexColor('#FFFFFF'),
-                    fontSize: 16.sp,
-                    fontFamily: 'BreeSerif',
+                  child: Text(
+                    'Log Out',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10.sp,
+                      fontFamily: 'BreeSerif',
+                    ),
                   ),
                 ),
               ),
               Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
-                  minimumSize: Size(157.w, 56.h),
-                  primary: HexColor('#D6E0E6'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.sp),
+              Container(
+                // margin: EdgeInsets.symmetric(horizontal: 24.w),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 8.h, horizontal: 12.w),
+                    backgroundColor: HexColor('#D6E0E6'),
+                    minimumSize: Size(128.w, 40.h),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadiusDirectional.circular(50.sp)),
                   ),
-                ),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(
-                    color: HexColor('#333333'),
-                    fontSize: 16.sp,
-                    fontFamily: 'BreeSerif',
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: HexColor('#333333'),
+                      fontSize: 10.sp,
+                      fontFamily: 'BreeSerif',
+                    ),
                   ),
                 ),
               ),

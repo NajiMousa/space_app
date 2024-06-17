@@ -79,7 +79,7 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 46.w),
+              Spacer(),
               Text(
                 '5 hour ago',
                 style: TextStyle(

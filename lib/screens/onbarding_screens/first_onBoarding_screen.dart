@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -17,7 +18,7 @@ class FirstOnBoardingScreen extends StatelessWidget {
             fit: BoxFit.fill,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 45.h,horizontal: 32.w),
+            padding: EdgeInsets.symmetric(vertical: 45.h, horizontal: 32.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +35,8 @@ class FirstOnBoardingScreen extends StatelessWidget {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/third_onBoarding_screen');
+                        Navigator.pushReplacementNamed(
+                            context, '/third_onBoarding_screen');
                       },
                       child: Text(
                         'SKIP',
@@ -61,12 +63,23 @@ class FirstOnBoardingScreen extends StatelessWidget {
                       color: Colors.white,
                       fontFamily: 'BreeSerif'),
                 ),
-                SizedBox(height: 67.h,),
+                SizedBox(
+                  height: 67.h,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return MainAuthScreen(selectedIndex: 2);
+                            },
+                          ),
+                        );
+                      },
                       child: Text(
                         'Terms and Conditions',
                         style: TextStyle(
@@ -85,9 +98,10 @@ class FirstOnBoardingScreen extends StatelessWidget {
                       child: IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/second_onBoarding_screen');
+                          Navigator.pushReplacementNamed(
+                              context, '/second_onBoarding_screen');
                         },
-                        icon: Icon(Icons.arrow_forward_ios,size: 15.sp),
+                        icon: Icon(Icons.arrow_forward_ios, size: 15.sp),
                       ),
                     ),
                   ],
