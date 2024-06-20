@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "936982021894",
+    "project_id": "space-app-64dde",
+    "storage_bucket": "space-app-64dde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936982021894:android:1d8ede889f233c965a0087",
+        "android_client_info": {
+          "package_name": "com.example.difaf_al_wafa_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw9PmLZJzduZjWrGi6P30xVxfLMAveH1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936982021894:android:0e84c70f3c021eba5a0087",
+        "android_client_info": {
+          "package_name": "free_space.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw9PmLZJzduZjWrGi6P30xVxfLMAveH1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

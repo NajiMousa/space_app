@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class AddMartyrsWidget extends StatelessWidget {
   AddMartyrsWidget({Key? key, required this.hasAddedStory}) : super(key: key);
@@ -98,7 +100,7 @@ class AddMartyrsWidget extends StatelessWidget {
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    'Follow',
+                                    AppLocalizations.of(context)!.follow,
                                     style: TextStyle(
                                       color: HexColor('#333333'),
                                       fontSize: 10.sp,

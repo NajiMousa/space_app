@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class ShowNotficationSettingWidget extends StatelessWidget {
    ShowNotficationSettingWidget({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class ShowNotficationSettingWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Notfication Setting',
+              AppLocalizations.of(context)!.notificationsSettings,
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),
@@ -82,7 +84,7 @@ class ShowNotficationSettingWidget extends StatelessWidget {
                       _isNotificationEnabled = value;
                     },
                   ),
-                  Text('Off'),
+                  Text(AppLocalizations.of(context)!.off),
                 ],
               ),
             ],
@@ -104,7 +106,7 @@ class ShowNotficationSettingWidget extends StatelessWidget {
                     BorderRadiusDirectional.circular(50.sp)),
               ),
               child: Text(
-                'Ok',
+                AppLocalizations.of(context)!.ok,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 10.sp,

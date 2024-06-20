@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 import '../widgets/app_text_field_widget.dart';
 
@@ -22,7 +24,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Welcome to Space',
+            AppLocalizations.of(context)!.welcomeToSpace,
             style: TextStyle(
                 fontSize: 22.sp,
                 color: HexColor('#333333'),
@@ -30,7 +32,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           ),
           SizedBox(height: 16),
           Text(
-            'A dedicated platform preserving the memory of our martyrs. Our mission is to honor and remember those who have made the ultimate sacrifice for our nation. Through Space, we provide a respectful and enduring digital memorial where families and friends can share stories, photos, and tributes to keep the memories of their loved ones alive.',
+            AppLocalizations.of(context)!.welcomeToSpaceDescription,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -38,7 +40,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           ),
           SizedBox(height: 24),
           Text(
-            'Our Mission',
+            AppLocalizations.of(context)!.mourMission,
             style: TextStyle(
                 fontSize: 22.sp,
                 color: HexColor('#333333'),
@@ -54,7 +56,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           ),
           SizedBox(height: 24),
           Text(
-            'What We Offer',
+            AppLocalizations.of(context)!.whatWeOffer,
             style: TextStyle(
                 fontSize: 22.sp,
                 color: HexColor('#333333'),
@@ -72,7 +74,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           ),
           SizedBox(height: 24),
           Text(
-            'Contact Us',
+            AppLocalizations.of(context)!.contactUs,
             style: TextStyle(
                 fontSize: 22.sp,
                 color: HexColor('#333333'),

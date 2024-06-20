@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 
 class ActivitiesLogScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                   ),
                             SizedBox(height: 20.h),
                             Text(
-                              'All',
+                              AppLocalizations.of(context)!.all,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 0
@@ -96,7 +97,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Comments',
+                              AppLocalizations.of(context)!.comments,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 1
@@ -133,7 +134,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Friends',
+                              AppLocalizations.of(context)!.friends,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 2
@@ -171,7 +172,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Followers',
+                              AppLocalizations.of(context)!.follower,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 3
@@ -209,7 +210,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Login/out',
+                              AppLocalizations.of(context)!.logOut,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 4
@@ -247,7 +248,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Block',
+                              AppLocalizations.of(context)!.block,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 5
@@ -315,7 +316,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                               width: 16.w,
                             ),
                             Text(
-                              'Activities Log',
+                              AppLocalizations.of(context)!.activitiesHistory,
                               style: TextStyle(
                                   fontSize: 20.sp,
                                   color: HexColor('#333333'),
@@ -400,7 +401,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Aug, 28,2024',
+                                  AppLocalizations.of(context)!.aug,
                                   style: TextStyle(
                                       fontSize: 13.sp,
                                       color: HexColor('#333333').withOpacity(0.7),
@@ -436,7 +437,7 @@ class _ActivitiesLogScreenState extends State<ActivitiesLogScreen> {
                                               CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'You visited on Difaf Al- wafa',
+                                                  'You visited on Space',
                                                   style: TextStyle(
                                                       fontSize: 13.sp,
                                                       color: HexColor('#333333'),

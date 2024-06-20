@@ -296,11 +296,11 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                                       fontFamily: 'BreeSerif'),
                                 ),
                               ),
-                              AppTextFieldWidget(
-                                  labelText: 'Naji atwa hammad abu mousa',sectionTitle:'Full Martyr Name' ),
-                              AppTextFieldWidget(labelText: '*** *** ***',sectionTitle: 'Martyr ID Number'),
-
-                              AppTextFieldWidget(labelText:'Martyr Date of Birth',sectionTitle: '09/12/1996'),
+                              // AppTextFieldWidget(
+                              //     labelText: 'Naji atwa hammad abu mousa',sectionTitle:'Full Martyr Name' ),
+                              // AppTextFieldWidget(labelText: '*** *** ***',sectionTitle: 'Martyr ID Number'),
+                              //
+                              // AppTextFieldWidget(labelText:'Martyr Date of Birth',sectionTitle: '09/12/1996'),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 24.w, vertical: 6.h),
@@ -371,11 +371,11 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                               ),
                               SizedBox(height: 10.h),
 
-                              AppTextFieldWidget(labelText: 'Date of martyrdom/loss',sectionTitle: '22/05/2024'),
-
-                              AppTextFieldWidget(labelText: 'dier al balah',sectionTitle:'Place of martyrdom/loss' ),
-
-                              AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'Death Certificate',)
+                              // AppTextFieldWidget(labelText: 'Date of martyrdom/loss',sectionTitle: '22/05/2024'),
+                              //
+                              // AppTextFieldWidget(labelText: 'dier al balah',sectionTitle:'Place of martyrdom/loss' ),
+                              //
+                              // AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'Death Certificate',)
                             ],
                           ),
                         )
@@ -399,12 +399,12 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                                     ),
                                   ),
 
-                                  AppTextFieldWidget(
-                                      labelText: 'Naji atwa hammad abu mousa',sectionTitle: 'Full Your Name'),
-
-                                  AppTextFieldWidget(labelText: '*** *** ***',sectionTitle: 'Your ID Number'),
-
-                                  AppTextFieldWidget(labelText: '09/12/1996', sectionTitle:'Your Phone Number' ),
+                                  // AppTextFieldWidget(
+                                  //     labelText: 'Naji atwa hammad abu mousa',sectionTitle: 'Full Your Name'),
+                                  //
+                                  // AppTextFieldWidget(labelText: '*** *** ***',sectionTitle: 'Your ID Number'),
+                                  //
+                                  // AppTextFieldWidget(labelText: '09/12/1996', sectionTitle:'Your Phone Number' ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 24.w, vertical: 6.h),
@@ -480,7 +480,7 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                                   ),
                                   SizedBox(height: 10.h),
 
-                                  AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'ID Certificate',)
+                                  // AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'ID Certificate',)
                                 ],
                               ),
                             )
@@ -504,12 +504,12 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                                   ),
 
 
-                                  AppTextFieldWidget(
-                                      labelText: 'Naji atwa hammad abu mousa',sectionTitle: 'Full First Identifiers Name'),
-
-                                  AppTextFieldWidget(labelText: '*** *** ***',sectionTitle:  'First Identifiers ID Number'),
-
-                                  AppTextFieldWidget(labelText: '05* *** *** ***',sectionTitle: 'First Identifiers Phone Number'),
+                                  // AppTextFieldWidget(
+                                  //     labelText: 'Naji atwa hammad abu mousa',sectionTitle: 'Full First Identifiers Name'),
+                                  //
+                                  // AppTextFieldWidget(labelText: '*** *** ***',sectionTitle:  'First Identifiers ID Number'),
+                                  //
+                                  // AppTextFieldWidget(labelText: '05* *** *** ***',sectionTitle: 'First Identifiers Phone Number'),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 24.w, vertical: 6.h),
@@ -585,14 +585,14 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                                   ),
                                   SizedBox(height: 10.h),
 
-                                  AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'First Identifiers ID Certificate'),
-
-                                  AppTextFieldWidget(
-                                      labelText: 'Naji atwa hammad abu mousa',sectionTitle: 'Full Second Identifiers Name'),
-
-                                  AppTextFieldWidget(labelText: '*** *** ***',sectionTitle: 'Second Identifiers ID Number'),
-
-                                  AppTextFieldWidget(labelText: '05* *** *** ***',sectionTitle: 'Second Identifiers Phone Number'),
+                                  // AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'First Identifiers ID Certificate'),
+                                  //
+                                  // AppTextFieldWidget(
+                                  //     labelText: 'Naji atwa hammad abu mousa',sectionTitle: 'Full Second Identifiers Name'),
+                                  //
+                                  // AppTextFieldWidget(labelText: '*** *** ***',sectionTitle: 'Second Identifiers ID Number'),
+                                  //
+                                  // AppTextFieldWidget(labelText: '05* *** *** ***',sectionTitle: 'Second Identifiers Phone Number'),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 24.w, vertical: 6.h),
@@ -668,7 +668,7 @@ class _NewMartyrsProfileScreenState extends State<NewMartyrsProfileScreen> {
                                   ),
                                   SizedBox(height: 10.h),
 
-                                  AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'Second Identifiers ID Certificate',)
+                                  // AppTextFieldWidget(labelText: 'Upload File',sectionTitle: 'Second Identifiers ID Certificate',)
                                 ],
                               ),
                             ),

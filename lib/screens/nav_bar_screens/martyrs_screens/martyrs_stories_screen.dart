@@ -1,7 +1,9 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class MartyrsStoriesScreen extends StatefulWidget {
   const MartyrsStoriesScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class MartyrsStoriesScreen extends StatefulWidget {
 }
 
 class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,9 +22,9 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
         // Header Featured Stories
         Padding(
           padding:
-              EdgeInsets.only(top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
+              EdgeInsets.only(top: 10.h, bottom: 12.h, right: 24.w, left: 24.w),
           child: Text(
-            'Featured Stories',
+            AppLocalizations.of(context)!.featuredStories,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -38,7 +41,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
               InkWell(
                 onTap: () => Navigator.pushNamed(context, '/martyr_profile_screen'),
                 child: Container(
-                  margin: EdgeInsets.only(top: 30.h, bottom: 12.h, left: 40.w, right: 24.w),
+                  margin: sharedPrefController.language == 'en' ? EdgeInsets.only(top: 30.h, bottom: 12.h, left: 40.w, right: 24.w) : EdgeInsets.only(top: 30.h, bottom: 12.h, left: 24.w, right: 40.w),
                   padding: EdgeInsets.only(top: 12.h, right: 18.w, left: 18.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.sp),
@@ -180,7 +183,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 24.w),
+                padding: sharedPrefController.language == 'en' ? EdgeInsets.only(left: 24.w) : EdgeInsets.only(right: 24.w),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -213,7 +216,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
                             fontFamily: 'BreeSerif'),
                       ),
                     ),
-                    SizedBox(width: 30.w,),
+                    Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -236,7 +239,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            'Light a Candle',
+                            AppLocalizations.of(context)!.lightACandle,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 10.sp,
@@ -246,6 +249,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
                         ],
                       ),
                     ),
+                    SizedBox(width: 40.w,)
                   ],
                 ),
               ),
@@ -269,7 +273,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'See more',
+                  AppLocalizations.of(context)!.seeMore,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10.sp,
@@ -293,7 +297,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
           padding:
           EdgeInsets.only(top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
           child: Text(
-            'Recent Additions',
+            AppLocalizations.of(context)!.recentAddition,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -498,7 +502,7 @@ class _MartyrsStoriesScreenState extends State<MartyrsStoriesScreen> {
                             ),
                             SizedBox(width: 5.w),
                             Text(
-                              'Light a Candle',
+                              AppLocalizations.of(context)!.lightACandle,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 10.sp,

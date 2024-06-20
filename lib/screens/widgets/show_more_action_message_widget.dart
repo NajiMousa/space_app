@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 import '../profile_screens/martyr_profile_screen.dart';
 
@@ -37,7 +39,7 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'More Action',
+                AppLocalizations.of(context)!.moreAction,
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),
@@ -127,7 +129,7 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 12.w),
                 Text(
-                  'View media, files and links',
+                  AppLocalizations.of(context)!.viewMediaOrFilesAndLinks,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: HexColor('#333333'),
@@ -148,7 +150,7 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 12.w),
                 Text(
-                  'Search in Conversation',
+                  AppLocalizations.of(context)!.searchInConversation,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: HexColor('#333333'),
@@ -169,7 +171,7 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 12.w),
                 Text(
-                  'Notifications',
+                  AppLocalizations.of(context)!.notifications,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: HexColor('#333333'),
@@ -205,7 +207,7 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 12.w),
                 Text(
-                  'Share Profile',
+                  AppLocalizations.of(context)!.shareProfile,
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: HexColor('#333333'),

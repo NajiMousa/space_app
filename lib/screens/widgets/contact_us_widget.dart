@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class ContactUsWidget extends StatelessWidget {
    ContactUsWidget({Key? key}) : super(key: key);
@@ -27,7 +29,7 @@ class ContactUsWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Contact Us',
+                AppLocalizations.of(context)!.contactUs,
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),
@@ -123,7 +125,7 @@ class ContactUsWidget extends StatelessWidget {
               ),
               SizedBox(width: 12.w),
               Text(
-                'difaf_al-wafa.com',
+                'Space.com',
                 style: TextStyle(
                     fontSize: 12.sp,
                     color: HexColor('#333333'),
@@ -173,7 +175,7 @@ class ContactUsWidget extends StatelessWidget {
                     BorderRadiusDirectional.circular(50.sp)),
               ),
               child: Text(
-                'Send Message',
+                AppLocalizations.of(context)!.sendMessage,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 10.sp,

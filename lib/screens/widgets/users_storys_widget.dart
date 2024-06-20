@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class UsersStorysWidget extends StatelessWidget {
   UsersStorysWidget({Key? key, required this.index, required this.isActive }) : super(key: key);
@@ -67,7 +69,7 @@ class UsersStorysWidget extends StatelessWidget {
           ),
           SizedBox(height: 6.h),
           Text(
-            'Mohamed',
+            AppLocalizations.of(context)!.mohamed,
             style: TextStyle(
                 fontSize: 11.sp,
                 color: HexColor('#474747'),

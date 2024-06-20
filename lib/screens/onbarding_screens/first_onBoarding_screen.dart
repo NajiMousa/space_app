@@ -1,11 +1,14 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class FirstOnBoardingScreen extends StatelessWidget {
-  const FirstOnBoardingScreen({Key? key}) : super(key: key);
+   FirstOnBoardingScreen({Key? key}) : super(key: key);
 
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +30,6 @@ class FirstOnBoardingScreen extends StatelessWidget {
                   alignment: AlignmentDirectional.topEnd,
                   child: Container(
                     margin: EdgeInsets.only(bottom: 420.h),
-                    width: 70.w,
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.sp),
@@ -39,7 +41,7 @@ class FirstOnBoardingScreen extends StatelessWidget {
                             context, '/third_onBoarding_screen');
                       },
                       child: Text(
-                        'SKIP',
+                        AppLocalizations.of(context)!.skip,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.white,
@@ -49,23 +51,23 @@ class FirstOnBoardingScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'FREE',
+                  AppLocalizations.of(context)!.free,
                   style: TextStyle(
                       fontSize: 50.sp,
                       color: Colors.red,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 // SizedBox(height: 10.h),
                 Text(
-                  'PALESTINE',
+                  AppLocalizations.of(context)!.palestine,
                   style: TextStyle(
                       fontSize: 50.sp,
                       color: Colors.white,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                  fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
-                SizedBox(
-                  height: 67.h,
-                ),
+                Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -81,11 +83,13 @@ class FirstOnBoardingScreen extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        'Terms and Conditions',
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.termsAndConditions,
+                        style:
+                        TextStyle(
                             fontSize: 16.sp,
                             color: Colors.white,
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                        fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                       ),
                     ),
                     Container(

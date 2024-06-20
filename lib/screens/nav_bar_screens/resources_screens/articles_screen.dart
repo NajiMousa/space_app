@@ -1,7 +1,9 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class ArticlesScreen extends StatefulWidget {
 }
 
 class _ArticlesScreenState extends State<ArticlesScreen> {
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,9 +21,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       children: [
         Padding(
           padding:
-              EdgeInsets.only(top: 18.h, bottom: 8.h, right: 24.w, left: 24.w),
+              EdgeInsets.only(top: 10.h, bottom: 8.h, right: 24.w, left: 24.w),
           child: Text(
-            'Recent Additions',
+            AppLocalizations.of(context)!.recentAddition,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -116,7 +119,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.only(top: 96.h, left: 241.w, right: 16.w),
+                    sharedPrefController.language == 'en' ? EdgeInsets.only(top: 96.h, left: 241.w, right: 16.w) : EdgeInsets.only(top: 96.h, left: 16.w, right: 241.w),
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -139,7 +142,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                           ),
                           SizedBox(width: 10.w),
                           Text(
-                            'Save',
+                            AppLocalizations.of(context)!.save,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 10.sp,

@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class ChooseLanguageWidget extends StatelessWidget {
   ChooseLanguageWidget({Key? key}) : super(key: key);
-  final SharedPrefController sharedPrefController = SharedPrefController();
+  // final SharedPrefController sharedPrefController = SharedPrefController();
 
   String _selectedLanguage = 'English'; // Default selected language
   List<String> _languages = ['English', 'Arabic'];
@@ -35,7 +37,7 @@ class ChooseLanguageWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Choose the language you want',
+                AppLocalizations.of(context)!.chooseTheLanguageYouWant,
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),
@@ -108,7 +110,7 @@ class ChooseLanguageWidget extends StatelessWidget {
                     BorderRadiusDirectional.circular(50.sp)),
               ),
               child: Text(
-                'Save',
+                AppLocalizations.of(context)!.save,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 10.sp,

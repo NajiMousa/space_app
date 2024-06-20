@@ -137,7 +137,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
 
-                          AppTextFieldWidget(labelText: 'Ihsan',sectionTitle: 'Initiative Name'),
+                          // AppTextFieldWidget(labelText: 'Ihsan',sectionTitle: 'Initiative Name'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Initiative Name'),
                           //   validator: (value) {
@@ -151,7 +151,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
-                          AppTextFieldWidget(labelText: 'Health',sectionTitle:'Classification' ),
+                          // AppTextFieldWidget(labelText: 'Health',sectionTitle:'Classification' ),
                           // DropdownButtonFormField<String>(
                           //   value: _classification,
                           //   decoration: InputDecoration(labelText: 'Classification'),
@@ -168,7 +168,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
-                          AppTextFieldWidget(labelText: 'your initiative Bio',sectionTitle: 'Description'),
+                          // AppTextFieldWidget(labelText: 'your initiative Bio',sectionTitle: 'Description'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Description'),
                           //   maxLines: 3,
@@ -183,7 +183,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
-                          AppTextFieldWidget(labelText: '1000 Dollar',sectionTitle: 'Target Amount (USD)'),
+                          // AppTextFieldWidget(labelText: '1000 Dollar',sectionTitle: 'Target Amount (USD)'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Target Amount (USD)'),
                           //   keyboardType: TextInputType.number,
@@ -201,7 +201,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
-                          AppTextFieldWidget(labelText: 'Mechanism of Work', sectionTitle: 'Mechanism of Work'),
+                          // AppTextFieldWidget(labelText: 'Mechanism of Work', sectionTitle: 'Mechanism of Work'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Mechanism of Work'),
                           //   maxLines: 3,
@@ -216,7 +216,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
-                          AppTextFieldWidget(labelText: 'Responsible Person', sectionTitle: 'Responsible Person'),
+                          // AppTextFieldWidget(labelText: 'Responsible Person', sectionTitle: 'Responsible Person'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Responsible Person'),
                           //   validator: (value) {

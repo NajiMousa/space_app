@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class SavedScreen extends StatefulWidget {
   const SavedScreen({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                   ),
                             SizedBox(height: 20.h),
                             Text(
-                              'All',
+                              AppLocalizations.of(context)!.all,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 0
@@ -96,7 +96,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Martyrs Stories',
+                              AppLocalizations.of(context)!.martyrsStories,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 1
@@ -133,7 +133,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Articles',
+                              AppLocalizations.of(context)!.articles,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 2
@@ -171,7 +171,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                 : SizedBox(height: 4.h),
                             SizedBox(height: 20.h),
                             Text(
-                              'Posts',
+                              AppLocalizations.of(context)!.post,
                               style: TextStyle(
                                   fontSize: 13.sp,
                                   color: _selectedTypeMessanger == 3
@@ -239,7 +239,7 @@ class _SavedScreenState extends State<SavedScreen> {
                               width: 16.w,
                             ),
                             Text(
-                              'Saved',
+                              AppLocalizations.of(context)!.saved,
                               style: TextStyle(
                                   fontSize: 20.sp,
                                   color: HexColor('#333333'),
@@ -316,7 +316,7 @@ class _SavedScreenState extends State<SavedScreen> {
                       children: [
                         SizedBox(height: 18.h),
                         Text(
-                          'Most Recent',
+                          AppLocalizations.of(context)!.mostRecent,
                           style: TextStyle(
                               fontSize: 16.sp,
                               color: HexColor('#333333').withOpacity(0.7),
@@ -408,7 +408,7 @@ class _SavedScreenState extends State<SavedScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'See more',
+                                  AppLocalizations.of(context)!.seeMore,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 10.sp,
@@ -428,7 +428,7 @@ class _SavedScreenState extends State<SavedScreen> {
                         ),
                         SizedBox(height: 18.h),
                         Text(
-                          'Your Collection',
+                          AppLocalizations.of(context)!.yourCollection,
                           style: TextStyle(
                               fontSize: 16.sp,
                               color: HexColor('#333333').withOpacity(0.7),
@@ -470,7 +470,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                       ),
                                       SizedBox(height: 6.h),
                                       Text(
-                                        'Add Collection',
+                                        AppLocalizations.of(context)!.addCollection,
                                         style: TextStyle(
                                             fontSize: 12.sp,
                                             color: HexColor('#FFFFFF').withOpacity(0.7),
@@ -508,7 +508,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                       ),
                                       width: double.infinity,
                                       child: Text(
-                                        'Articles',
+                                        AppLocalizations.of(context)!.articles,
                                         style: TextStyle(
                                             fontSize: 10.sp,
                                             color: HexColor('#FFFFFF'),

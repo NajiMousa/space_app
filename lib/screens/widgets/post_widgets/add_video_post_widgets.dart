@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class AddVideoPostWidgets extends StatelessWidget {
   const AddVideoPostWidgets({Key? key}) : super(key: key);
@@ -62,7 +64,7 @@ class AddVideoPostWidgets extends StatelessWidget {
                             width: 6.w,
                           ),
                           Text(
-                            'With',
+                            AppLocalizations.of(context)!.withFriends,
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: HexColor('#333333'),
@@ -80,12 +82,24 @@ class AddVideoPostWidgets extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text(
-                        '3.1K follwer',
-                        style: TextStyle(
-                            fontSize: 10.sp,
-                            color: HexColor('#6699CC'),
-                            fontFamily: 'BreeSerif'),
+                      Row(
+                        children: [
+                          Text(
+                            '3.1K',
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                color: HexColor('#6699CC'),
+                                fontFamily: 'BreeSerif'),
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            AppLocalizations.of(context)!.follower,
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                color: HexColor('#6699CC'),
+                                fontFamily: 'BreeSerif'),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class ShowLogOutMessagesWidget extends StatelessWidget {
   const ShowLogOutMessagesWidget({Key? key}) : super(key: key);
@@ -22,11 +23,10 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
         // padding: EdgeInsets.symmetric(horizontal: 32.w),
         children: [
           SizedBox(height: 6.h),
-
           Row(
             children: [
               Text(
-                'Log Out Message',
+                AppLocalizations.of(context)!.logOutMessage,
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),
@@ -56,7 +56,8 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
           ),
           SizedBox(height: 18.h),
           Text(
-            'Are you sure you want to log out of your account?',
+            AppLocalizations.of(context)!
+                .areYouSureYouWantToLogOutOfYourAccount,
             style: TextStyle(
                 fontSize: 16.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -72,16 +73,15 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 8.h, horizontal: 12.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
                     backgroundColor: HexColor('#333333'),
                     minimumSize: Size(128.w, 40.h),
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadiusDirectional.circular(50.sp)),
+                        borderRadius: BorderRadiusDirectional.circular(50.sp)),
                   ),
                   child: Text(
-                    'Log Out',
+                    AppLocalizations.of(context)!.logOut,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 10.sp,
@@ -98,16 +98,15 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 8.h, horizontal: 12.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
                     backgroundColor: HexColor('#D6E0E6'),
                     minimumSize: Size(128.w, 40.h),
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadiusDirectional.circular(50.sp)),
+                        borderRadius: BorderRadiusDirectional.circular(50.sp)),
                   ),
                   child: Text(
-                    'Cancel',
+                    AppLocalizations.of(context)!.cancel,
                     style: TextStyle(
                       color: HexColor('#333333'),
                       fontSize: 10.sp,
@@ -118,7 +117,6 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
               ),
             ],
           ),
-
         ],
       ),
     );

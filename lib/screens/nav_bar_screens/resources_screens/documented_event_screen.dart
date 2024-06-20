@@ -25,7 +25,7 @@ class _DocumentedEventScreenState extends State<DocumentedEventScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
+                      top: 10.h, bottom: 12.h, right: 24.w, left: 24.w),
                   child: Text(
                     '28 Aug / 1996 - 2024',
                     style: TextStyle(

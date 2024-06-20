@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/main_screen.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/show_log_out_messages_widget.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../widgets/show_link_page_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class DrawerMenuScreen extends StatefulWidget {
   DrawerMenuScreen({Key? key}) : super(key: key);
@@ -19,20 +21,24 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
   bool _showLogOutMessage = false;
   bool _showContactUsMessage = false;
 
+  SharedPrefController sharedPrefController =SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 100.w),
+          margin: sharedPrefController.language == 'en' ? EdgeInsets.only(right: 100.w) : EdgeInsets.only(left: 100.w),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50.sp),
-                  bottomRight: Radius.circular(50.sp)),
+                  topRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                  bottomRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+              topLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp),
+              bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp),
+              ),
               color: HexColor('#333333')),
           child: Padding(
             padding: EdgeInsets.only(
-              top: 120.h,
+              top: 90.h,
               left: 24.w,
               right: 24.w,
             ),
@@ -47,7 +53,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                     ),
                   ),
                   child: Text(
-                    'Space',
+                    AppLocalizations.of(context)!.space,
                     style: TextStyle(
                         fontSize: 16.sp,
                         color: Colors.white,
@@ -65,7 +71,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                     ),
                   ),
                   child: Text(
-                    'Commemorate the Martyrs App',
+                    AppLocalizations.of(context)!.commemorateTheMartyrsApp,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: HexColor('#8C9EA0'),
@@ -155,7 +161,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                                 width: 12.w,
                               ),
                               Text(
-                                'Link Pages',
+                                AppLocalizations.of(context)!.linkPages,
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: Colors.white,
@@ -195,7 +201,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                                 width: 12.w,
                               ),
                               Text(
-                                'Saved',
+                                AppLocalizations.of(context)!.saved,
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: Colors.white,
@@ -236,7 +242,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                                 width: 12.w,
                               ),
                               Text(
-                                'Massages',
+                                AppLocalizations.of(context)!.messanger,
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: Colors.white,
@@ -280,7 +286,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                                 width: 12.w,
                               ),
                               Text(
-                                'Groups',
+                                AppLocalizations.of(context)!.groups,
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: Colors.white,
@@ -325,7 +331,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                                 width: 12.w,
                               ),
                               Text(
-                                'Initiatives',
+                                AppLocalizations.of(context)!.initiatives,
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: Colors.white,
@@ -366,7 +372,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                                 width: 12.w,
                               ),
                               Text(
-                                'Activities History',
+                                AppLocalizations.of(context)!.activitiesHistory,
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: Colors.white,
@@ -527,7 +533,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                           width: 12.w,
                         ),
                         Text(
-                          'Contact Us',
+                          AppLocalizations.of(context)!.contactUs,
                           style: TextStyle(
                               fontSize: 13.sp,
                               color: Colors.white,
@@ -557,7 +563,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
                           width: 12.w,
                         ),
                         Text(
-                          'Log out',
+                          AppLocalizations.of(context)!.logOut,
                           style: TextStyle(
                               fontSize: 13.sp,
                               color: Colors.white,
@@ -612,7 +618,7 @@ class _DrawerMenuScreenState extends State<DrawerMenuScreen> {
           ),
           child: Container(
             clipBehavior: Clip.antiAlias,
-            margin: EdgeInsets.only(left: 240.w, top: 110.h),
+            margin: sharedPrefController.language == 'en' ? EdgeInsets.only(left: 240.w, top: 110.h) : EdgeInsets.only(right: 240.w, top: 110.h),
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 24.h),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100.sp),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class ShowLinkPageWidget extends StatelessWidget {
   const ShowLinkPageWidget({Key? key}) : super(key: key);
@@ -35,7 +37,7 @@ class ShowLinkPageWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Your Link Pages',
+                AppLocalizations.of(context)!.yourLinkPage,
                 style: TextStyle(
                     fontSize: 13.sp,
                     color: HexColor('#333333').withOpacity(0.7),

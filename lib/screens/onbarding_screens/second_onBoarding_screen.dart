@@ -1,10 +1,14 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class SecondOnBoardingScreen extends StatelessWidget {
-  const SecondOnBoardingScreen({Key? key}) : super(key: key);
+   SecondOnBoardingScreen({Key? key}) : super(key: key);
 
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +30,6 @@ class SecondOnBoardingScreen extends StatelessWidget {
                   alignment: AlignmentDirectional.topEnd,
                   child: Container(
                     margin: EdgeInsets.only(bottom: 132.h),
-                    width: 70.w,
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.sp),
@@ -37,7 +40,7 @@ class SecondOnBoardingScreen extends StatelessWidget {
                         Navigator.pushReplacementNamed(context, '/third_onBoarding_screen');
                       },
                       child: Text(
-                        'SKIP',
+                          AppLocalizations.of(context)!.skip,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.white,
@@ -47,29 +50,30 @@ class SecondOnBoardingScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'STOP',
+                    AppLocalizations.of(context)!.stop,
                   style: TextStyle(
-                      fontSize: 45.sp,
+                      fontSize: sharedPrefController.language == 'en' ? 45.sp : 60.sp,
                       color: Colors.red,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 Text(
-                  'BOMBING',
+                  AppLocalizations.of(context)!.bombing,
                   style: TextStyle(
-                      fontSize: 30.sp,
+                      fontSize: sharedPrefController.language == 'en' ? 30.sp : 55.sp,
                       color: HexColor("#FBC35D"),
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 Text(
-                  'GAZA',
+                  AppLocalizations.of(context)!.gaza,
                   style: TextStyle(
-                      fontSize: 52.sp,
+                      fontSize: sharedPrefController.language == 'en' ? 52.sp : 55.sp,
                       color: Colors.white,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight:sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
-                SizedBox(
-                  height: 320.h,
-                ),
+                Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

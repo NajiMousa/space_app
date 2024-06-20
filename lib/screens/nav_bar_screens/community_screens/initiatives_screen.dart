@@ -1,7 +1,9 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class InitiativesScreen extends StatefulWidget {
   const InitiativesScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class InitiativesScreen extends StatefulWidget {
 }
 
 class _InitiativesScreenState extends State<InitiativesScreen> {
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +23,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
           padding:
               EdgeInsets.only(top: 12.h, bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
-            'Recent Additions',
+            AppLocalizations.of(context)!.recentAddition,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333'),
@@ -63,11 +66,13 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                       SizedBox(height: 4.h,),
                       Text(
-                        'All',
+                        AppLocalizations.of(context)!.all,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold
+                        ),
                       ),
                     ],
                   )
@@ -97,11 +102,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                       SizedBox(height: 4.h,),
                       Text(
-                        'Education',
+                        AppLocalizations.of(context)!.education,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
                       ),
                     ],
                   )
@@ -133,11 +139,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                       SizedBox(height: 4.h,),
                       Text(
-                        'Charity',
+                        AppLocalizations.of(context)!.charity,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
                       ),
                     ],
                   )
@@ -167,11 +174,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                       SizedBox(height: 4.h,),
                       Text(
-                        'Events',
+                        AppLocalizations.of(context)!.events,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
                       ),
                     ],
                   )
@@ -202,11 +210,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                       SizedBox(height: 4.h,),
                       Text(
-                        'Health',
+                        AppLocalizations.of(context)!.health,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
                       ),
                     ],
                   )
@@ -236,11 +245,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                       SizedBox(height: 4.h,),
                       Text(
-                        'Ecological',
+                        AppLocalizations.of(context)!.ecological,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
-                            fontFamily: 'BreeSerif'),
+                            fontFamily: 'BreeSerif',
+                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
                       ),
                     ],
                   )
@@ -252,7 +262,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
           padding:
           EdgeInsets.only(bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
-            'Best Initiatives',
+            AppLocalizations.of(context)!.bestInitiative,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333'),
@@ -352,7 +362,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                       ),
                                       SizedBox(width: 6.w,),
                                       Text(
-                                        'Health',
+                                        AppLocalizations.of(context)!.health,
                                         style: TextStyle(
                                             fontSize: 8.sp,
                                             color: HexColor('#333333'),
@@ -392,7 +402,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
           padding:
           EdgeInsets.only( bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
-            'Recent Additions',
+            AppLocalizations.of(context)!.recentAddition,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333'),

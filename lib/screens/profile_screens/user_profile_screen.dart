@@ -1,7 +1,9 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   int _selectedTypeMessanger = 0;
-
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +22,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       bottomNavigationBar: Container(
         height: 72.0, // Set the height here
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 32.w),
           scrollDirection: Axis.horizontal,
           children: [
             InkWell(
@@ -41,7 +44,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 29.w,
+                            width: sharedPrefController.language =='en' ? 29.w : 40.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -49,7 +52,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'All',
+                      AppLocalizations.of(context)!.all,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 0
@@ -73,22 +76,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     _selectedTypeMessanger == 1
                         ? Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('#6699CC'),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.sp),
-                          bottomLeft: Radius.circular(5.sp),
-                        ),
-                      ),
-                      width: 52.w,
-                      height: 5.h,
-                    )
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: sharedPrefController.language =='en' ? 52.w : 60.w,
+                            height: 5.h,
+                          )
                         : SizedBox(
-                      height: 5.h,
-                    ),
+                            height: 5.h,
+                          ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Follower',
+                      AppLocalizations.of(context)!.follower,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 1
@@ -112,22 +115,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     _selectedTypeMessanger == 2
                         ? Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('#6699CC'),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.sp),
-                          bottomLeft: Radius.circular(5.sp),
-                        ),
-                      ),
-                      width: 52.w,
-                      height: 5.h,
-                    )
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: sharedPrefController.language =='en' ? 104.w : 60.w,
+                            height: 5.h,
+                          )
                         : SizedBox(
-                      height: 5.h,
-                    ),
+                            height: 5.h,
+                          ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Following',
+                      AppLocalizations.of(context)!.following,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 2
@@ -151,22 +154,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   children: [
                     _selectedTypeMessanger == 3
                         ? Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('#6699CC'),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.sp),
-                          bottomLeft: Radius.circular(5.sp),
-                        ),
-                      ),
-                      width: 52.w,
-                      height: 5.h,
-                    )
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: sharedPrefController.language =='en' ? 104.w : 70.w,
+                            height: 5.h,
+                          )
                         : SizedBox(
-                      height: 5.h,
-                    ),
+                            height: 5.h,
+                          ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Friends',
+                      AppLocalizations.of(context)!.friends,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 3
@@ -197,7 +200,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 52.w,
+                            width: sharedPrefController.language =='en' ? 52.w : 60.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -205,7 +208,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Posts',
+                      AppLocalizations.of(context)!.post,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 4
@@ -236,7 +239,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 55.w,
+                            width: sharedPrefController.language =='en' ? 55.w : 55.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -244,7 +247,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Photos',
+                      AppLocalizations.of(context)!.photos,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 5
@@ -276,7 +279,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 43.w,
+                            width: sharedPrefController.language =='en' ? 43.w : 53.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -284,7 +287,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Video',
+                      AppLocalizations.of(context)!.videos,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 6
@@ -316,7 +319,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 73.w,
+                            width: sharedPrefController.language =='en' ? 73.w : 83.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -324,7 +327,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Highlights',
+                      AppLocalizations.of(context)!.highLights,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 7
@@ -364,7 +367,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Articles',
+                      AppLocalizations.of(context)!.articles,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 8
@@ -396,7 +399,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 45.w,
+                            width: sharedPrefController.language =='en' ? 45.w : 55.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -404,7 +407,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Links',
+                      AppLocalizations.of(context)!.links,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 9
@@ -424,7 +427,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-                margin: EdgeInsets.only(left: 24.w, right: 32.w),
+                margin: sharedPrefController.language =='en' ? EdgeInsets.only(left: 24.w) : EdgeInsets.only(right: 0.w),
                 decoration: BoxDecoration(
                   color: Colors.white, // Background color
                   shape: BoxShape.circle, // Make it a circle if desired
@@ -439,7 +442,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
       ),
       body: Stack(
-        alignment: Alignment.topLeft,
+        alignment: sharedPrefController.language == 'en' ? Alignment.topLeft : Alignment.topRight ,
         children: [
           Container(
             clipBehavior: Clip.antiAlias,
@@ -462,7 +465,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(42.sp)),
+                            bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(42.sp) : Radius.circular(0.sp),
+                            bottomRight: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(42.sp),),
                         // color: Colors.red,
                         boxShadow: [
                           BoxShadow(
@@ -481,7 +485,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 24.w, top: 215.h),
+                      padding: sharedPrefController.language == 'en' ? EdgeInsets.only(left: 24.w, top: 215.h) : EdgeInsets.only(right: 24.w, top: 215.h) ,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -554,7 +558,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
-                                        'Post',
+                                        AppLocalizations.of(context)!.post,
                                         style: TextStyle(
                                           fontFamily: 'BreeSerif',
                                           fontSize: 10.sp,
@@ -578,7 +582,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
-                                        'Follower',
+                                        AppLocalizations.of(context)!.follower,
                                         style: TextStyle(
                                           fontFamily: 'BreeSerif',
                                           fontSize: 10.sp,
@@ -602,7 +606,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
-                                        'Following',
+                                        AppLocalizations.of(context)!.following,
                                         style: TextStyle(
                                           fontFamily: 'BreeSerif',
                                           fontSize: 10.sp,
@@ -626,7 +630,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
-                                        'Link Page',
+                                        AppLocalizations.of(context)!.linkPages,
                                         style: TextStyle(
                                           fontFamily: 'BreeSerif',
                                           fontSize: 10.sp,
@@ -646,7 +650,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 SizedBox(height: 18.h),
                 Padding(
-                  padding: EdgeInsets.only(left: 32.w, bottom: 12.h),
+                  padding: EdgeInsets.only(left: 32.w, bottom: 12.h, right: 32.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -705,7 +709,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                             SizedBox(width: 5.w),
                             Text(
-                              'Add Story',
+                              AppLocalizations.of(context)!.addStory,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 11.sp,
@@ -719,11 +723,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/edit_user_profile_page_screen');
+                            Navigator.pushNamed(
+                                context, '/edit_user_profile_page_screen');
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(
-                                vertical: 8.h, horizontal: 26.w),
+                                vertical: 8.h, horizontal: 12.w),
                             backgroundColor: HexColor('#6699CC'),
                             minimumSize: Size(double.infinity, 24.h),
                             shape: RoundedRectangleBorder(
@@ -741,7 +746,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               ),
                               SizedBox(width: 5.w),
                               Text(
-                                'Edit Profile',
+                                AppLocalizations.of(context)!.editProfile,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 11.sp,
@@ -784,8 +789,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(
-                left: 32.w, right: 24.w, top: 63.h, bottom: 0.h),
+            margin: sharedPrefController.language =='en' ? EdgeInsets.only(
+                left: 40.w, top: 50.h) :
+            EdgeInsets.only(right: 40.w, top: 50.h),
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             // margin: EdgeInsets.only(left: 24.w),
             width: 32.w,
@@ -799,7 +805,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 // Navigator.pop(context);
               },
               child: SvgPicture.asset(
-                'images/arrow_back.svg',
+                sharedPrefController.language == 'en' ? 'images/arrow_back.svg' : 'images/arrowForword.svg',
                 width: 6.w,
                 height: 10.h,
                 color: HexColor('#FFFFFF'),

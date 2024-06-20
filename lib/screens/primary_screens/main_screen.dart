@@ -14,15 +14,37 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../model/primary_page_model.dart';
 import '../nav_bar_screens/other_main_screens/home_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class MainScreen extends StatefulWidget {
-   MainScreen({Key? key, required this.selectedIndex}) : super(key: key);
+  MainScreen({Key? key, required this.selectedIndex}) : super(key: key);
   int selectedIndex;
+
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late TextEditingController _newPostTextEditingController;
+  late TextEditingController _searchTextEditingController;
+  String? _emailErrorText;
+  String? _passwordErrorText;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _newPostTextEditingController = TextEditingController();
+    _searchTextEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _newPostTextEditingController.dispose();
+    _searchTextEditingController.dispose();
+    super.dispose();
+  }
 
   bool isDrawableVisible = false;
 
@@ -104,7 +126,8 @@ class _MainScreenState extends State<MainScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            widget.selectedIndex == 1 || widget.selectedIndex == 5
+                            widget.selectedIndex == 1 ||
+                                    widget.selectedIndex == 5
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -125,7 +148,8 @@ class _MainScreenState extends State<MainScreen> {
                               'images/martyrsIcon.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: widget.selectedIndex == 1 || widget.selectedIndex == 5
+                              color: widget.selectedIndex == 1 ||
+                                      widget.selectedIndex == 5
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -142,7 +166,8 @@ class _MainScreenState extends State<MainScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            widget.selectedIndex == 2 || widget.selectedIndex == 6
+                            widget.selectedIndex == 2 ||
+                                    widget.selectedIndex == 6
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -163,7 +188,8 @@ class _MainScreenState extends State<MainScreen> {
                               'images/communityIcon.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: widget.selectedIndex == 2 || widget.selectedIndex == 6
+                              color: widget.selectedIndex == 2 ||
+                                      widget.selectedIndex == 6
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -180,7 +206,8 @@ class _MainScreenState extends State<MainScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            widget.selectedIndex == 3 || widget.selectedIndex == 7
+                            widget.selectedIndex == 3 ||
+                                    widget.selectedIndex == 7
                                 ? Container(
                                     margin: EdgeInsets.only(bottom: 7.h),
                                     width: 46.w,
@@ -201,7 +228,8 @@ class _MainScreenState extends State<MainScreen> {
                               'images/resource.svg',
                               height: 24.h,
                               width: 24.w,
-                              color: widget.selectedIndex == 3 || widget.selectedIndex == 7
+                              color: widget.selectedIndex == 3 ||
+                                      widget.selectedIndex == 7
                                   ? HexColor('#6699CC')
                                   : Colors.white,
                             ),
@@ -284,7 +312,38 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   // Screen Name
                                   Text(
-                                    _primaryPageModel[widget.selectedIndex].title,
+                                    widget.selectedIndex == 0
+                                        ? AppLocalizations.of(context)!.space
+                                        : widget.selectedIndex == 1
+                                            ? AppLocalizations.of(context)!
+                                                .martyrsProfile
+                                            : widget.selectedIndex == 2
+                                                ? AppLocalizations.of(context)!
+                                                    .initiatives
+                                                : widget.selectedIndex == 3
+                                                    ? AppLocalizations.of(
+                                                            context)!
+                                                        .documentEvents
+                                                    : widget.selectedIndex == 4
+                                                        ? AppLocalizations
+                                                                .of(context)!
+                                                            .settings
+                                                        : widget.selectedIndex ==
+                                                                5
+                                                            ? AppLocalizations
+                                                                    .of(
+                                                                        context)!
+                                                                .martyrsStories
+                                                            : widget.selectedIndex ==
+                                                                    6
+                                                                ? AppLocalizations.of(
+                                                                        context)!
+                                                                    .supportGroups
+                                                                : AppLocalizations.of(
+                                                                        context)!
+                                                                    .articles,
+                                    // _primaryPageModel[widget.selectedIndex]
+                                    //     .title,
                                     style: TextStyle(
                                         fontSize: 20.sp,
                                         color: HexColor('#333333'),
@@ -314,9 +373,9 @@ class _MainScreenState extends State<MainScreen> {
                                           // Navigator.pushNamed(
                                           //     context, '/new_post_screen');
                                           widget.selectedIndex == 1 ||
-                                              widget.selectedIndex == 2 ||
-                                              widget.selectedIndex == 5 ||
-                                              widget.selectedIndex == 6
+                                                  widget.selectedIndex == 2 ||
+                                                  widget.selectedIndex == 5 ||
+                                                  widget.selectedIndex == 6
                                               ? _showChooseAddWhatDialog()
                                               : Navigator.pushNamed(
                                                   context, '/new_post_screen');
@@ -375,64 +434,95 @@ class _MainScreenState extends State<MainScreen> {
                 child: ListView(
                   // shrinkWrap: true,
                   children: [
+                    SizedBox(height: 10.h),
                     widget.selectedIndex == 0
                         // todo: Create new Post in HomeScreen
-                        ? AppTextFieldWidget(labelText: 'What is on yor mind', sectionTitle: '')
-                    // InkWell(
-                    //         onTap: () => Navigator.pushNamed(
-                    //             context, '/new_post_screen'),
-                    //         child: Column(
-                    //           children: [
-                    //             Container(
-                    //               margin: EdgeInsets.only(
-                    //                   top: 15.h, right: 24.w, left: 24.w),
-                    //               width: double.infinity,
-                    //               decoration: BoxDecoration(
-                    //                 // color: HexColor('#D6E0E6'),
-                    //                 borderRadius: BorderRadius.circular(15.sp),
-                    //               ),
-                    //               child: Row(
-                    //                 mainAxisAlignment: MainAxisAlignment.start,
-                    //                 children: [
-                    //                   Image.asset(
-                    //                     'images/userIcon.png',
-                    //                     width: 32.w,
-                    //                     height: 32.h,
-                    //                   ),
-                    //                   SizedBox(width: 15.w),
-                    //                   Text(
-                    //                     'What is on yor mind?',
-                    //                     style: TextStyle(
-                    //                       fontFamily: 'BreeSerif',
-                    //                       fontSize: 14.sp,
-                    //                       color: HexColor('#999999'),
-                    //                     ),
-                    //                   ),
-                    //                   Spacer(),
-                    //                   SvgPicture.asset(
-                    //                     'images/audioIcon.svg',
-                    //                     width: 24.w,
-                    //                     height: 24.h,
-                    //                     color: HexColor('#333333'),
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //             SizedBox(
-                    //               height: 8.h,
-                    //             ),
-                    //             Divider(
-                    //               thickness: 1,
-                    //               endIndent: 24.w,
-                    //               indent: 24.w,
-                    //             )
-                    //           ],
-                    //         ),
-                    //       )
-                        : widget.selectedIndex == 4
-                            ? SizedBox()
-                            // todo: add Search container in other Screens
-                            : AppTextFieldWidget(labelText: 'Find what\'s on your mind', sectionTitle: ''),
+                        ? InkWell(
+                      onTap: () => Navigator.pushNamed(
+                          context, '/new_post_screen'),
+                          child: AppTextFieldWidget(
+                              textEditingController:
+                                  _newPostTextEditingController,
+                              prefixIcon: Icons.add,
+                              hintText: AppLocalizations.of(
+                                  context)!
+                                  .whatIsOnYorMind,
+                              obsecure: false,
+                              textInputType: TextInputType.emailAddress,
+                              errorText: _emailErrorText,
+                            ),
+                        )
+                        // InkWell(
+                        //         onTap: () => Navigator.pushNamed(
+                        //             context, '/new_post_screen'),
+                        //         child: Column(
+                        //           children: [
+                        //             Container(
+                        //               margin: EdgeInsets.only(
+                        //                   top: 15.h, right: 24.w, left: 24.w),
+                        //               width: double.infinity,
+                        //               decoration: BoxDecoration(
+                        //                 // color: HexColor('#D6E0E6'),
+                        //                 borderRadius: BorderRadius.circular(15.sp),
+                        //               ),
+                        //               child: Row(
+                        //                 mainAxisAlignment: MainAxisAlignment.start,
+                        //                 children: [
+                        //                   Image.asset(
+                        //                     'images/userIcon.png',
+                        //                     width: 32.w,
+                        //                     height: 32.h,
+                        //                   ),
+                        //                   SizedBox(width: 15.w),
+                        //                   Text(
+                        //                     'What is on yor mind?',
+                        //                     style: TextStyle(
+                        //                       fontFamily: 'BreeSerif',
+                        //                       fontSize: 14.sp,
+                        //                       color: HexColor('#999999'),
+                        //                     ),
+                        //                   ),
+                        //                   Spacer(),
+                        //                   SvgPicture.asset(
+                        //                     'images/audioIcon.svg',
+                        //                     width: 24.w,
+                        //                     height: 24.h,
+                        //                     color: HexColor('#333333'),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 8.h,
+                        //             ),
+                        //             Divider(
+                        //               thickness: 1,
+                        //               endIndent: 24.w,
+                        //               indent: 24.w,
+                        //             )
+                        //           ],
+                        //         ),
+                        //       )
+                        // : widget.selectedIndex == 4
+                        //     ? SizedBox()
+                        // todo: add Search container in other Screens
+                        : InkWell(
+                      onTap: ()  {
+                        print('object');
+                        Navigator.pushNamed(
+                            context, '/search_screen');
+                      },
+                          child: AppTextFieldWidget(
+                              textEditingController: _searchTextEditingController,
+                              prefixIcon: Icons.search,
+                              hintText: AppLocalizations.of(
+                                  context)!
+                                  .findWhatOnYourMind,
+                              obsecure: false,
+                              textInputType: TextInputType.emailAddress,
+                              errorText: _emailErrorText,
+                            ),
+                        ),
                     // InkWell(
                     //             onTap: () => Navigator.pushNamed(
                     //                 context, 'search_screen'),
@@ -496,11 +586,11 @@ class _MainScreenState extends State<MainScreen> {
                         color: HexColor('#333333'),
                       ),
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           InkWell(
                             child: Text(
-                              'Martyrs Profiles',
+                              AppLocalizations.of(context)!.martyrsProfile,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
@@ -516,9 +606,9 @@ class _MainScreenState extends State<MainScreen> {
                             },
                           ),
                           Container(
-                            margin: EdgeInsets.only(
-                                left: 20.w,
-                                right: widget.selectedIndex == 7 ? 39.w : 20.w),
+                            // margin: EdgeInsets.only(
+                            //     left: 20.w,
+                            //     right: widget.selectedIndex == 7 ? 39.w : 20.w),
                             alignment: AlignmentDirectional.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -534,7 +624,7 @@ class _MainScreenState extends State<MainScreen> {
                               });
                             },
                             child: Text(
-                              'Martyrs Stories',
+                              AppLocalizations.of(context)!.martyrsStories,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
@@ -560,14 +650,14 @@ class _MainScreenState extends State<MainScreen> {
                         color: HexColor('#333333'),
                       ),
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SizedBox(
-                            width: 20.w,
-                          ),
+                          // SizedBox(
+                          //   width: 20.w,
+                          // ),
                           InkWell(
                             child: Text(
-                              'Initiatives',
+                              AppLocalizations.of(context)!.initiatives,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
@@ -583,7 +673,7 @@ class _MainScreenState extends State<MainScreen> {
                             },
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 38.w, right: 24.w),
+                            // margin: EdgeInsets.only(left: 38.w, right: 24.w),
                             alignment: AlignmentDirectional.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -599,7 +689,7 @@ class _MainScreenState extends State<MainScreen> {
                               });
                             },
                             child: Text(
-                              'Support Groups',
+                              AppLocalizations.of(context)!.supportGroups,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
@@ -625,7 +715,7 @@ class _MainScreenState extends State<MainScreen> {
                         color: HexColor('#333333'),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           InkWell(
                             onTap: () {
@@ -634,7 +724,7 @@ class _MainScreenState extends State<MainScreen> {
                               });
                             },
                             child: Text(
-                              'Document Events',
+                              AppLocalizations.of(context)!.documentEvents,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
@@ -645,7 +735,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: 39.w, left: 20.w),
+                            // margin: EdgeInsets.only(right: 20.w, left: 20.w),
                             alignment: AlignmentDirectional.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -661,7 +751,7 @@ class _MainScreenState extends State<MainScreen> {
                               });
                             },
                             child: Text(
-                              'Articles',
+                              AppLocalizations.of(context)!.articles,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 14.sp,
@@ -671,9 +761,9 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 20.w,
-                          )
+                          // SizedBox(
+                          //   width: 20.w,
+                          // )
                         ],
                       ),
                     )
@@ -730,7 +820,7 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Create New Post',
+                        AppLocalizations.of(context)!.createNewPost,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 13.sp,
@@ -759,7 +849,8 @@ class _MainScreenState extends State<MainScreen> {
                         ? Navigator.pushNamed(
                             context, '/new _martyrs_profile_screen')
                         : widget.selectedIndex == 2
-                            ? Navigator.pushNamed(context, '/add_initiative_screen')
+                            ? Navigator.pushNamed(
+                                context, '/add_initiative_screen')
                             : widget.selectedIndex == 5
                                 ? Navigator.pushNamed(
                                     context, '/new _martyrs_profile_screen')
@@ -774,12 +865,16 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       Text(
                         widget.selectedIndex == 1
-                            ? 'Create New Martyrs Profile'
+                            ? AppLocalizations.of(context)!
+                                .createNewMartyrsProfile
                             : widget.selectedIndex == 2
-                                ? 'Create New Initiative'
+                                ? AppLocalizations.of(context)!
+                                    .createNewInitiative
                                 : widget.selectedIndex == 5
-                                    ? 'Create New Martyrs Profile'
-                                    : 'Create New Group',
+                                    ? AppLocalizations.of(context)!
+                                        .createNewMartyrsProfile
+                                    : AppLocalizations.of(context)!
+                                        .createNewGroup,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 13.sp,

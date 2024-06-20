@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class AddStoryWidget extends StatelessWidget {
   AddStoryWidget({Key? key, required this.hasAddedStory }) : super(key: key);
@@ -89,7 +91,7 @@ class AddStoryWidget extends StatelessWidget {
             ],
           ),
           Text(
-            'Add Story',
+            AppLocalizations.of(context)!.addStory,
             style: TextStyle(
                 fontSize: 11.sp,
                 color: HexColor('#21CED9'),

@@ -1,7 +1,10 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class NewPostScreen extends StatefulWidget {
   const NewPostScreen({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   int _selectedTypeMessanger = 0;
+  SharedPrefController sharedPrefController = SharedPrefController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       bottomNavigationBar: Container(
         height: 72.0, // Set the height here
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 32.w),
           scrollDirection: Axis.horizontal,
           children: [
             InkWell(
@@ -49,7 +54,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'All',
+                      AppLocalizations.of(context)!.all,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 0
@@ -88,7 +93,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Text',
+                      AppLocalizations.of(context)!.text,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 1
@@ -127,7 +132,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Photos',
+                      AppLocalizations.of(context)!.photos,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 2
@@ -167,7 +172,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Video',
+                      AppLocalizations.of(context)!.videos,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 3
@@ -207,7 +212,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Audio',
+                      AppLocalizations.of(context)!.audio,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: _selectedTypeMessanger == 4
@@ -227,7 +232,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-                margin: EdgeInsets.only(left: 24.w),
+                margin: sharedPrefController.language =='en' ? EdgeInsets.only(left: 24.w) : EdgeInsets.only(right: 0.w),
                 decoration: BoxDecoration(
                   color: Colors.white, // Background color
                   shape: BoxShape.circle, // Make it a circle if desired
@@ -262,7 +267,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               Navigator.pop(context);
                             },
                             child: SvgPicture.asset(
-                              'images/arrow_back.svg',
+                              sharedPrefController.language == 'en' ? 'images/arrow_back.svg' : 'images/arrowForword.svg',
                               width: 10.w,
                               height: 16.h,
                               color: HexColor('#333333'),
@@ -272,7 +277,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             width: 16.w,
                           ),
                           Text(
-                            'New Post',
+                            AppLocalizations.of(context)!.newPost,
                             style: TextStyle(
                                 fontSize: 20.sp,
                                 color: HexColor('#333333'),
@@ -296,7 +301,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   BorderRadiusDirectional.circular(50.sp)),
                         ),
                         child: Text(
-                          'Post/all',
+                          AppLocalizations.of(context)!.postAll,
                           style: TextStyle(
                             color: HexColor('#FFFFFF'),
                             fontSize: 12.sp,
@@ -337,7 +342,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           children: [
                             Expanded(
                               child: Container(
-                                margin: EdgeInsets.only(left: 12.w),
+                                margin: sharedPrefController.language == 'en' ? EdgeInsets.only(left: 12.w) : EdgeInsets.only(right: 12.w),
                                 alignment: AlignmentDirectional.center,
                                 child: TextField(
                                   style: TextStyle(
@@ -349,7 +354,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white,
-                                    hintText: 'write your massage',
+                                    hintText: AppLocalizations.of(context)!.writeYourMassage,
                                     enabledBorder: getBorder(),
                                     focusedBorder: getBorder(),
                                     prefixIcon: Padding(
@@ -374,7 +379,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         child: Row(
                           children: [
                             Text(
-                              'Other Action',
+                              AppLocalizations.of(context)!.otherAction,
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   color: HexColor('#D9D9D9'),
@@ -403,10 +408,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                             SizedBox(width: 12.w),
                             Text(
-                              'Tag friends',
+                              AppLocalizations.of(context)!.tagFriends,
                               style: TextStyle(
                                   fontSize: 13.sp,
-                                  color: HexColor('#45BD62'),
+                                  color: HexColor('#333333'),
                                   fontFamily: 'BreeSerif'),
                             ),
                           ],
@@ -425,10 +430,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                             SizedBox(width: 12.w),
                             Text(
-                              'Add Feeling',
+                              AppLocalizations.of(context)!.addFeeling,
                               style: TextStyle(
                                   fontSize: 13.sp,
-                                  color: HexColor('#F7B928'),
+                                  color: HexColor('#333333'),
                                   fontFamily: 'BreeSerif'),
                             ),
                           ],
@@ -447,10 +452,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                             SizedBox(width: 12.w),
                             Text(
-                              'Add Questions',
+                              AppLocalizations.of(context)!.addQuestion,
                               style: TextStyle(
                                   fontSize: 13.sp,
-                                  color: HexColor('#2AB8A4'),
+                                  color: HexColor('#333333'),
                                   fontFamily: 'BreeSerif'),
                             ),
                           ],
@@ -469,10 +474,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                             SizedBox(width: 12.w),
                             Text(
-                              'Add File',
+                              AppLocalizations.of(context)!.addFile,
                               style: TextStyle(
                                   fontSize: 13.sp,
-                                  color: HexColor('#00A5F4'),
+                                  color: HexColor('#333333'),
                                   fontFamily: 'BreeSerif'),
                             ),
                           ],
@@ -491,10 +496,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                             SizedBox(width: 12.w),
                             Text(
-                              'Add Event',
+                              AppLocalizations.of(context)!.addEvent,
                               style: TextStyle(
                                   fontSize: 13.sp,
-                                  color: HexColor('#F5533D'),
+                                  color: HexColor('#333333'),
                                   fontFamily: 'BreeSerif'),
                             ),
                           ],
@@ -514,10 +519,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             ),
                             SizedBox(width: 12.w),
                             Text(
-                              'Add Location',
+                              AppLocalizations.of(context)!.addLocation,
                               style: TextStyle(
                                   fontSize: 13.sp,
-                                  color: HexColor('#F02849'),
+                                  color: HexColor('#333333'),
                                   fontFamily: 'BreeSerif'),
                             ),
                           ],
@@ -528,7 +533,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         child: Row(
                           children: [
                             Text(
-                              'Camera& Your Photos',
+                              AppLocalizations.of(context)!.cameraAndYourPhotos,
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   color: HexColor('#D9D9D9'),
@@ -539,7 +544,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'see All',
+                                    AppLocalizations.of(context)!.seeMore,
                                     style: TextStyle(
                                         fontSize: 11.sp,
                                         color: HexColor('#6699CC'),
@@ -547,7 +552,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   ),
                                   SizedBox(width: 2.w),
                                   SvgPicture.asset(
-                                    'images/arrowForword.svg',
+                                    sharedPrefController.language == 'en' ? 'images/arrowForword.svg' : 'images/arrow_back.svg',
                                     height: 10.h,
                                     width: 10.w,
                                     color: HexColor('#6699CC'),

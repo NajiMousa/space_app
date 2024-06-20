@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../widgets/app_text_field_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class SingUpScreen extends StatefulWidget {
   const SingUpScreen({Key? key}) : super(key: key);
@@ -14,19 +16,100 @@ class SingUpScreen extends StatefulWidget {
 }
 
 class _SingUpScreenState extends State<SingUpScreen> {
+  SharedPrefController sharedPrefController = SharedPrefController();
+
+  late TextEditingController _emailTextEditingController;
+  late TextEditingController _passwordTextEditingController;
+  late TextEditingController _confimPasswordTextEditingController;
+  String? _emailErrorText;
+  String? _passwordErrorText;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailTextEditingController = TextEditingController();
+    _passwordTextEditingController = TextEditingController();
+    _confimPasswordTextEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailTextEditingController.dispose();
+    _passwordTextEditingController.dispose();
+    _confimPasswordTextEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 6.h,horizontal: 24.w),
+          child: Text(
+            AppLocalizations.of(context)!.email,
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: HexColor('#333333'),
+                fontFamily: 'BreeSerif'),
+          ),
+        ),
+
         AppTextFieldWidget(
-          labelText: 'Phone',sectionTitle: 'Phone',
+          textEditingController: _emailTextEditingController,
+          prefixIcon: Icons.email,
+          hintText: 'naji@gmail.com',
+          obsecure: false,
+          textInputType: TextInputType.emailAddress,
+          errorText: _emailErrorText,
+        ),
+
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 6.h,horizontal: 24.w),
+          child: Text(
+            AppLocalizations.of(context)!.password,
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: HexColor('#333333'),
+                fontFamily: 'BreeSerif'),
+          ),
         ),
         AppTextFieldWidget(
-          labelText: 'Password',sectionTitle: 'Password',
+          textEditingController: _passwordTextEditingController,
+          prefixIcon: Icons.lock,
+          hintText: '**** **** *****',
+          obsecure: true,
+          textInputType: TextInputType.phone,
+          errorText: _passwordErrorText,
+          suffixIcon: Icons.hide_source,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 6.h,horizontal: 24.w),
+          child: Text(
+            AppLocalizations.of(context)!.confirmPassword,
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: HexColor('#333333'),
+                fontFamily: 'BreeSerif'),
+          ),
         ),
         AppTextFieldWidget(
-          labelText: 'Confirm Password',sectionTitle: 'Confirm Password',
+          textEditingController: _confimPasswordTextEditingController,
+          prefixIcon: Icons.lock,
+          hintText: '**** **** *****',
+          obsecure: true,
+          textInputType: TextInputType.phone,
+          errorText: _passwordErrorText,
+          suffixIcon: Icons.hide_source,
         ),
+
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
           child: Row(
@@ -36,9 +119,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
                 onChanged: (value) {},
               ),
               Text(
-                'Did you forget your password?',
+                AppLocalizations.of(context)!.agreeCondition,
                 style: TextStyle(
-                  color: HexColor('#559FEA'),
+                  color: HexColor('#333333'),
                   fontSize: 11.sp,
                   fontFamily: 'BreeSerif',
                 ),
@@ -71,12 +154,12 @@ class _SingUpScreenState extends State<SingUpScreen> {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.only(left: 24.w),
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'Sing Up',
+                    AppLocalizations.of(context)!.signUp,
                     style: TextStyle(
                       color: HexColor('#FFFFFF'),
                       fontSize: 16.sp,
@@ -85,12 +168,12 @@ class _SingUpScreenState extends State<SingUpScreen> {
                   ),
                   Spacer(),
                   SvgPicture.asset(
-                    'images/arrowForword.svg',
+                    sharedPrefController.language == 'en' ? 'images/arrowForword.svg' : 'images/arrow_back.svg',
                     width: 9.w,
                     height: 15.h,
                     color: HexColor('#FFFFFF'),
                   ),
-                  SizedBox(width: 18.w),
+
                 ],
               ),
             ),
@@ -101,7 +184,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
           children: [
             Divider(thickness: 5, indent: 30.w, endIndent: 30.w),
             Text(
-              'OR',
+              AppLocalizations.of(context)!.or,
               style: TextStyle(
                 color: HexColor('#559FEA'),
                 fontSize: 11.sp,

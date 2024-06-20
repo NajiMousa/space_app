@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import '../../widgets/martyrs_profile_widget.dart';
 
 class MartyrsProfilesScreen extends StatefulWidget {
@@ -24,9 +24,9 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
         // Header Featured Martyrs
         Padding(
           padding:
-              EdgeInsets.only(top: 20.h, bottom: 6.h, right: 24.w, left: 24.w),
+              EdgeInsets.only(top: 10.h, bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
-            'Featured Martyrs',
+            AppLocalizations.of(context)!.featuredMartyrs,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -67,7 +67,7 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
           padding:
               EdgeInsets.only(top: 10.h, bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
-            'Recent Additions',
+            AppLocalizations.of(context)!.recentAddition,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -349,7 +349,7 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                                       ),
                                       SizedBox(width: 5.w),
                                       Text(
-                                        'Light a Candle',
+                                        AppLocalizations.of(context)!.lightACandle,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 10.sp,

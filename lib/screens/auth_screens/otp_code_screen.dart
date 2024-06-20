@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class OtpCodeScreen extends StatefulWidget {
   const OtpCodeScreen({Key? key}) : super(key: key);
@@ -176,7 +177,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'OTP code had been sent to your \n phone number',
+                AppLocalizations.of(context)!.otpCodeHadBeenSentToYourPhoneNumber,
                 style: TextStyle(
                   color: HexColor('#333333'),
                   fontSize: 16.sp,
@@ -194,30 +195,30 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
             ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 24.h),
-          child: Row(
-            children: [
-              Text(
-                'Haven’t received the code?',
-                style: TextStyle(
-                  color: HexColor('#333333'),
-                  fontSize: 14.sp,
-                  fontFamily: 'BreeSerif',
-                ),
-              ),
-              SizedBox(width: 10.w,),
-              Text(
-                'Resent ( 59 secs )',
-                style: TextStyle(
-                  color: HexColor('#6699CC'),
-                  fontSize: 14.sp,
-                  fontFamily: 'BreeSerif',
-                ),
-              ),
-            ],
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 24.h),
+        //   child: Row(
+        //     children: [
+        //       Text(
+        //         AppLocalizations.of(context)!.havenTReceivedTheCode,
+        //         style: TextStyle(
+        //           color: HexColor('#333333'),
+        //           fontSize: 14.sp,
+        //           fontFamily: 'BreeSerif',
+        //         ),
+        //       ),
+        //       SizedBox(width: 10.w,),
+        //       Text(
+        //         'Resent ( 59 secs )',
+        //         style: TextStyle(
+        //           color: HexColor('#6699CC'),
+        //           fontSize: 14.sp,
+        //           fontFamily: 'BreeSerif',
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         SizedBox(
           height: 24.h,
         ),
@@ -237,7 +238,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Save',
+                  AppLocalizations.of(context)!.save,
                   style: TextStyle(
                     color: HexColor('#FFFFFF'),
                     fontSize: 16.sp,

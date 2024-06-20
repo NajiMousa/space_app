@@ -1,12 +1,14 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import '../auth_screens/main_auth_screen.dart';
 
 class ThirdOnBoardingScreen extends StatelessWidget {
-  const ThirdOnBoardingScreen({Key? key}) : super(key: key);
+   ThirdOnBoardingScreen({Key? key}) : super(key: key);
 
+   SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,32 +27,36 @@ class ThirdOnBoardingScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'MAHMOUD DARWISH',
+                  AppLocalizations.of(context)!.mahmoudDarwish,
                   style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.white,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                  fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 Text(
-                  'WHAT IS WORTH LIVING”',
+                  AppLocalizations.of(context)!.whatIsWorthLiving,
                   style: TextStyle(
-                      fontSize: 21.sp,
+                      fontSize: sharedPrefController.language == 'en' ? 21.sp : 40.sp,
                       color: Colors.white,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 Text(
-                  'PLACE (PALESTINE)',
+                  AppLocalizations.of(context)!.placePalestine,
                   style: TextStyle(
-                      fontSize: 27.sp,
+                      fontSize: sharedPrefController.language == 'en' ? 27.sp : 32.sp,
                       color: HexColor("#FBC35D"),
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 Text(
-                  '“ON THIS',
+                  AppLocalizations.of(context)!.onThis,
                   style: TextStyle(
-                      fontSize: 40.sp,
+                      fontSize:  40.sp,
                       color: Colors.red,
-                      fontFamily: 'BreeSerif'),
+                      fontFamily: 'BreeSerif',
+                      fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                 ),
                 SizedBox(
                   height: 32.h,
@@ -95,7 +101,7 @@ class ThirdOnBoardingScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              'Let’s go',
+                              AppLocalizations.of(context)!.letsGo,
                               style: TextStyle(
                                   fontSize: 16.sp,
                                   color: Colors.white,

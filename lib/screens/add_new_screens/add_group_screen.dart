@@ -156,8 +156,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                       ),
                       SizedBox(height: 50),
 
-                      AppTextFieldWidget(
-                          labelText: 'Flutter', sectionTitle: 'Group Name'),
+                      // AppTextFieldWidget(
+                      //     labelText: 'Flutter', sectionTitle: 'Group Name'),
                       // TextFormField(
                       //   decoration: InputDecoration(labelText: 'Group Name'),
                       //   validator: (value) {
@@ -170,15 +170,15 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                       //     _groupName = value!;
                       //   },
                       // ),
-
-                      AppTextFieldWidget(
-                          labelText: 'Group Bio',
-                          sectionTitle: 'Description'),
+                      //
+                      // AppTextFieldWidget(
+                      //     labelText: 'Group Bio',
+                      //     sectionTitle: 'Description'),
                       // AppTextFieldWidget(labelText: 'Description'),
 
-                      AppTextFieldWidget(
-                          labelText: 'Group Type',
-                          sectionTitle: 'Group Type'),
+                      // AppTextFieldWidget(
+                      //     labelText: 'Group Type',
+                      //     sectionTitle: 'Group Type'),
                       // DropdownButtonFormField<String>(
                       //   value: _groupType,
                       //   decoration: InputDecoration(labelText: 'Group Type'),

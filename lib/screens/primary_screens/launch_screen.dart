@@ -1,6 +1,9 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class LaunchScreen extends StatefulWidget {
   const LaunchScreen({Key? key}) : super(key: key);
@@ -22,6 +25,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
     );
   }
 
+  SharedPrefController sharedPrefController = SharedPrefController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,16 +43,19 @@ class _LaunchScreenState extends State<LaunchScreen> {
           color: Colors.white,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               alignment: AlignmentDirectional.center,
               height: 65.h,
-              padding: EdgeInsets.only(left: 45.w,right: 12.w,bottom: 6.h),
-              margin: EdgeInsets.only(right: 65.w),
+              padding: EdgeInsets.only(left: 45.w,right: 45.w,bottom: 6.h),
+              margin: sharedPrefController.language == 'en' ? EdgeInsets.only(right: 65.w): EdgeInsets.only(left: 65.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50.sp),
-                  topRight: Radius.circular(50.sp),
+                  bottomRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                  topRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                  bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp),
+                  topLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp)
                 ),
                 color: HexColor("#FF3333"),
               ),
@@ -60,20 +68,22 @@ class _LaunchScreenState extends State<LaunchScreen> {
                   ),
                   SizedBox(width: 12.w,),
                   Text(
-                    'MARTYR',
-                    style: TextStyle(fontSize: 18.sp, color: Colors.white, fontFamily: 'BreeSerif'),
+                      AppLocalizations.of(context)!.martyr,
+                    style: TextStyle(fontSize: 18.sp, color: Colors.white, fontFamily: 'BreeSerif',fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                   ),
                 ],
               ),
             ),
             Container(
               height: 65.h,
-              padding: EdgeInsets.only(left: 45.w,bottom: 6.h),
-              margin: EdgeInsets.only(right: 95.w),
+              padding: EdgeInsets.only(left: 45.w,right: 45.w,bottom: 6.h),
+              margin: sharedPrefController.language == 'en' ? EdgeInsets.only(right: 95.w): EdgeInsets.only(left: 95.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50.sp),
-                  topRight: Radius.circular(50.sp),
+                    bottomRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                    topRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                    bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp),
+                    topLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp)
                 ),
                 color: HexColor("#FBC35D"),
               ),
@@ -82,11 +92,11 @@ class _LaunchScreenState extends State<LaunchScreen> {
                 children: [
                   Text(
                     '+79852',
-                    style: TextStyle(fontSize: 40.sp, color: Colors.white,fontFamily: 'BreeSerif'),
+                    style: TextStyle(fontSize: 40.sp, color: Colors.white,fontFamily: 'BreeSerif',fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                   ),
                   SizedBox(width: 12.w,),
                   Text(
-                    'INJURED',
+                      AppLocalizations.of(context)!.injured,
                     style: TextStyle(fontSize: 14.sp, color: Colors.white,fontFamily: 'BreeSerif'),
                   ),
                 ],
@@ -94,12 +104,14 @@ class _LaunchScreenState extends State<LaunchScreen> {
             ),
             Container(
               height: 65.h,
-              padding: EdgeInsets.only(left: 45.w,bottom: 12.h),
-              margin: EdgeInsets.only(right: 130.w),
+              padding: EdgeInsets.only(left: 45.w,right: 45.w,bottom: 12.h),
+              margin: sharedPrefController.language == 'en' ? EdgeInsets.only(right: 130.w): EdgeInsets.only(left: 130.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50.sp),
-                  topRight: Radius.circular(50.sp),
+                    bottomRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                    topRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                    bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp),
+                    topLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp)
                 ),
                 color: HexColor("#333333"),
               ),
@@ -108,11 +120,11 @@ class _LaunchScreenState extends State<LaunchScreen> {
                 children: [
                   Text(
                     '+11000',
-                    style: TextStyle(fontSize: 30.sp, color: Colors.white,fontFamily: 'BreeSerif'),
+                    style: TextStyle(fontSize: 30.sp, color: Colors.white,fontFamily: 'BreeSerif',fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                   ),
                   SizedBox(width: 12.w,),
                   Text(
-                    'MISSING',
+                      AppLocalizations.of(context)!.missing,
                     style: TextStyle(fontSize: 12.sp, color: Colors.white,fontFamily: 'BreeSerif'),
                   ),
                 ],
@@ -120,12 +132,14 @@ class _LaunchScreenState extends State<LaunchScreen> {
             ),
             Container(
               height: 65.h,
-              padding: EdgeInsets.only(left: 45.w,bottom: 12.h),
-              margin: EdgeInsets.only(right: 190.w),
+              padding: EdgeInsets.only(left: 45.w,right: 45.w,bottom: 12.h),
+              margin: sharedPrefController.language == 'en' ? EdgeInsets.only(right: 190.w): EdgeInsets.only(left: 190.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(50.sp),
-                  topRight: Radius.circular(50.sp),
+                    bottomRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                    topRight: sharedPrefController.language == 'en' ? Radius.circular(50.sp) : Radius.circular(0.sp),
+                    bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp),
+                    topLeft: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(50.sp)
                 ),
                 color: HexColor("#08BE25"),
               ),
@@ -138,8 +152,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
                   ),
                   SizedBox(width: 12.w,),
                   Text(
-                    'DAYS',
-                    style: TextStyle(fontSize: 10.sp, color: Colors.white,fontFamily: 'BreeSerif'),
+                      AppLocalizations.of(context)!.days,
+                    style: TextStyle(fontSize: 10.sp, color: Colors.white,fontFamily: 'BreeSerif',fontWeight: sharedPrefController.language == 'ar' ? FontWeight.bold : null),
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/show_log_out_messages_widget.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import '../../../providers/theme_provider.dart';
 import '../../widgets/choose_language_widget.dart';
 
@@ -21,14 +23,11 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool isClickOnCantactUs = false;
-
+  SharedPrefController sharedPrefController = SharedPrefController();
 
   @override
   Widget build(BuildContext context) {
-
     final themeProvider = Provider.of<ThemeProvider>(context);
-
-
     return Stack(
       children: [
         Column(
@@ -40,9 +39,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(
-                        top: 36.h, bottom: 25.h, left: 24.w, right: 24.w),
-                    padding: EdgeInsets.only(
-                        left: 130.w, right: 24.w, top: 24.h, bottom: 24.h),
+                            top: 36.h, bottom: 25.h, left: 24.w, right: 24.w),
+                    padding: sharedPrefController.language == 'en'
+                        ? EdgeInsets.only(
+                            left: 130.w, right: 24.w, top: 24.h, bottom: 24.h)
+                        : EdgeInsets.only(
+                            left: 24.w, right: 130.w, top: 24.h, bottom: 24.h),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.sp),
                         color: HexColor('#333333')),
@@ -55,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Mohamed Al-Sayed',
+                                  AppLocalizations.of(context)!.mohamed,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 14.sp,
@@ -88,7 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  'Edit',
+                                  AppLocalizations.of(context)!.edit,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 9.sp,
@@ -106,7 +108,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 36.w, top: 20.h),
+                    margin: sharedPrefController.language == 'en'
+                        ? EdgeInsets.only(left: 36.w, top: 20.h)
+                        : EdgeInsets.only(right: 36.w, top: 25.h),
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.sp),
@@ -124,7 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Padding(
               padding: EdgeInsets.only(right: 24.w, left: 24.w),
               child: Text(
-                'General',
+                AppLocalizations.of(context)!.general,
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: HexColor('#333333').withOpacity(0.5),
@@ -149,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             SizedBox(width: 10.w),
                             Text(
-                              'Dark Mode',
+                              AppLocalizations.of(context)!.darkMode,
                               style: TextStyle(
                                 fontFamily: 'BreeSerif',
                                 fontSize: 12.sp,
@@ -177,7 +181,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   SizedBox(height: 10.h),
                   InkWell(
-                    onTap: () => Navigator.pushNamed(context, '/notifications_screen'),
+                    onTap: () =>
+                        Navigator.pushNamed(context, '/notifications_screen'),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -192,7 +197,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'Notifications',
+                                AppLocalizations.of(context)!.notifications,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -207,7 +212,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             _showNotificationDialog();
                           },
                           child: Text(
-                            'On',
+                            AppLocalizations.of(context)!.on,
                             style: TextStyle(
                               fontFamily: 'BreeSerif',
                               fontSize: 10.sp,
@@ -246,7 +251,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'Change Language',
+                                AppLocalizations.of(context)!.changeLanguage,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -257,7 +262,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                         Text(
-                          'English',
+                          AppLocalizations.of(context)!.english,
                           style: TextStyle(
                             fontFamily: 'BreeSerif',
                             fontSize: 10.sp,
@@ -280,7 +285,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: EdgeInsets.only(
                   top: 18.h, bottom: 16.h, right: 24.w, left: 24.w),
               child: Text(
-                'Account Setting',
+                AppLocalizations.of(context)!.accountSetting,
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: HexColor('#333333').withOpacity(0.5),
@@ -338,7 +343,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return MainAuthScreen(selectedIndex: 3,);
+                            return MainAuthScreen(
+                              selectedIndex: 3,
+                            );
                           },
                         ),
                       );
@@ -357,7 +364,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'Change Password',
+                                AppLocalizations.of(context)!.changePassword,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -389,7 +396,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: EdgeInsets.only(
                   top: 18.h, bottom: 16.h, right: 24.w, left: 24.w),
               child: Text(
-                'Support',
+                AppLocalizations.of(context)!.support,
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: HexColor('#333333').withOpacity(0.5),
@@ -420,7 +427,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'Contact Us',
+                                AppLocalizations.of(context)!.contactUs,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -448,9 +455,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: 10.h),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context, '/about_us_screen'
-                      );
+                      Navigator.pushNamed(context, '/about_us_screen');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -466,7 +471,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'About Us',
+                                AppLocalizations.of(context)!.aboutUs,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -498,7 +503,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return MainAuthScreen(selectedIndex: 3,);
+                            return MainAuthScreen(
+                              selectedIndex: 3,
+                            );
                           },
                         ),
                       );
@@ -517,7 +524,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'Terms and Conditions',
+                                AppLocalizations.of(context)!
+                                    .termsAndConditions,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -549,7 +557,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               padding: EdgeInsets.only(
                   top: 18.h, bottom: 16.h, right: 24.w, left: 24.w),
               child: Text(
-                'Other',
+                AppLocalizations.of(context)!.other,
                 style: TextStyle(
                     fontSize: 14.sp,
                     color: HexColor('#333333').withOpacity(0.5),
@@ -578,7 +586,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                'Log out',
+                                AppLocalizations.of(context)!.logOut,
                                 style: TextStyle(
                                   fontFamily: 'BreeSerif',
                                   fontSize: 12.sp,
@@ -647,21 +655,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showNotificationDialog () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          content: ShowNotficationSettingWidget()
-        );
-      },
-    );
-  }
-
-  void _confirmLogOutDialog () {
+  void _showNotificationDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -669,10 +663,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            content: ShowLogOutMessagesWidget()
-        );
+            content: ShowNotficationSettingWidget());
       },
     );
   }
 
+  void _confirmLogOutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            content: ShowLogOutMessagesWidget());
+      },
+    );
+  }
 }

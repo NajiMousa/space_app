@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/other_text_screens/about_us_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/change_password_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/login_screen.dart';
@@ -10,27 +11,25 @@ import '../../model/auth_page_model.dart';
 import 'otp_code_screen.dart';
 import 'sing_up_screen.dart';
 import '../other_text_screens/terms_conditions_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class MainAuthScreen extends StatefulWidget {
-   MainAuthScreen({Key? key, required this.selectedIndex}) : super(key: key);
+  MainAuthScreen({Key? key, required this.selectedIndex}) : super(key: key);
 
-   int selectedIndex = 0;
+  int selectedIndex = 0;
 
   @override
   State<MainAuthScreen> createState() => _MainAuthScreenState();
 }
 
 class _MainAuthScreenState extends State<MainAuthScreen> {
-
   final List<AuthPageModel> _authPageModel = <AuthPageModel>[
     AuthPageModel(
         title: 'Sign up',
         widget: SingUpScreen(),
         Pik: 'images/login-amico.svg'), //00
     AuthPageModel(
-        title: 'Log in',
-        widget: LoginScreen(),
-        Pik: 'images/AAlogin.svg'), //01
+        title: 'Log in', widget: LoginScreen(), Pik: 'images/AAlogin.svg'), //01
     AuthPageModel(
         title: 'Terms and Conditions',
         widget: TermsConditionsScreen(),
@@ -43,12 +42,10 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
         title: 'Enter OTP code',
         widget: OtpCodeScreen(),
         Pik: 'images/Enter_OTP-pana.svg'),
-    AuthPageModel(
-        title: 'About Us',
-        widget: AboutUsScreen(),
-        Pik: ''),//04
+    AuthPageModel(title: 'About Us', widget: AboutUsScreen(), Pik: ''), //04
   ];
 
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +59,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
               child: Padding(
                 padding: EdgeInsets.only(right: 24.w, left: 24.w, top: 40.h),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // TODO: Menu Button
                     InkWell(
@@ -70,7 +67,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                         child: Row(
                           children: [
                             SvgPicture.asset(
-                              'images/arrow_back.svg',
+                              sharedPrefController.language == 'en' ? 'images/arrow_back.svg' : 'images/arrowForword.svg',
                               width: 10.w,
                               height: 16.h,
                               color: HexColor('#333333'),
@@ -80,7 +77,24 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                             ),
                             // Screen Name
                             Text(
-                              _authPageModel[widget.selectedIndex].title,
+                              widget.selectedIndex == 0
+                                  ? AppLocalizations.of(context)!.signUp
+                                  : widget.selectedIndex == 1
+                                      ? AppLocalizations.of(context)!.logIn
+                                      : widget.selectedIndex == 2
+                                          ? AppLocalizations.of(context)!
+                                              .termsAndConditions
+                                          : widget.selectedIndex == 3
+                                              ? AppLocalizations.of(context)!
+                                                  .changePassword
+                                              : widget.selectedIndex == 4
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .enterOtpCode
+                                                  : AppLocalizations.of(
+                                                          context)!
+                                                      .aboutUs,
+                              // _authPageModel[widget.selectedIndex].title,
                               style: TextStyle(
                                   fontSize: 18.sp,
                                   color: HexColor('#333333'),
@@ -99,6 +113,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
       bottomNavigationBar: Container(
         height: 72.0, // Set the height here
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 33.w),
           scrollDirection: Axis.horizontal,
           children: [
             // todo: SingUp Page
@@ -109,7 +124,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                 });
               },
               child: Padding(
-                padding: EdgeInsets.only(left: 33.w),
+                padding: EdgeInsets.only(left: 24.w),
                 child: Column(
                   children: [
                     widget.selectedIndex == 0 || widget.selectedIndex == 4
@@ -121,7 +136,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 54.w,
+                            width: sharedPrefController.language == 'en' ? 54.w : 80.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -129,10 +144,11 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Sing Up',
+                      AppLocalizations.of(context)!.signUp,
                       style: TextStyle(
                           fontSize: 13.sp,
-                          color: widget.selectedIndex == 0 || widget.selectedIndex == 4
+                          color: widget.selectedIndex == 0 ||
+                                  widget.selectedIndex == 4
                               ? HexColor('#6699CC')
                               : HexColor('#8C9EA0'),
                           fontFamily: 'BreeSerif'),
@@ -161,7 +177,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 48.w,
+                            width: sharedPrefController.language == 'en' ? 48.w : 90.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -169,7 +185,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Log in',
+                      AppLocalizations.of(context)!.logIn,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: widget.selectedIndex == 1
@@ -188,28 +204,30 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                 });
               },
               child: Padding(
-                padding: EdgeInsets.only(left: 24.w,),
+                padding: EdgeInsets.only(
+                  left: 24.w,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     widget.selectedIndex == 3
                         ? Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('#6699CC'),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.sp),
-                          bottomLeft: Radius.circular(5.sp),
-                        ),
-                      ),
-                      width: 104.w,
-                      height: 5.h,
-                    )
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: sharedPrefController.language == 'en' ? 104.w : 110.w,
+                            height: 5.h,
+                          )
                         : SizedBox(
-                      height: 5.h,
-                    ),
+                            height: 5.h,
+                          ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Change Password',
+                      AppLocalizations.of(context)!.changePassword,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: widget.selectedIndex == 3
@@ -241,7 +259,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: 133.w,
+                            width: sharedPrefController.language == 'en' ? 133.w : 105.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -249,7 +267,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                           ),
                     SizedBox(height: 20.h),
                     Text(
-                      'Terms and Conditions',
+                      AppLocalizations.of(context)!.termsAndConditions,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: widget.selectedIndex == 2
@@ -270,28 +288,28 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                 });
               },
               child: Padding(
-                padding: EdgeInsets.only(left: 24.w, right: 40.w),
+                padding: EdgeInsets.only(left: 24.w,),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     widget.selectedIndex == 5
                         ? Container(
-                      decoration: BoxDecoration(
-                        color: HexColor('#6699CC'),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.sp),
-                          bottomLeft: Radius.circular(5.sp),
-                        ),
-                      ),
-                      width: 64.w,
-                      height: 5.h,
-                    )
+                            decoration: BoxDecoration(
+                              color: HexColor('#6699CC'),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5.sp),
+                                bottomLeft: Radius.circular(5.sp),
+                              ),
+                            ),
+                            width: sharedPrefController.language == 'en' ? 64.w : 50.w,
+                            height: 5.h,
+                          )
                         : SizedBox(
-                      height: 5.h,
-                    ),
+                            height: 5.h,
+                          ),
                     SizedBox(height: 20.h),
                     Text(
-                      'About Us',
+                      AppLocalizations.of(context)!.aboutUs,
                       style: TextStyle(
                           fontSize: 13.sp,
                           color: widget.selectedIndex == 5
@@ -321,19 +339,29 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                widget.selectedIndex == 4 ?  SizedBox(height: 40.h) : widget.selectedIndex == 3 ? SizedBox(height: 18.h): SizedBox(),
+                widget.selectedIndex == 4
+                    ? SizedBox(height: 40.h)
+                    : widget.selectedIndex == 3
+                        ? SizedBox(height: 18.h)
+                        : SizedBox(),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 12.h),
-                    child: widget.selectedIndex == 2  || widget.selectedIndex == 5
-                        ? SizedBox()
-                        : SvgPicture.asset(
-                            height: widget.selectedIndex == 0 || widget.selectedIndex == 4 ? 230.h : 320.h,
-                            _authPageModel[widget.selectedIndex].Pik,
-                          ),
+                    child:
+                        widget.selectedIndex == 2 || widget.selectedIndex == 5
+                            ? SizedBox()
+                            : SvgPicture.asset(
+                                height: widget.selectedIndex == 0 ||
+                                        widget.selectedIndex == 4
+                                    ? 230.h
+                                    : 320.h,
+                                _authPageModel[widget.selectedIndex].Pik,
+                              ),
                   ),
                 ),
-                widget.selectedIndex == 0 || widget.selectedIndex == 1 || widget.selectedIndex == 3
+                widget.selectedIndex == 0 ||
+                        widget.selectedIndex == 1 ||
+                        widget.selectedIndex == 3
                     ? SizedBox(height: 15.h)
                     : SizedBox(),
                 _authPageModel[widget.selectedIndex].widget,

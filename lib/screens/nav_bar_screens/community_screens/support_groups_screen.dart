@@ -1,7 +1,9 @@
+import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class SupportGroupsScreen extends StatefulWidget {
   const SupportGroupsScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class SupportGroupsScreen extends StatefulWidget {
 }
 
 class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
+  SharedPrefController sharedPrefController = SharedPrefController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +23,7 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
           padding:
               EdgeInsets.only(top: 18.h, bottom: 12.h, right: 24.w, left: 24.w),
           child: Text(
-            'For You',
+            AppLocalizations.of(context)!.forYou,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -503,7 +506,7 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
           padding:
               EdgeInsets.only(right: 24.w, left: 24.w, top: 6.h, bottom: 6.h),
           child: Text(
-            'Suggestion for you',
+            AppLocalizations.of(context)!.suggestionForYou,
             style: TextStyle(
                 fontSize: 14.sp,
                 color: HexColor('#333333').withOpacity(0.7),
@@ -521,7 +524,7 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: 12.w),
+                    margin: sharedPrefController.language == 'en' ? EdgeInsets.only(right: 12.w) : EdgeInsets.only(left: 24.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.sp),
                     ),
@@ -652,7 +655,7 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                               ),
                               SizedBox(width: 5.w),
                               Text(
-                                'Join',
+                                AppLocalizations.of(context)!.join,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 10.sp,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
 
 class AddTextPhotoPostWidgets extends StatelessWidget {
   const AddTextPhotoPostWidgets({Key? key}) : super(key: key);
@@ -52,7 +54,7 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
                         width: 6.w,
                       ),
                       Text(
-                        'With',
+                        AppLocalizations.of(context)!.withFriends,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: HexColor('#333333'),
@@ -70,22 +72,46 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Text(
-                    '3.1K follwer',
-                    style: TextStyle(
-                        fontSize: 10.sp,
-                        color: HexColor('#6699CC'),
-                        fontFamily: 'BreeSerif'),
+                  Row(
+                    children: [
+                      Text(
+                        '3.1K',
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: HexColor('#6699CC'),
+                            fontFamily: 'BreeSerif'),
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        AppLocalizations.of(context)!.follower,
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: HexColor('#6699CC'),
+                            fontFamily: 'BreeSerif'),
+                      ),
+                    ],
                   ),
                 ],
               ),
               Spacer(),
-              Text(
-                '5 hour ago',
-                style: TextStyle(
-                    fontSize: 10.sp,
-                    color: HexColor('#8C9EA0'),
-                    fontFamily: 'BreeSerif'),
+              Row(
+                children: [
+                  Text(
+                    '5',
+                    style: TextStyle(
+                        fontSize: 10.sp,
+                        color: HexColor('#8C9EA0'),
+                        fontFamily: 'BreeSerif'),
+                  ),
+                  SizedBox(width: 4.w),
+                  Text(
+                    AppLocalizations.of(context)!.hourAgo,
+                    style: TextStyle(
+                        fontSize: 10.sp,
+                        color: HexColor('#8C9EA0'),
+                        fontFamily: 'BreeSerif'),
+                  ),
+                ],
               ),
               SizedBox(width: 6.w),
               SvgPicture.asset(

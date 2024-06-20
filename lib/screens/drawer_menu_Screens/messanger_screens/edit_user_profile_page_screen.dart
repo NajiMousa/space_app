@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class EditUserProfilePageScreen extends StatefulWidget {
   const EditUserProfilePageScreen({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                 ),
               ),
               child: Text(
-                'Save',
+                AppLocalizations.of(context)!.save,
                 style: TextStyle(
                   color: HexColor('#333333'),
                   fontSize: 16.sp,
@@ -106,7 +107,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                               width: 16.w,
                             ),
                             Text(
-                              'Edit Your Profile',
+                              AppLocalizations.of(context)!.editProfile,
                               style: TextStyle(
                                   fontSize: 20.sp,
                                   color: HexColor('#333333'),
@@ -163,14 +164,14 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 24.w, vertical: 6.h),
                               child: Text(
-                                'Name',
+                                AppLocalizations.of(context)!.name,
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     color: HexColor('#333333'),
                                     fontFamily: 'BreeSerif'),
                               ),
                             ),
-                            AppTextFieldWidget(labelText: 'Name',sectionTitle: 'Name'),
+                            // AppTextFieldWidget(labelText: AppLocalizations.of(context)!.name,sectionTitle: AppLocalizations.of(context)!.name),
                             // TextFormField(
                             //   decoration: InputDecoration(labelText: 'Name'),
                             //   initialValue: _name,
@@ -188,14 +189,14 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 24.w, vertical: 6.h),
                               child: Text(
-                                'Email',
+                                AppLocalizations.of(context)!.email,
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     color: HexColor('#333333'),
                                     fontFamily: 'BreeSerif'),
                               ),
                             ),
-                            AppTextFieldWidget(labelText: 'Email',sectionTitle: 'Email'),
+                            // AppTextFieldWidget(labelText: AppLocalizations.of(context)!.email,sectionTitle: AppLocalizations.of(context)!.email),
                             // TextFormField(
                             //   decoration: InputDecoration(labelText: 'Email'),
                             //   initialValue: _email,
@@ -210,7 +211,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                             //   },
                             // ),
 
-                            AppTextFieldWidget(labelText: 'Bio',sectionTitle: 'Bio'),
+                            // AppTextFieldWidget(labelText: AppLocalizations.of(context)!.bio,sectionTitle: AppLocalizations.of(context)!.bio),
                             // TextFormField(
                             //   decoration: InputDecoration(labelText: 'Bio'),
                             //   initialValue: _bio,
@@ -220,7 +221,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                             //   },
                             // ),
 
-                            AppTextFieldWidget(labelText: 'Phone Number',sectionTitle: 'Phone Number'),
+                            // AppTextFieldWidget(labelText: AppLocalizations.of(context)!.phone,sectionTitle: AppLocalizations.of(context)!.phone),
                             // TextFormField(
                             //   decoration:
                             //       InputDecoration(labelText: 'Phone Number'),
@@ -239,7 +240,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 24.w, vertical: 6.h),
                               child: Text(
-                                'Date of Birth',
+                                AppLocalizations.of(context)!.dateOfBirth,
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     color: HexColor('#333333'),
@@ -262,7 +263,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen> {
                                   ),
                                   TextButton(
                                     child: Text(
-                                      'Select Date',
+                                      AppLocalizations.of(context)!.selectDate,
                                       style: TextStyle(
                                           fontSize: 12.sp,
                                           color: Colors.blue,

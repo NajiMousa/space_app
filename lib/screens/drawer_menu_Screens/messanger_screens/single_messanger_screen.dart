@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class SingleMessangerScreen extends StatefulWidget {
   SingleMessangerScreen({Key? key}) : super(key: key);
@@ -74,7 +75,7 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'write your massage',
+                          labelText: AppLocalizations.of(context)!.writeYourMassage,
                           enabledBorder: getBorder(),
                           focusedBorder: getBorder(),
                         ),
@@ -183,7 +184,7 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
                                       fontFamily: 'BreeSerif'),
                                 ),
                                 Text(
-                                  'online now',
+                                  AppLocalizations.of(context)!.onlineNow,
                                   style: TextStyle(
                                       fontSize: 11.sp,
                                       color: HexColor('#6699CC'),

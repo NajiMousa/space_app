@@ -59,12 +59,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    // final languageProvider = Provider.of<LanguageProvider>(context);
 
     return ScreenUtilInit(
       designSize: const Size(390, 844),
       builder: (context, child) {
         return MaterialApp(
+
           themeMode: themeProvider.themeMode,
           // theme: ThemeData(
           //   primarySwatch: Colors.blue,
@@ -75,26 +75,27 @@ class MyApp extends StatelessWidget {
           //   brightness: Brightness.dark,
           // ),
 
-          theme: ThemeData(
-            // primarySwatch: Colors.blueGrey,
-            brightness: Brightness.light,
-            primaryColor: HexColor('#333333'),
-            hintColor: HexColor('#8C9EA0'),
-            textTheme: TextTheme(
-              bodyLarge: TextStyle(color: HexColor('#333333')),
-              bodyMedium:
-                  TextStyle(color: HexColor('#333333').withOpacity(0.7)),
-            ),
-            buttonTheme: ButtonThemeData(
-              buttonColor: HexColor('#333333'),
-              textTheme: ButtonTextTheme.accent,
-            ),
-            appBarTheme: AppBarTheme(
-              color: HexColor('#FFFFFF'),
-              iconTheme: IconThemeData(color: HexColor('#333333')),
-            ),
-            // colorScheme: ColorScheme(background: Colors.white),
-          ),
+
+          // theme: ThemeData(
+          //   // primarySwatch: Colors.blueGrey,
+          //   brightness: Brightness.light,
+          //   primaryColor: HexColor('#333333'),
+          //   hintColor: HexColor('#8C9EA0'),
+          //   textTheme: TextTheme(
+          //     bodyLarge: TextStyle(color: HexColor('#333333')),
+          //     bodyMedium:
+          //         TextStyle(color: HexColor('#333333').withOpacity(0.7)),
+          //   ),
+          //   buttonTheme: ButtonThemeData(
+          //     buttonColor: HexColor('#333333'),
+          //     textTheme: ButtonTextTheme.accent,
+          //   ),
+          //   appBarTheme: AppBarTheme(
+          //     color: HexColor('#FFFFFF'),
+          //     iconTheme: IconThemeData(color: HexColor('#333333')),
+          //   ),
+          //   // colorScheme: ColorScheme(background: Colors.white),
+          // ),
           darkTheme: ThemeData(
             // primarySwatch: Colors.blue,
             brightness: Brightness.dark,
@@ -124,14 +125,27 @@ class MyApp extends StatelessWidget {
           locale: Locale(Provider.of<LanguageProvider>(context).language),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          localeResolutionCallback: (locale, supportedLocales) {
+            if (locale == null) {
+              return supportedLocales.first;
+            }
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
+
           routes: {
             '/launch_screen': (context) => const LaunchScreen(),
             '/first_onBoarding_screen': (context) =>
-                const FirstOnBoardingScreen(),
+                 FirstOnBoardingScreen(),
             '/second_onBoarding_screen': (context) =>
-                const SecondOnBoardingScreen(),
+                 SecondOnBoardingScreen(),
             '/third_onBoarding_screen': (context) =>
-                const ThirdOnBoardingScreen(),
+                 ThirdOnBoardingScreen(),
             // '/main_screen': (context) => const MainScreen(),
             // '/single_messanger_screen': (context) => const SingleMessangerScreen(),
             '/new_post_screen': (context) => const NewPostScreen(),
@@ -158,8 +172,12 @@ class MyApp extends StatelessWidget {
             '/add_initiative_screen': (context) => AddInitiativeScreen(),
             '/add_group_screen': (context) => AddGroupScreen(),
           },
+
         );
+
       },
+
     );
+
   }
 }
