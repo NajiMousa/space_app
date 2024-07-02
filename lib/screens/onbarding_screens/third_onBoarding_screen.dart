@@ -89,6 +89,9 @@ class ThirdOnBoardingScreen extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
+                          print(sharedPrefController.firstTime);
+                          sharedPrefController.checkIsFirstTime(firstTime: false);
+                          print(sharedPrefController.firstTime);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

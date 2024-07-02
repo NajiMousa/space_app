@@ -3,12 +3,16 @@ import 'package:difaf_al_wafa_app/providers/language_provider.dart';
 import 'package:difaf_al_wafa_app/providers/theme_provider.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/add_group_screen.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/add_initiative_screen.dart';
+import 'package:difaf_al_wafa_app/screens/add_new_screens/add_user_story_screen.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/new%20_martyrs_profile_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/login_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/otp_code_screen.dart';
+import 'package:difaf_al_wafa_app/screens/display_screens/initiative_details_page.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/other_main_screens/activities_log_screen.dart';
+import 'package:difaf_al_wafa_app/screens/image_screens/image_screen.dart';
+import 'package:difaf_al_wafa_app/screens/image_screens/upload_images_screen.dart';
 import 'package:difaf_al_wafa_app/screens/other_text_screens/about_us_screen.dart';
-import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/messanger_screens/edit_user_profile_page_screen.dart';
+import 'package:difaf_al_wafa_app/screens/edit_screens/edit_user_profile_page_screen.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/other_main_screens/saved_screen.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/launch_screen.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/new_post_screen.dart';
@@ -16,11 +20,16 @@ import 'package:difaf_al_wafa_app/screens/profile_screens/martyr_profile_screen.
 import 'package:difaf_al_wafa_app/screens/primary_screens/notifications_screen.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/search_screen.dart';
 import 'package:difaf_al_wafa_app/screens/profile_screens/user_profile_screen.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
+import 'bloc/bloc/storage_bloc.dart';
+import 'bloc/states/storage_states.dart';
 import 'screens/auth_screens/sing_up_screen.dart';
 import 'screens/other_text_screens/terms_conditions_screen.dart';
 import 'screens/drawer_menu_Screens/messanger_screens/messanger_screen.dart';
@@ -34,10 +43,25 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 // void main() {
 //   runApp(const MyApp());
 // }
+const kWebRecaptchaSiteKey = '6LeLYf8pAAAAAPVxinMkpRL1pm97w8uG_wgvTH8q';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefController().initSharedPref();
+  // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    // options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Activate app check after initialization, but before
+  // usage of any Firebase services.
+  await FirebaseAppCheck.instance.activate(
+    // webRecaptchaSiteKey: '6LeLYf8pAAAAAPVxinMkpRL1pm97w8uG_wgvTH8q', // Use your reCAPTCHA site key here
+    webProvider: ReCaptchaV3Provider(kWebRecaptchaSiteKey), // Use your reCAPTCHA site key here
+    androidProvider: AndroidProvider.debug, // Use Debug provider during development
+    appleProvider: AppleProvider.debug, // Use Debug provider for iOS during development
+  );
   runApp(
     MultiProvider(
       providers: [
@@ -148,9 +172,9 @@ class MyApp extends StatelessWidget {
                  ThirdOnBoardingScreen(),
             // '/main_screen': (context) => const MainScreen(),
             // '/single_messanger_screen': (context) => const SingleMessangerScreen(),
-            '/new_post_screen': (context) => const NewPostScreen(),
+            '/new_post_screen': (context) => NewPostScreen(),
             '/user_profile_screen': (context) => const UserProfileScreen(),
-            '/martyr_profile_screen': (context) => MartyrProfileScreen(),
+            // '/martyr_profile_screen': (context) => MartyrProfileScreen(),
             '/login_screen': (context) => LoginScreen(),
             // '/main_auth_screen': (context) => MainAuthScreen(),
             '/sing_up_screen': (context) => SingUpScreen(),
@@ -171,6 +195,10 @@ class MyApp extends StatelessWidget {
                 EditUserProfilePageScreen(),
             '/add_initiative_screen': (context) => AddInitiativeScreen(),
             '/add_group_screen': (context) => AddGroupScreen(),
+            '/add_story_screen': (context) => AddStoryScreen(),
+            // '/images_screen': (context) => ImagesScreen(),
+            // '/upload_images_screen': (context) => UploadImagesScreen(),
+            // '/initiative_details_page': (context) => InitiativeDetailsPage(),
           },
 
         );

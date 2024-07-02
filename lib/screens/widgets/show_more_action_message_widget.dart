@@ -68,55 +68,55 @@ class ShowMoreActionMessageWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 18.h),
-          ListTile(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return MartyrProfileScreen();
-                },
-              ));
-            },
-            contentPadding: EdgeInsets.zero,
-            leading: Container(
-              width: 50.w,
-              height: 50.w,
-              alignment: AlignmentDirectional.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.sp),
-                  color: HexColor('#21CED9')),
-              child: Image.asset(
-                'images/userIcon.png',
-                width: 44.w,
-                height: 44.w,
-              ),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Mohamed Al-Sayed',
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      color: HexColor('#333333'),
-                      fontFamily: 'BreeSerif'),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  'Mohamed Sayed2003@gmail.com',
-                  style: TextStyle(
-                      fontSize: 10.sp,
-                      color: HexColor('#8C9EA0'),
-                      fontFamily: 'BreeSerif'),
-                ),
-              ],
-            ),
-            trailing: SvgPicture.asset(
-              'images/arrowForword.svg',
-              width: 9.w,
-              height: 15.h,
-              color: HexColor('#333333'),
-            ),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     Navigator.push(context, MaterialPageRoute(
+          //       builder: (context) {
+          //         return MartyrProfileScreen();
+          //       },
+          //     ));
+          //   },
+          //   contentPadding: EdgeInsets.zero,
+          //   leading: Container(
+          //     width: 50.w,
+          //     height: 50.w,
+          //     alignment: AlignmentDirectional.center,
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(50.sp),
+          //         color: HexColor('#21CED9')),
+          //     child: Image.asset(
+          //       'images/userIcon.png',
+          //       width: 44.w,
+          //       height: 44.w,
+          //     ),
+          //   ),
+          //   title: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Text(
+          //         'Mohamed Al-Sayed',
+          //         style: TextStyle(
+          //             fontSize: 14.sp,
+          //             color: HexColor('#333333'),
+          //             fontFamily: 'BreeSerif'),
+          //       ),
+          //       SizedBox(height: 4.h),
+          //       Text(
+          //         'Mohamed Sayed2003@gmail.com',
+          //         style: TextStyle(
+          //             fontSize: 10.sp,
+          //             color: HexColor('#8C9EA0'),
+          //             fontFamily: 'BreeSerif'),
+          //       ),
+          //     ],
+          //   ),
+          //   trailing: SvgPicture.asset(
+          //     'images/arrowForword.svg',
+          //     width: 9.w,
+          //     height: 15.h,
+          //     color: HexColor('#333333'),
+          //   ),
+          // ),
           SizedBox(height: 24.h),
           InkWell(
             child: Row(

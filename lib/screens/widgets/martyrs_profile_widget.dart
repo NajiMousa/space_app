@@ -1,3 +1,4 @@
+import 'package:difaf_al_wafa_app/models/martyr_models/martyr_request_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,9 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 
 class MartyrsProfileWidget extends StatelessWidget {
-  MartyrsProfileWidget({Key? key, required this.index }) : super(key: key);
+  MartyrsProfileWidget({Key? key, required this.martyrRequestDataModel }) : super(key: key);
 
-  final int index;
+  final MartyrRequestDataModel martyrRequestDataModel;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class MartyrsProfileWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    'Yasser Mansoor',
+                    martyrRequestDataModel.fullMartyrName,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: HexColor('#474747'),
@@ -56,7 +57,7 @@ class MartyrsProfileWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    'An adventurer at heart Storyteller by trade',
+                    martyrRequestDataModel.martyrIdNumber,
                     style: TextStyle(
                         fontSize: 11.sp,
                         color: HexColor('#474747').withOpacity(0.7),

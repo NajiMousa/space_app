@@ -1,11 +1,16 @@
+import 'package:difaf_al_wafa_app/controllers/firebase_controllers/fb_auth_controller.dart';
+import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
+import '../../prefs/shared_pref_controller.dart';
+
 class ShowLogOutMessagesWidget extends StatelessWidget {
-  const ShowLogOutMessagesWidget({Key? key}) : super(key: key);
+  ShowLogOutMessagesWidget({Key? key}) : super(key: key);
+  FbAuthController fbAuthController = FbAuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +76,17 @@ class ShowLogOutMessagesWidget extends StatelessWidget {
               Container(
                 // margin: EdgeInsets.symmetric(horizontal: 24.w),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async{
+                    print('object');
+                    await SharedPrefController().clear();
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                      return MainAuthScreen(selectedIndex: 1);
+                    },));
+                    print('object01');
+                    print(SharedPrefController().email);
+                    print(SharedPrefController().password);
+                    print(SharedPrefController().phone);
+                  },
                   style: ElevatedButton.styleFrom(
                     padding:
                         EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),

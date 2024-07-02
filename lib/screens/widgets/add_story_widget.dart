@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,56 +50,68 @@ class AddStoryWidget extends StatelessWidget {
           ),
         ],
       )
-          : Column(
-        children: [
-          Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Image.asset(
-                'images/userIcon.png',
-                width: 56.w,
-                height: 56.w,
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                    left: 45.w,
-                    // right: 4.w,
-                    top: 36.h,
-                    bottom: 4.h),
-                padding: EdgeInsets.symmetric(
-                    horizontal: 5.w, vertical: 5.h),
-                // margin: EdgeInsets.only(left: 24.w),
-                width: 20.w,
-                height: 20.h,
-                decoration: BoxDecoration(
-                  color: HexColor(
-                      '#21CED9'), // Background color
-                  shape: BoxShape
-                      .circle, // Make it a circle if desired
+          : InkWell(
+        onTap: () => Navigator.pushNamed(context,'/add_story_screen'),
+            child: Column(
+                    children: [
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                // CachedNetworkImage(
+                //   imageUrl: userProfileDataModel!.backgroundImage,
+                //   width: 56.w,
+                //   height: 56.w,
+                //   fit: BoxFit.cover,
+                //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+                //       CircularProgressIndicator(value: downloadProgress.progress),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // ),
+                Image.asset(
+                  'images/userIcon.png',
+                  width: 56.w,
+                    height: 56.w,
                 ),
-                child: InkWell(
-                  onTap: () {
-                    // Navigator.pop(context);
-                  },
-                  child: SvgPicture.asset(
-                    'images/addPost.svg',
-                    width: 15.w,
-                    height: 15.h,
-                    color: HexColor('#FFFFFF'),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 45.w,
+                      // right: 4.w,
+                      top: 36.h,
+                      bottom: 4.h),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 5.w, vertical: 5.h),
+                  // margin: EdgeInsets.only(left: 24.w),
+                  width: 20.w,
+                  height: 20.h,
+                  decoration: BoxDecoration(
+                    color: HexColor(
+                        '#21CED9'), // Background color
+                    shape: BoxShape
+                        .circle, // Make it a circle if desired
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      // Navigator.pop(context);
+                    },
+                    child: SvgPicture.asset(
+                      'images/addPost.svg',
+                      width: 15.w,
+                      height: 15.h,
+                      color: HexColor('#FFFFFF'),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            Text(
+              AppLocalizations.of(context)!.addStory,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  color: HexColor('#21CED9'),
+                  fontFamily: 'BreeSerif'),
+            ),
+                    ],
+                  ),
           ),
-          Text(
-            AppLocalizations.of(context)!.addStory,
-            style: TextStyle(
-                fontSize: 11.sp,
-                color: HexColor('#21CED9'),
-                fontFamily: 'BreeSerif'),
-          ),
-        ],
-      ),
     );
   }
 }

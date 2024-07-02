@@ -1,9 +1,12 @@
+import 'package:difaf_al_wafa_app/models/posta_models/posts_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
+import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
 
 
 class NewPostScreen extends StatefulWidget {
@@ -16,6 +19,30 @@ class NewPostScreen extends StatefulWidget {
 class _NewPostScreenState extends State<NewPostScreen> {
   int _selectedTypeMessanger = 0;
   SharedPrefController sharedPrefController = SharedPrefController();
+  // File? _imageFile;
+  // File? _videoFile;
+  // File? _audioFile;
+
+  bool _imageFile = false;
+  bool _videoFile = false;
+  bool _audioFile = false;
+
+  bool _isLoading = false;
+  late TextEditingController _contentTextEditorController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _contentTextEditorController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _contentTextEditorController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +317,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 0.w),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async{
+                          performProcess();
+                        },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
                               vertical: 4.h, horizontal: 18.w),
@@ -345,6 +374,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                 margin: sharedPrefController.language == 'en' ? EdgeInsets.only(left: 12.w) : EdgeInsets.only(right: 12.w),
                                 alignment: AlignmentDirectional.center,
                                 child: TextField(
+                                  controller: _contentTextEditorController,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 13.sp,
@@ -373,7 +403,25 @@ class _NewPostScreenState extends State<NewPostScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 120.h),
+                      SizedBox(height: 16.0),
+                      // _imageFile != null
+                      // _imageFile
+                      //     ? Image.file('_imageFile!')
+                      //     : SizedBox(),
+                      // _videoFile != null
+                      _videoFile
+                          ? Text('Video selected: '
+                          // '${_videoFile!.path.split('/').last}'
+                      )
+                          : SizedBox(),
+                      // _audioFile != null
+                      _audioFile
+                          ? Text('Audio selected: '
+                          // '${_audioFile!.path.split('/').last}'
+                      )
+                          : SizedBox(),
+
+                      SizedBox(height: 24.h),
                       Padding(
                         padding: EdgeInsets.only(right: 24.w, left: 24.w),
                         child: Row(
@@ -633,4 +681,267 @@ class _NewPostScreenState extends State<NewPostScreen> {
       borderRadius: BorderRadius.circular(50),
     );
   }
+
+  Future<void> performProcess() async {
+    if (checkData()) {
+      await process();
+    }
+  }
+
+  bool checkData() {
+    if (_contentTextEditorController.text.isNotEmpty ) {
+      ///showSnackBar(context : context , message : 'Enter required Data', error : true);
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> process() async {
+    print('01');
+    print('02');
+
+    String? imageUrl;
+    String? videoUrl;
+    String? audioUrl;
+
+    // if (_imageFile != null) {
+    //   imageUrl = await _uploadFile(_imageFile!, 'posts/images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+    // }
+    //
+    // if (_videoFile != null) {
+    //   videoUrl = await _uploadFile(_videoFile!, 'posts/videos/${DateTime.now().millisecondsSinceEpoch}.mp4');
+    // }
+    //
+    // if (_audioFile != null) {
+    //   audioUrl = await _uploadFile(_audioFile!, 'posts/audios/${DateTime.now().millisecondsSinceEpoch}.mp3');
+    // }
+    bool status = await FbFireStoreController().createPost(postsModel:postsModel);
+    if(status){
+      Navigator.pop(context);
+    }
+
+    ///showSnackBar(context : context , message : status ? 'Process Success' : 'Process Failed', error : true);
+  }
+
+  PostsModel get postsModel {
+    PostsModel postsModel =  PostsModel();
+    postsModel.postId = SharedPrefController().userIdRegistration;
+    postsModel.mentions = '';
+    postsModel.audioUrl = '';
+    postsModel.commentCount = 0;
+    postsModel.content = _contentTextEditorController.text;
+    postsModel.imageUrl = '';
+    postsModel.likeCount = 0;
+    postsModel.repostCount = '';
+    postsModel.timestamp = '';
+    postsModel.type = '';
+    postsModel.userId = '';
+    postsModel.videoUrl = '';
+    // postsModel.mentionedFriendsId= '';
+    // postsModel.savedId = '';
+    // postsModel.repostId = '';
+    // postsModel.likeId = '';
+    // postsModel.commentId = '';
+
+    return postsModel;
+  }
+
+  // Future<void> _pickImage() async {
+  //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       _imageFile = File(pickedFile.path);
+  //     });
+  //   }
+  // }
+
+  // Future<void> _pickVideo() async {
+  //   final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       _videoFile = File(pickedFile.path);
+  //     });
+  //   }
+  // }
+
+  // Future<void> _pickAudio() async {
+  //   final result = await FilePicker.platform.pickFiles(type: FileType.audio);
+  //   if (result != null) {
+  //     setState(() {
+  //       _audioFile = File(result.files.single.path!);
+  //     });
+  //   }
+  // }
+
+  // Future<String> _uploadFile(File file, String path) async {
+  //   final storageRef = FirebaseStorage.instance.ref().child(path);
+  //   final uploadTask = storageRef.putFile(file);
+  //   final snapshot = await uploadTask;
+  //   return await snapshot.ref.getDownloadURL();
+  // }
 }
+
+
+// import 'package:flutter/material.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
+// import 'dart:io';
+//
+// class NewPostScreen extends StatefulWidget {
+//   @override
+//   _NewPostScreenState createState() => _NewPostScreenState();
+// }
+//
+// class _NewPostScreenState extends State<NewPostScreen> {
+//   final _formKey = GlobalKey<FormState>();
+//   final _contentController = TextEditingController();
+//   final _mentionsController = TextEditingController();
+//   File? _imageFile;
+//   File? _videoFile;
+//   File? _audioFile;
+//   bool _isLoading = false;
+//
+//   // Future<void> _pickImage() async {
+//   //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+//   //   if (pickedFile != null) {
+//   //     setState(() {
+//   //       _imageFile = File(pickedFile.path);
+//   //     });
+//   //   }
+//   // }
+//
+//   // Future<void> _pickVideo() async {
+//   //   final pickedFile = await ImagePicker().pickVideo(source: ImageSource.gallery);
+//   //   if (pickedFile != null) {
+//   //     setState(() {
+//   //       _videoFile = File(pickedFile.path);
+//   //     });
+//   //   }
+//   // }
+//
+//   // Future<void> _pickAudio() async {
+//   //   final result = await FilePicker.platform.pickFiles(type: FileType.audio);
+//   //   if (result != null) {
+//   //     setState(() {
+//   //       _audioFile = File(result.files.single.path!);
+//   //     });
+//   //   }
+//   // }
+//
+//   Future<String> _uploadFile(File file, String path) async {
+//     final storageRef = FirebaseStorage.instance.ref().child(path);
+//     final uploadTask = storageRef.putFile(file);
+//     final snapshot = await uploadTask;
+//     return await snapshot.ref.getDownloadURL();
+//   }
+//
+//   Future<void> _submitPost() async {
+//     if (_formKey.currentState!.validate()) {
+//       setState(() {
+//         _isLoading = true;
+//       });
+//
+//       String? imageUrl;
+//       String? videoUrl;
+//       String? audioUrl;
+//
+//       if (_imageFile != null) {
+//         imageUrl = await _uploadFile(_imageFile!, 'posts/images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+//       }
+//
+//       if (_videoFile != null) {
+//         videoUrl = await _uploadFile(_videoFile!, 'posts/videos/${DateTime.now().millisecondsSinceEpoch}.mp4');
+//       }
+//
+//       if (_audioFile != null) {
+//         audioUrl = await _uploadFile(_audioFile!, 'posts/audios/${DateTime.now().millisecondsSinceEpoch}.mp3');
+//       }
+//
+//       final postData = {
+//         'type': 'text', // Modify based on the content type
+//         'content': _contentController.text,
+//         'imageUrl': imageUrl,
+//         'videoUrl': videoUrl,
+//         'audioUrl': audioUrl,
+//         'mentions': _mentionsController.text.split(','), // Assuming mentions are comma-separated
+//         'likeCount': 0,
+//         'commentCount': 0,
+//         'repostCount': 0,
+//         'saveCount': 0,
+//         'timestamp': FieldValue.serverTimestamp(),
+//       };
+//
+//       await FirebaseFirestore.instance.collection('posts').add(postData);
+//
+//       setState(() {
+//         _isLoading = false;
+//       });
+//
+//       Navigator.pop(context);
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Create Post'),
+//       ),
+//       body: _isLoading
+//           ? Center(child: CircularProgressIndicator())
+//           : Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Form(
+//           key: _formKey,
+//           child: ListView(
+//             children: [
+//               TextFormField(
+//                 controller: _contentController,
+//                 decoration: InputDecoration(labelText: 'Content'),
+//                 maxLines: 5,
+//                 validator: (value) {
+//                   if (value == null || value.isEmpty) {
+//                     return 'Please enter some content';
+//                   }
+//                   return null;
+//                 },
+//               ),
+//               SizedBox(height: 16.0),
+//               TextFormField(
+//                 controller: _mentionsController,
+//                 decoration: InputDecoration(labelText: 'Mentions (comma-separated)'),
+//               ),
+//               SizedBox(height: 16.0),
+//               _imageFile != null
+//                   ? Image.file(_imageFile!)
+//                   : ElevatedButton(
+//                 onPressed: (){},
+//                 // _pickImage,
+//                 child: Text('Pick Image'),
+//               ),
+//               _videoFile != null
+//                   ? Text('Video selected: ${_videoFile!.path.split('/').last}')
+//                   : ElevatedButton(
+//                 onPressed: (){},
+//                 // _pickVideo,
+//                 child: Text('Pick Video'),
+//               ),
+//               _audioFile != null
+//                   ? Text('Audio selected: ${_audioFile!.path.split('/').last}')
+//                   : ElevatedButton(
+//                 onPressed: (){},
+//                 // _pickAudio,
+//                 child: Text('Pick Audio'),
+//               ),
+//               SizedBox(height: 16.0),
+//               ElevatedButton(
+//                 onPressed: _submitPost,
+//                 child: Text('Submit Post'),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

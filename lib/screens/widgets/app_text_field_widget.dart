@@ -78,19 +78,21 @@ class AppTextFieldWidget extends StatelessWidget {
   final TextEditingController textEditingController;
   final TextInputType textInputType;
   final Color fontColor;
-  final IconData prefixIcon;
-  final IconData? suffixIcon;
+  final IconData? prefixIcon;
+  final Widget? suffixIcon;
   final String? errorText;
   final String hintText;
   final bool obsecure;
+  final bool half;
 
   AppTextFieldWidget(
       {required this.textEditingController,
       this.textInputType = TextInputType.text,
       this.fontColor = Colors.grey,
-      required this.prefixIcon,
+      this.prefixIcon,
       required this.errorText,
       required this.obsecure,
+      this.half = false,
       this.suffixIcon,
       this.hintText = '',
       t});
@@ -98,7 +100,7 @@ class AppTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
+      padding: half ? EdgeInsets.symmetric(vertical: 6.h): EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
       child: TextField(
         controller: textEditingController,
         keyboardType: textInputType,
@@ -114,7 +116,7 @@ class AppTextFieldWidget extends StatelessWidget {
         onChanged: (value) {},
         obscureText: obsecure,
         decoration: InputDecoration(
-          constraints: BoxConstraints(minHeight: 0, maxHeight: 80),
+          constraints: BoxConstraints(minHeight: 0, maxHeight: 80.h),
           hintText: hintText,
           // hintMaxLines: 1,
           // labelText: labelText,
@@ -129,7 +131,7 @@ class AppTextFieldWidget extends StatelessWidget {
           ),
           prefixIcon: Icon(prefixIcon),
           prefixStyle: TextStyle(color: HexColor('#333333')),
-          suffixIcon: Icon(suffixIcon),
+          suffixIcon:  suffixIcon,
           suffixStyle: TextStyle(color: HexColor('#333333')),
           contentPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
           enabledBorder: getBorder(borderColor: HexColor('#333333')),

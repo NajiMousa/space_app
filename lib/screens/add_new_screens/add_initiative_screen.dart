@@ -1,13 +1,24 @@
 
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
+import '../../controllers/firebase_controllers/fb_storage_controller.dart';
+import '../../models/initiative_models/initiative_data_model.dart';
+import '../../prefs/shared_pref_controller.dart';
+import '../primary_screens/main_screen.dart';
 import '../widgets/app_text_field_widget.dart';
 
 class AddInitiativeScreen extends StatefulWidget {
-  const AddInitiativeScreen({Key? key}) : super(key: key);
+  const AddInitiativeScreen({Key? key, this.initiativeDataModel}) : super(key: key);
+  final InitiativeDataModel? initiativeDataModel;
 
   @override
   State<AddInitiativeScreen> createState() => _AddInitiativeScreenState();
@@ -15,18 +26,54 @@ class AddInitiativeScreen extends StatefulWidget {
 
 class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
 
+  final ImagePicker _picker = ImagePicker();
+  double _linerProgress = 0;
   bool hasAddedStory = false;
   bool isActive = true;
   bool isClickOnMoreIcon = false;
-
+  var uuid = Uuid();
   final _formKey = GlobalKey<FormState>();
+  File? _coverImage;
+  bool _isUploading = false;
 
-  // String _initiativeName = '';
-  // String _classification = 'Health';
-  // String _description = '';
-  // double _targetAmount = 0.0;
-  // String _mechanism = '';
-  // String _responsiblePerson = '';
+  String? _initiativeNameErrorText;
+  String? _classificationErrorText;
+  String? _descriptionErrorText;
+  String? _targetAmountErrorText;
+  String? _mechanismOfWorkErrorText;
+  String? _responsiblePersonErrorText;
+
+
+  late TextEditingController _initiativeNameTextEditingController;
+  late TextEditingController _classificationTextEditingController;
+  late TextEditingController _descriptionTextEditingController;
+  late TextEditingController _targetAmountTextEditingController;
+  late TextEditingController _mechanismOfWorkTextEditingController;
+  late TextEditingController _responsiblePersonTextEditingController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initiativeNameTextEditingController = TextEditingController(text: widget.initiativeDataModel?.initiativeName ?? '');
+    _classificationTextEditingController = TextEditingController(text: widget.initiativeDataModel?.classification ?? '');
+    _descriptionTextEditingController = TextEditingController(text: widget.initiativeDataModel?.description ?? '');
+    _targetAmountTextEditingController = TextEditingController(text: widget.initiativeDataModel?.targetAmount ?? '');
+    _mechanismOfWorkTextEditingController = TextEditingController(text: widget.initiativeDataModel?.mechanismOfWork ?? '');
+    _responsiblePersonTextEditingController = TextEditingController(text: widget.initiativeDataModel?.responsiblePerson ?? '');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _initiativeNameTextEditingController.dispose();
+    _classificationTextEditingController.dispose();
+    _descriptionTextEditingController.dispose();
+    _targetAmountTextEditingController.dispose();
+    _mechanismOfWorkTextEditingController.dispose();
+    _responsiblePersonTextEditingController.dispose();
+    super.dispose();
+  }
 
   // List<File> _documentationFiles = [];
 
@@ -41,15 +88,17 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
             child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  // Handle save logic here
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text('Initiative Created')),
-                  );
-                }
+              onPressed: () async{
+                performProcess();
+
+                // if (_formKey.currentState!.validate()) {
+                //   _formKey.currentState!.save();
+                //   // Handle save logic here
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //         content: Text('Initiative Created')),
+                //   );
+                // }
               },
               style: ElevatedButton.styleFrom(
                 // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
@@ -136,7 +185,123 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
+                          Stack(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 260.h,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft:
+                                    SharedPrefController().language ==
+                                        'en'
+                                        ? Radius.circular(42.sp)
+                                        : Radius.circular(0.sp),
+                                    bottomRight:
+                                    SharedPrefController().language ==
+                                        'en'
+                                        ? Radius.circular(0.sp)
+                                        : Radius.circular(42.sp),
+                                  ),
+                                  // color: Colors.red,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                      Colors.black.withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      offset: Offset(0,
+                                          3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: InkWell(
+                                  onTap: () => _pickCoverImage(),
+                                  child: _coverImage != null
+                                      ? Image.file(
+                                    _coverImage!,
+                                    width: double.infinity,
+                                    height: 370.h,
+                                    fit: BoxFit.cover,
+                                  )
+                                      : CachedNetworkImage(
+                                    imageUrl: '',
+                                    // widget
+                                    //     .initiativeDataModel!
+                                    //     .backgroundImage,
+                                    width: double.infinity,
+                                    height: 370.h,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder:
+                                        (context, url,
+                                        downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value:
+                                            downloadProgress
+                                                .progress),
+                                    errorWidget:
+                                        (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                              LinearProgressIndicator(
+                                value: _linerProgress,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.blue),
+                                backgroundColor: Colors.grey[300],
+                              ),
+                              InkWell(
+                                onTap: () => _pickCoverImage(),
+                                child: Align(
+                                  alignment: AlignmentDirectional.bottomEnd,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        right: 35.w,
+                                        top: 200.h,
+                                        bottom: 4.h),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w, vertical: 8.h),
+                                    // margin: EdgeInsets.only(left: 24.w),
+                                    width: 32.w,
+                                    height: 32.h,
+                                    decoration: BoxDecoration(
+                                      color: HexColor('#E0EBF2'),
+                                      // Background color
+                                      shape: BoxShape
+                                          .circle, // Make it a circle if desired
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'images/camera_icon.svg',
+                                      width: 6.w,
+                                      height: 10.h,
+                                      color: HexColor('#333333'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 6.h),
+                            child: Text(
+                              'Initiative Name',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                          ),
+                          AppTextFieldWidget(
+                            textEditingController: _initiativeNameTextEditingController,
+                            prefixIcon: Icons.person,
+                            hintText: 'Naji atwa hammad abu mousa',
+                            obsecure: false,
+                            textInputType: TextInputType.emailAddress,
+                            errorText: _initiativeNameErrorText,
+                          ),
                           // AppTextFieldWidget(labelText: 'Ihsan',sectionTitle: 'Initiative Name'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Initiative Name'),
@@ -151,6 +316,25 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 6.h),
+                            child: Text(
+                              'Classification',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                          ),
+                          AppTextFieldWidget(
+                            textEditingController: _classificationTextEditingController,
+                            prefixIcon: Icons.person,
+                            hintText: 'Health',
+                            obsecure: false,
+                            textInputType: TextInputType.emailAddress,
+                            errorText: _classificationErrorText,
+                          ),
                           // AppTextFieldWidget(labelText: 'Health',sectionTitle:'Classification' ),
                           // DropdownButtonFormField<String>(
                           //   value: _classification,
@@ -168,6 +352,25 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 6.h),
+                            child: Text(
+                              'Description',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                          ),
+                          AppTextFieldWidget(
+                            textEditingController: _descriptionTextEditingController,
+                            prefixIcon: Icons.person,
+                            hintText: 'your initiative Bio',
+                            obsecure: false,
+                            textInputType: TextInputType.emailAddress,
+                            errorText: _descriptionErrorText,
+                          ),
                           // AppTextFieldWidget(labelText: 'your initiative Bio',sectionTitle: 'Description'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Description'),
@@ -183,6 +386,25 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 6.h),
+                            child: Text(
+                              'Target Amount (USD)',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                          ),
+                          AppTextFieldWidget(
+                            textEditingController: _targetAmountTextEditingController,
+                            prefixIcon: Icons.person,
+                            hintText: 'Naji atwa hammad abu mousa',
+                            obsecure: false,
+                            textInputType: TextInputType.emailAddress,
+                            errorText: _targetAmountErrorText,
+                          ),
                           // AppTextFieldWidget(labelText: '1000 Dollar',sectionTitle: 'Target Amount (USD)'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Target Amount (USD)'),
@@ -201,6 +423,25 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 6.h),
+                            child: Text(
+                              'Mechanism of Work',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                          ),
+                          AppTextFieldWidget(
+                            textEditingController: _mechanismOfWorkTextEditingController,
+                            prefixIcon: Icons.person,
+                            hintText: 'Naji atwa hammad abu mousa',
+                            obsecure: false,
+                            textInputType: TextInputType.emailAddress,
+                            errorText: _mechanismOfWorkErrorText,
+                          ),
                           // AppTextFieldWidget(labelText: 'Mechanism of Work', sectionTitle: 'Mechanism of Work'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Mechanism of Work'),
@@ -216,6 +457,25 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                           //   },
                           // ),
 
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.w, vertical: 6.h),
+                            child: Text(
+                              'Responsible Person',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: HexColor('#333333'),
+                                  fontFamily: 'BreeSerif'),
+                            ),
+                          ),
+                          AppTextFieldWidget(
+                            textEditingController: _responsiblePersonTextEditingController,
+                            prefixIcon: Icons.person,
+                            hintText: 'Naji atwa hammad abu mousa',
+                            obsecure: false,
+                            textInputType: TextInputType.emailAddress,
+                            errorText: _responsiblePersonErrorText,
+                          ),
                           // AppTextFieldWidget(labelText: 'Responsible Person', sectionTitle: 'Responsible Person'),
                           // TextFormField(
                           //   decoration: InputDecoration(labelText: 'Responsible Person'),
@@ -272,5 +532,108 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
       ),
     );
   }
+
+  Future<void> performProcess() async {
+    if (checkData()) {
+      await process();
+    }
+  }
+
+  bool checkData() {
+    if (_initiativeNameTextEditingController.text.isNotEmpty &&
+        _classificationTextEditingController.text.isNotEmpty &&
+        _descriptionTextEditingController.text.isNotEmpty &&
+        _targetAmountTextEditingController.text.isNotEmpty &&
+        _mechanismOfWorkTextEditingController.text.isNotEmpty &&
+        _responsiblePersonTextEditingController.text.isNotEmpty ) {
+      ///showSnackBar(context : context , message : 'Enter required Data', error : true);
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> process() async {
+    print('01');
+    // CollectionReference users = FirebaseFirestore.instance.collection('users');
+    // QuerySnapshot querySnapshot = SharedPrefController().phone != null
+    //     ? await users.where('phone', isEqualTo: SharedPrefController().phone).get()
+    //     : await users.where('email', isEqualTo: SharedPrefController().email).get();
+    // if (querySnapshot.docs.isNotEmpty) {
+    //   SharedPrefController().saveUserIdRegistration(userIdRegistration: querySnapshot.docs.first.id);
+    // }
+
+    bool status = widget.initiativeDataModel == null
+        ? await FbFireStoreController().createInitiativePage(initiativeDataModel: initiativeDataModel) //انشاء
+        : await FbFireStoreController().updateInitiativePage(initiativeDataModel: initiativeDataModel); // jp]de
+    if (status) {
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return MainScreen(selectedIndex: 0);
+        },
+      ));
+      if (widget.initiativeDataModel != null) {
+        Navigator.pop(context);
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) {
+            return MainScreen(selectedIndex: 0);
+          },
+        ));
+      }
+    }
+    // print('02');
+    // bool status = await FbFireStoreController().createInitiativePage(initiativeDataModel: initiativeDataModel);
+    // if(status){
+    //   Navigator.pop(context);
+    // }
+
+    ///showSnackBar(context : context , message : status ? 'Process Success' : 'Process Failed', error : true);
+  }
+
+  InitiativeDataModel get initiativeDataModel {
+    InitiativeDataModel initiativeDataModel =
+    widget.initiativeDataModel == null ? InitiativeDataModel() : widget.initiativeDataModel!;
+    // InitiativeDataModel initiativeDataModel =  InitiativeDataModel();
+    initiativeDataModel.initiativeId =  initiativeDataModel.initiativeId == null ? uuid.v4(): SharedPrefController().initiativeId;
+    initiativeDataModel.initiativeName = _initiativeNameTextEditingController.text;
+    initiativeDataModel.classification = _classificationTextEditingController.text;
+    initiativeDataModel.description = _descriptionTextEditingController.text;
+    initiativeDataModel.mechanismOfWork = _mechanismOfWorkTextEditingController.text;
+    initiativeDataModel.responsiblePerson = _responsiblePersonTextEditingController.text;
+    initiativeDataModel.targetAmount = _targetAmountTextEditingController.text;
+    initiativeDataModel.backgroundImage = SharedPrefController().coverImageUrl;
+    initiativeDataModel.userDataId = SharedPrefController().userDataId;
+
+    return initiativeDataModel;
+  }
+
+  Future<void> _pickCoverImage() async {
+    final XFile? pickedFile =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      print('01');
+      setState(() {
+        _isUploading = true;
+        _linerProgress = 0;
+      });
+      print('02');
+      String? fileURL = await FbStorageController.uploadFile(
+          File(pickedFile.path), (progress) {
+        setState(() {
+          _linerProgress = progress;
+        });
+      });
+
+      if (fileURL != null) {
+        _coverImage = File(pickedFile.path);
+        SharedPrefController().saveCoverImageUrl(coverImageUrl: fileURL);
+      }
+
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
+
 }
 

@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
+import 'package:difaf_al_wafa_app/screens/edit_screens/edit_user_profile_page_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
+import '../../models/user_models/user_profile_data_model.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -15,6 +19,25 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   int _selectedTypeMessanger = 0;
   SharedPrefController sharedPrefController = SharedPrefController();
+  UserProfileDataModel? _userProfileData;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
+    print(SharedPrefController().userIdRegistration);
+    print('SharedPrefController().userIdRegistration');
+    setState(() {
+      _userProfileData = userData.firstWhere((user) => user.userIdRegistration == SharedPrefController().userIdRegistration);
+      _isLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +67,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 29.w : 40.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 29.w
+                                : 40.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -83,7 +108,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 52.w : 60.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 52.w
+                                : 60.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -122,7 +149,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 104.w : 60.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 104.w
+                                : 60.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -161,7 +190,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 104.w : 70.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 104.w
+                                : 70.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -200,7 +231,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 52.w : 60.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 52.w
+                                : 60.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -239,7 +272,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 55.w : 55.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 55.w
+                                : 55.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -279,7 +314,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 43.w : 53.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 43.w
+                                : 53.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -319,7 +356,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 73.w : 83.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 73.w
+                                : 83.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -399,7 +438,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language =='en' ? 45.w : 55.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 45.w
+                                : 55.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -427,7 +468,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-                margin: sharedPrefController.language =='en' ? EdgeInsets.only(left: 24.w) : EdgeInsets.only(right: 0.w),
+                margin: sharedPrefController.language == 'en'
+                    ? EdgeInsets.only(left: 24.w)
+                    : EdgeInsets.only(right: 0.w),
                 decoration: BoxDecoration(
                   color: Colors.white, // Background color
                   shape: BoxShape.circle, // Make it a circle if desired
@@ -441,8 +484,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ],
         ),
       ),
-      body: Stack(
-        alignment: sharedPrefController.language == 'en' ? Alignment.topLeft : Alignment.topRight ,
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          :Stack(
+        alignment: sharedPrefController.language == 'en'
+            ? Alignment.topLeft
+            : Alignment.topRight,
         children: [
           Container(
             clipBehavior: Clip.antiAlias,
@@ -465,8 +512,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
-                            bottomLeft: sharedPrefController.language == 'en' ? Radius.circular(42.sp) : Radius.circular(0.sp),
-                            bottomRight: sharedPrefController.language == 'en' ? Radius.circular(0.sp) : Radius.circular(42.sp),),
+                          bottomLeft: sharedPrefController.language == 'en'
+                              ? Radius.circular(42.sp)
+                              : Radius.circular(0.sp),
+                          bottomRight: sharedPrefController.language == 'en'
+                              ? Radius.circular(0.sp)
+                              : Radius.circular(42.sp),
+                        ),
                         // color: Colors.red,
                         boxShadow: [
                           BoxShadow(
@@ -477,15 +529,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                         ],
                       ),
-                      child: Image.asset(
-                        'images/AA.png',
+                      child: CachedNetworkImage(
+                        imageUrl: _userProfileData!.backgroundImage,
                         width: double.infinity,
                         height: 370.h,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            CircularProgressIndicator(value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                     Padding(
-                      padding: sharedPrefController.language == 'en' ? EdgeInsets.only(left: 24.w, top: 215.h) : EdgeInsets.only(right: 24.w, top: 215.h) ,
+                      padding: sharedPrefController.language == 'en'
+                          ? EdgeInsets.only(left: 24.w, top: 215.h)
+                          : EdgeInsets.only(right: 24.w, top: 215.h),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -497,13 +554,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   color: HexColor('#21CED9'),
                                   borderRadius: BorderRadius.circular(56.sp),
                                 ),
+
                                 width: 90.w,
                                 height: 90.h,
+
                               ),
-                              Image.asset(
-                                'images/userIcon.png',
-                                width: 84.w,
-                                height: 84.w,
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: HexColor('#21CED9'),
+                                  borderRadius: BorderRadius.circular(56.sp),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: CachedNetworkImage(
+                                  imageUrl: _userProfileData!.profileImage,
+                                  width: 84.w,
+                                  height: 84.w,
+                                  fit: BoxFit.cover,
+                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(
@@ -540,7 +610,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             padding: EdgeInsets.only(
                               left: 16.w,
                               top: 18.h,
-                              right: 24.w,
+                              right: 18.w,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -650,12 +720,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 SizedBox(height: 18.h),
                 Padding(
-                  padding: EdgeInsets.only(left: 32.w, bottom: 12.h, right: 32.h),
+                  padding:
+                      EdgeInsets.only(left: 32.w, bottom: 12.h, right: 32.h),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Mohamed Ahmed Al-Sayed',
+                        _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 16.sp,
@@ -664,7 +735,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'Mohamed Sayed2003@gmail.com',
+                        _userProfileData!.dateOfBirth,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 11.sp,
@@ -673,7 +744,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                       SizedBox(height: 8.h),
                       Text(
-                        'I am the star of my own world.... \n Palestinian Man Software Engineer Ux Ui Designers \n Flutter Developer',
+                        _userProfileData!.bio,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 11.sp,
@@ -722,9 +793,43 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       SizedBox(width: 12.w),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '/edit_user_profile_page_screen');
+                          onPressed: () async {
+
+                            // Navigator.pushNamed(
+                            //     context, '/edit_user_profile_page_screen');
+                            // List<UserProfileDataModel> listUserData = await FbFireStoreController().getDataUser();
+                            // print('01');
+                            // for (int i = -1; i <= listUserData.length; i++){
+                            //   print(SharedPrefController().phone);
+                            //   print('SharedPrefController().phone');
+                            //   print('SharedPrefController().userIdRegistration');
+                            //   print(SharedPrefController().userIdRegistration);
+                            //   print(listUserData.length);
+                            //   print('listUserData.length');
+                            //   print(listUserData[0].bio);
+                            //   print('istUserData[i].userIdRegistration');
+                            //   print('00001');
+                            //   if(listUserData[i].userIdRegistration == SharedPrefController().userIdRegistration ){
+                            //     Navigator.push(
+                            //         context, MaterialPageRoute(builder: (context) {
+                            //       return EditUserProfilePageScreen(userProfileDataModel: listUserData[i]);
+                            //     },));
+                            //   }
+                            // }
+
+                            // CollectionReference users = _firebaseFireStore.collection('users');
+                            // QuerySnapshot querySnapshot = SharedPrefController().phone != null
+                            //     ? await users.where('phone', isEqualTo: SharedPrefController().phone).get()
+                            //     : await users.where('email', isEqualTo: SharedPrefController().email).get();
+                            // if (querySnapshot.docs.isNotEmpty) {
+                            //   String docId = querySnapshot.docs.first.id;
+                            //
+                            // }
+
+                            Navigator.push(
+                                context, MaterialPageRoute(builder: (context) {
+                              return EditUserProfilePageScreen(userProfileDataModel: _userProfileData);
+                            },));
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(
@@ -789,9 +894,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
           Container(
-            margin: sharedPrefController.language =='en' ? EdgeInsets.only(
-                left: 40.w, top: 50.h) :
-            EdgeInsets.only(right: 40.w, top: 50.h),
+            margin: sharedPrefController.language == 'en'
+                ? EdgeInsets.only(left: 40.w, top: 50.h)
+                : EdgeInsets.only(right: 40.w, top: 50.h),
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             // margin: EdgeInsets.only(left: 24.w),
             width: 32.w,
@@ -805,7 +910,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 // Navigator.pop(context);
               },
               child: SvgPicture.asset(
-                sharedPrefController.language == 'en' ? 'images/arrow_back.svg' : 'images/arrowForword.svg',
+                sharedPrefController.language == 'en'
+                    ? 'images/arrow_back.svg'
+                    : 'images/arrowForword.svg',
                 width: 6.w,
                 height: 10.h,
                 color: HexColor('#FFFFFF'),

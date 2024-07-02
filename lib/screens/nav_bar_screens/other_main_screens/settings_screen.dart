@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
 import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
@@ -11,7 +12,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
+import '../../../models/user_models/user_profile_data_model.dart';
 import '../../../providers/theme_provider.dart';
+import '../../edit_screens/edit_user_profile_page_screen.dart';
 import '../../widgets/choose_language_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -20,10 +24,28 @@ class SettingsScreen extends StatefulWidget {
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
+@override
+
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool isClickOnCantactUs = false;
   SharedPrefController sharedPrefController = SharedPrefController();
+
+  UserProfileDataModel _userProfileData = UserProfileDataModel();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
+    print(SharedPrefController().userIdRegistration);
+    print('SharedPrefController().userIdRegistration');
+    setState(() {
+      _userProfileData = userData.firstWhere((user) => user.userIdRegistration == SharedPrefController().userIdRegistration);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(
-                            top: 36.h, bottom: 25.h, left: 24.w, right: 24.w),
+                            top: 30.h, bottom: 25.h, left: 24.w, right: 24.w),
                     padding: sharedPrefController.language == 'en'
                         ? EdgeInsets.only(
                             left: 130.w, right: 24.w, top: 24.h, bottom: 24.h)
@@ -57,7 +79,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context)!.mohamed,
+                                  _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 14.sp,
@@ -71,7 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // ),
                                 SizedBox(height: 6.h),
                                 Text(
-                                  'Mohamed2003@gmail.com',
+                                  _userProfileData.dateOfBirth,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 9.sp,
@@ -80,24 +102,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                               ],
                             ),
-                            Column(
-                              children: [
-                                SvgPicture.asset(
-                                  'images/editProfile.svg',
-                                  width: 20.w,
-                                  height: 20.h,
-                                  color: HexColor('#3396F9'),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  AppLocalizations.of(context)!.edit,
-                                  style: TextStyle(
-                                    fontFamily: 'BreeSerif',
-                                    fontSize: 9.sp,
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context, MaterialPageRoute(builder: (context) {
+                                  return EditUserProfilePageScreen(userProfileDataModel: _userProfileData);
+                                },));
+                              },
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    'images/editProfile.svg',
+                                    width: 20.w,
+                                    height: 20.h,
                                     color: HexColor('#3396F9'),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    AppLocalizations.of(context)!.edit,
+                                    style: TextStyle(
+                                      fontFamily: 'BreeSerif',
+                                      fontSize: 9.sp,
+                                      color: HexColor('#3396F9'),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -117,9 +147,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     width: 100.w,
                     height: 120.h,
-                    child: Image.asset(
-                      'images/AA.png',
-                      fit: BoxFit.fill,
+                    child: CachedNetworkImage(
+                      imageUrl: _userProfileData.profileImage,
+                      width: double.infinity,
+                      // height: 370.h,
+                      fit: BoxFit.cover,
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          CircularProgressIndicator(value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ],

@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-import '../../model/auth_page_model.dart';
+import '../../models/screen_models/auth_page_model.dart';
 import 'otp_code_screen.dart';
 import 'sing_up_screen.dart';
 import '../other_text_screens/terms_conditions_screen.dart';
@@ -46,6 +45,7 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
   ];
 
   SharedPrefController sharedPrefController = SharedPrefController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +67,9 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                         child: Row(
                           children: [
                             SvgPicture.asset(
-                              sharedPrefController.language == 'en' ? 'images/arrow_back.svg' : 'images/arrowForword.svg',
+                              sharedPrefController.language == 'en'
+                                  ? 'images/arrow_back.svg'
+                                  : 'images/arrowForword.svg',
                               width: 10.w,
                               height: 16.h,
                               color: HexColor('#333333'),
@@ -117,86 +119,94 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
           scrollDirection: Axis.horizontal,
           children: [
             // todo: SingUp Page
-            InkWell(
-              onTap: () {
-                setState(() {
-                  widget.selectedIndex = 0;
-                });
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 24.w),
-                child: Column(
-                  children: [
-                    widget.selectedIndex == 0 || widget.selectedIndex == 4
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#6699CC'),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.sp),
-                                bottomLeft: Radius.circular(5.sp),
-                              ),
-                            ),
-                            width: sharedPrefController.language == 'en' ? 54.w : 80.w,
-                            height: 5.h,
-                          )
-                        : SizedBox(
-                            height: 5.h,
+            sharedPrefController.loggedIn
+                ? SizedBox()
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        widget.selectedIndex = 0;
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 24.w),
+                      child: Column(
+                        children: [
+                          widget.selectedIndex == 0 || widget.selectedIndex == 4
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: HexColor('#6699CC'),
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(5.sp),
+                                      bottomLeft: Radius.circular(5.sp),
+                                    ),
+                                  ),
+                                  width: sharedPrefController.language == 'en'
+                                      ? 54.w
+                                      : 80.w,
+                                  height: 5.h,
+                                )
+                              : SizedBox(
+                                  height: 5.h,
+                                ),
+                          SizedBox(height: 20.h),
+                          Text(
+                            AppLocalizations.of(context)!.signUp,
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                color: widget.selectedIndex == 0 ||
+                                        widget.selectedIndex == 4
+                                    ? HexColor('#6699CC')
+                                    : HexColor('#8C9EA0'),
+                                fontFamily: 'BreeSerif'),
                           ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      AppLocalizations.of(context)!.signUp,
-                      style: TextStyle(
-                          fontSize: 13.sp,
-                          color: widget.selectedIndex == 0 ||
-                                  widget.selectedIndex == 4
-                              ? HexColor('#6699CC')
-                              : HexColor('#8C9EA0'),
-                          fontFamily: 'BreeSerif'),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             // todo: Login Page
-            InkWell(
-              onTap: () {
-                setState(() {
-                  widget.selectedIndex = 1;
-                });
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: 24.w),
-                child: Column(
-                  children: [
-                    widget.selectedIndex == 1
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: HexColor('#6699CC'),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.sp),
-                                bottomLeft: Radius.circular(5.sp),
-                              ),
-                            ),
-                            width: sharedPrefController.language == 'en' ? 48.w : 90.w,
-                            height: 5.h,
-                          )
-                        : SizedBox(
-                            height: 5.h,
+            sharedPrefController.loggedIn
+                ? SizedBox()
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        widget.selectedIndex = 1;
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 24.w),
+                      child: Column(
+                        children: [
+                          widget.selectedIndex == 1
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: HexColor('#6699CC'),
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(5.sp),
+                                      bottomLeft: Radius.circular(5.sp),
+                                    ),
+                                  ),
+                                  width: sharedPrefController.language == 'en'
+                                      ? 48.w
+                                      : 90.w,
+                                  height: 5.h,
+                                )
+                              : SizedBox(
+                                  height: 5.h,
+                                ),
+                          SizedBox(height: 20.h),
+                          Text(
+                            AppLocalizations.of(context)!.logIn,
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                color: widget.selectedIndex == 1
+                                    ? HexColor('#6699CC')
+                                    : HexColor('#8C9EA0'),
+                                fontFamily: 'BreeSerif'),
                           ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      AppLocalizations.of(context)!.logIn,
-                      style: TextStyle(
-                          fontSize: 13.sp,
-                          color: widget.selectedIndex == 1
-                              ? HexColor('#6699CC')
-                              : HexColor('#8C9EA0'),
-                          fontFamily: 'BreeSerif'),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
             InkWell(
               onTap: () {
                 setState(() {
@@ -219,7 +229,9 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language == 'en' ? 104.w : 110.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 104.w
+                                : 110.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -259,7 +271,9 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language == 'en' ? 133.w : 105.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 133.w
+                                : 105.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -288,7 +302,9 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                 });
               },
               child: Padding(
-                padding: EdgeInsets.only(left: 24.w,),
+                padding: EdgeInsets.only(
+                  left: 24.w,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -301,7 +317,9 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                                 bottomLeft: Radius.circular(5.sp),
                               ),
                             ),
-                            width: sharedPrefController.language == 'en' ? 64.w : 50.w,
+                            width: sharedPrefController.language == 'en'
+                                ? 64.w
+                                : 50.w,
                             height: 5.h,
                           )
                         : SizedBox(
@@ -343,26 +361,36 @@ class _MainAuthScreenState extends State<MainAuthScreen> {
                     ? SizedBox(height: 40.h)
                     : widget.selectedIndex == 3
                         ? SizedBox(height: 18.h)
-                        : SizedBox(),
+                        : SizedBox(height: 20.h,),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(top: 12.h),
                     child:
                         widget.selectedIndex == 2 || widget.selectedIndex == 5
                             ? SizedBox()
-                            : SvgPicture.asset(
-                                height: widget.selectedIndex == 0 ||
-                                        widget.selectedIndex == 4
-                                    ? 230.h
-                                    : 320.h,
-                                _authPageModel[widget.selectedIndex].Pik,
+                            : Transform.rotate(
+                                angle: 0.4,
+                                child: Image.asset(
+                                  'images/GIU254-20.jpg',
+                                  width: 200.w,
+                                  height: 150.h,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
+                    // SvgPicture.asset(
+                    //         height: widget.selectedIndex == 0 ||
+                    //                 widget.selectedIndex == 4
+                    //             ? 230.h
+                    //             : 320.h,
+                    //         // _authPageModel[widget.selectedIndex].Pik,
+                    //
+                    //       ),
                   ),
                 ),
                 widget.selectedIndex == 0 ||
                         widget.selectedIndex == 1 ||
                         widget.selectedIndex == 3
-                    ? SizedBox(height: 15.h)
+                    ? SizedBox(height: 30.h)
                     : SizedBox(),
                 _authPageModel[widget.selectedIndex].widget,
               ],

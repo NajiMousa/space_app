@@ -1,16 +1,23 @@
+
+import 'package:difaf_al_wafa_app/models/posta_models/posts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
+import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
+
 
 class AddTextPhotoPostWidgets extends StatelessWidget {
-  const AddTextPhotoPostWidgets({Key? key}) : super(key: key);
+  AddTextPhotoPostWidgets({Key? key, required this.postsModel}) : super(key: key);
 
+  PostsModel postsModel;
+  bool clickLike = false;
   @override
   Widget build(BuildContext context) {
     return  Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(right: 24.w, left: 24.w, bottom: 9.h),
@@ -125,31 +132,40 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: 54.w, right: 24.w),
-          child: Column(
-            children: [
-              Text(
-                '“In the brief span of their life, they left an indelible mark, their absence is now a testament to the impact they had on all who knew them.”',
-                style: TextStyle(
-                    fontSize: 10.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
-              SizedBox(
-                height: 6.h,
-              ),
-              Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.sp)),
-                child: Image.asset(
-                  'images/backgroundPost.png',
-                  width: double.infinity,
-                  height: 390.h,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ],
+          child:
+          Text(
+            postsModel.content,
+            style: TextStyle(
+                fontSize: 10.sp,
+                color: HexColor('#333333'),
+                fontFamily: 'BreeSerif'),
           ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     Text(
+          //       postsModel.content,
+          //       style: TextStyle(
+          //           fontSize: 10.sp,
+          //           color: HexColor('#333333'),
+          //           fontFamily: 'BreeSerif'),
+          //     ),
+          //     SizedBox(
+          //       height: 6.h,
+          //     ),
+          //     Container(
+          //       clipBehavior: Clip.antiAlias,
+          //       decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(10.sp)),
+          //       child: Image.asset(
+          //         'images/backgroundPost.png',
+          //         width: double.infinity,
+          //         height: 390.h,
+          //         fit: BoxFit.fill,
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ),
         Column(
           children: [
@@ -158,19 +174,33 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
               EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
               child: Row(
                 children: [
-                  SvgPicture.asset(
-                    'images/likePost.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#FF0000'),
+                  InkWell(
+                    onTap: () {
+                      if(clickLike) clickLike = false;
+                      // if(!clickLike) clickLike = true;
+                      FbFireStoreController().updatePost(postsModel: newPostsModel);
+                      // clickLike ? clickLike = true : clickLike = false;
+                    },
+                    child: SvgPicture.asset(
+                      'images/likePost.svg',
+                      height: 20.h,
+                      width: 20.w,
+                      color: clickLike ? Colors.red: HexColor('#333333'),
+                    ),
                   ),
                   SizedBox(width: 5.w),
-                  Text(
-                    '15.9K',
-                    style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#333333'),
-                        fontFamily: 'BreeSerif'),
+                  InkWell(
+                    onTap: () {
+                      // FbFireStoreController().updatePost(postsModel: newPostsModel);
+                      clickLike = true;
+                    },
+                    child: Text(
+                      postsModel.likeCount.toString(),
+                      style: TextStyle(
+                          fontSize: 9.sp,
+                          color: HexColor('#333333'),
+                          fontFamily: 'BreeSerif'),
+                    ),
                   ),
                   SizedBox(width: 16.w),
                   SvgPicture.asset(
@@ -181,7 +211,7 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
                   ),
                   SizedBox(width: 5.w),
                   Text(
-                    '10.1K',
+                    postsModel.commentCount.toString(),
                     style: TextStyle(
                         fontSize: 9.sp,
                         color: HexColor('#333333'),
@@ -196,7 +226,7 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
                   ),
                   // SizedBox(width: 5.w),
                   Text(
-                    '3.6K',
+                    postsModel.repostCount,
                     style: TextStyle(
                         fontSize: 9.sp,
                         color: HexColor('#333333'),
@@ -235,4 +265,107 @@ class AddTextPhotoPostWidgets extends StatelessWidget {
       ],
     );
   }
+
+  PostsModel get newPostsModel {
+    PostsModel postsModelA =  PostsModel();
+    postsModelA.postId = postsModel.postId;
+    postsModelA.mentions = postsModel.mentions;
+    postsModelA.audioUrl = 'postsModel.audioUrl';
+    postsModelA.commentCount = postsModel.commentCount;
+    postsModelA.content = postsModel.content;
+    postsModelA.imageUrl = postsModel.imageUrl;
+    postsModelA.likeCount = clickLike ? postsModel.likeCount+1 : postsModel.likeCount-1;
+    postsModelA.repostCount = postsModel.repostCount;
+    postsModelA.timestamp = postsModel.timestamp;
+    postsModelA.type = postsModel.type;
+    postsModelA.userId = postsModel.userId;
+    postsModelA.videoUrl = postsModel.videoUrl;
+    // postsModelA.commentId = postsModel.commentId;
+    // postsModelA.likeId = postsModel.likeId;
+    // postsModelA.mentionedFriendsId = postsModel.mentionedFriendsId;
+    // postsModelA.repostId = postsModel.repostId;
+    // postsModelA.savedId = postsModel.savedId;
+
+    return postsModelA;
+  }
+
+  // void _likePost() {
+  //   print('object');
+    // FirebaseFirestore.instance.collection('posts').doc(postsModel.postId).update({
+    //   'likeCount': FieldValue.increment(1),
+    // });
+  // }
+
+  // void _likePost(String? postId) async {
+  //   final postRef = FirebaseFirestore.instance.collection('posts').doc(postId);
+  //   print('object');
+  //
+  //   try {
+  //     // Check if the document exists
+  //     final docSnapshot = await postRef.get();
+  //     if (docSnapshot.exists) {
+  //       // Document exists, proceed with update
+  //       await postRef.update({
+  //         'likeCount': FieldValue.increment(1),
+  //       });
+  //       print('Post liked successfully.');
+  //     } else {
+  //       // Document does not exist
+  //       print('No document found with ID: $postId');
+  //     }
+  //   } catch (e) {
+  //     // Handle errors
+  //     print('Error liking post: $e');
+  //   }
+  // }
+
+  // void updateExamplePost() {
+  //   String postId = 'I2GZvP6WWL53kUMtbU4S';
+  //   Map<String, dynamic> newData = {
+  //     // 'postId': 'Updated content',
+  //     'userId': SharedPrefController().userIdRegistration,
+  //     'type': 'acceptable',
+  //     'content': 'acceptable',
+  //     'imageUrl': '',
+  //     'videoUrl': '',
+  //     'audioUrl': '',
+  //     'mentions': '',
+  //     'likeCount': 100,
+  //     'commentCount': 20,
+  //     'repostCount': '',
+  //     'timestamp': '',
+  //     // Add any other fields you need to update
+  //   };
+
+    // updatePostIfAcceptable(postId, newData);
+
+
+  // Future<void> updatePostsByAuthor(String userId, Map<String, dynamic> newData) async {
+  //   final postsCollection = FirebaseFirestore.instance.collection('posts');
+  //
+  //   try {
+  //     // Perform the query
+  //     QuerySnapshot querySnapshot = await postsCollection.where('postId', isEqualTo: userId).get();
+  //
+  //     // Iterate through the documents and update each one
+  //     print(userId);
+  //     print('userId');
+  //     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+  //       await postsCollection.doc(doc.id).update(newData);
+  //       print('Post ${doc.id} updated successfully.');
+  //     }
+  //     print('All posts updated successfully.');
+  //   } catch (e) {
+  //     print('Error updating posts: $e');
+  //   }}
+  //   void updateExamplePosts() {
+  //     String userId = postsModel.postId;
+  //     Map<String, dynamic> newData = {
+  //       'likeCount': FieldValue.increment(1),
+  //       // Add any other fields you need to update
+  //     };
+  //
+  //     updatePostsByAuthor(userId, newData);
+  //   }
+
 }

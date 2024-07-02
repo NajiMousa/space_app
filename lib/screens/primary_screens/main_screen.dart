@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-
-import '../../model/primary_page_model.dart';
+import '../../models/screen_models/primary_page_model.dart';
 import '../nav_bar_screens/other_main_screens/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
@@ -434,7 +433,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: ListView(
                   // shrinkWrap: true,
                   children: [
-                    SizedBox(height: 10.h),
+                    // SizedBox(height: 10.h),
                     widget.selectedIndex == 0
                         // todo: Create new Post in HomeScreen
                         ? InkWell(
@@ -451,7 +450,7 @@ class _MainScreenState extends State<MainScreen> {
                               textInputType: TextInputType.emailAddress,
                               errorText: _emailErrorText,
                             ),
-                        )
+                        ): widget.selectedIndex == 4 ? SizedBox()
                         // InkWell(
                         //         onTap: () => Navigator.pushNamed(
                         //             context, '/new_post_screen'),
