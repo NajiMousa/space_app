@@ -1,17 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
+import 'package:difaf_al_wafa_app/screens/display_screens/initiative_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
-
 import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../../models/initiative_models/initiative_data_model.dart';
-import '../../display_screens/initiative_details_page.dart';
+import '../../../models/user_models/user_profile_data_model.dart';
 
 class InitiativesScreen extends StatefulWidget {
-  const InitiativesScreen({Key? key}) : super(key: key);
+   InitiativesScreen({Key? key,}) : super(key: key);
+
 
   @override
   State<InitiativesScreen> createState() => _InitiativesScreenState();
@@ -19,6 +21,24 @@ class InitiativesScreen extends StatefulWidget {
 
 class _InitiativesScreenState extends State<InitiativesScreen> {
   SharedPrefController sharedPrefController = SharedPrefController();
+
+  UserProfileDataModel? _userProfileData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadUserData();
+  }
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
+    List<InitiativeDataModel> initiativeData = await FbFireStoreController().getAllInitiative();
+    setState(() {
+      _userProfileData = userData.firstWhere((user) => user.userDataId == initiativeData.first.userDataId);
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -302,7 +322,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
-                      return InitiativeDetailsPage(initiativeDataModel: mapInitiativeDataModel(document[index]));
+                      return InitiativeDetailsScreen(initiativeDataModel: mapInitiativeDataModel(document[index]));
                     },)),
                       child: Stack(
                         children: [
@@ -328,11 +348,14 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                    'images/coverImage.png',
-                                    width: double.infinity,
+                                  CachedNetworkImage(
+                                    imageUrl: document[index].get('backgroundImage'),
                                     height: 110.h,
-                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                   SizedBox(height: 18.h),
                                   Padding(
@@ -463,7 +486,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
-                      return InitiativeDetailsPage(initiativeDataModel: mapInitiativeDataModel(document[index]));
+                      return InitiativeDetailsScreen(initiativeDataModel: mapInitiativeDataModel(document[index]));
                     },)),
                     child: Padding(
                       padding:
@@ -492,13 +515,16 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset(
-                                    'images/coverImage.png',
-                                    width: double.infinity,
+                                  CachedNetworkImage(
+                                    imageUrl: document[index].get('backgroundImage'),
                                     height: 76.h,
-                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
-                                  SizedBox(height: 18.h),
+                                                                    SizedBox(height: 18.h),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         right: 18.w, left: 18.w, top: 24.h, bottom: 10.h),
@@ -567,7 +593,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 30.h, left: 18.w, right: 16.w),
+                            padding: EdgeInsets.only(top: 30.h, left: 18.w, right: 24.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -576,17 +602,26 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50.sp),
                                   ),
-                                  child: Image.asset(
-                                    'images/userIcon.png',
-                                    width: double.infinity,
-                                    fit: BoxFit.fill,
-                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  // Image.asset(
+                                  //   'images/userIcon.png',
+                                  //   width: double.infinity,
+                                  //   fit: BoxFit.fill,
+                                  // ),
                                   width: 72.w,
                                   height: 72.h,
+                                  child: CachedNetworkImage(
+                                    imageUrl: _userProfileData!.profileImageUrl,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                  ),
                                   // margin: EdgeInsets.only(top: 35.h, left: 18.w),
                                 ),
                                 Text(
-                                  'Yasser Mansoor',
+                                  _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
                                   style: TextStyle(
                                       fontSize: 13.sp,
                                       color: HexColor('#6699CC'),

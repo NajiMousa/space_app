@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/models/posta_models/posts_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
+import '../../models/user_models/user_profile_data_model.dart';
 
 
 class NewPostScreen extends StatefulWidget {
@@ -17,12 +23,17 @@ class NewPostScreen extends StatefulWidget {
 }
 
 class _NewPostScreenState extends State<NewPostScreen> {
+
+  final ImagePicker _picker = ImagePicker();
+  List<XFile>? _selectedImages = [];
   int _selectedTypeMessanger = 0;
+  List<AssetEntity> _images = [];
   SharedPrefController sharedPrefController = SharedPrefController();
   // File? _imageFile;
   // File? _videoFile;
   // File? _audioFile;
 
+  UserProfileDataModel? _userProfileData;
   bool _imageFile = false;
   bool _videoFile = false;
   bool _audioFile = false;
@@ -34,7 +45,53 @@ class _NewPostScreenState extends State<NewPostScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // _loadImages();
+    print('object01');
+    // _loadUserData();
+    _requestPermission();
+    print('object');
+
     _contentTextEditorController = TextEditingController();
+  }
+
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
+    print('001');
+    setState(() {
+      _userProfileData = userData.firstWhere((user) => user.userDataId == SharedPrefController().userDataId) ;
+    });
+    print('002');
+  }
+  Future<void> _requestPermission() async {
+    print('00001');
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    // if (ps.isAuth) {
+      _loadImages();
+    // } else {
+    //   PhotoManager.openSetting();
+    // }
+  }
+
+  Future<void> _loadImages() async {
+    print('04');
+    List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      hasAll: true,
+      // onlyAll: true,
+      // type: RequestType.common,
+    );
+    print('05');
+    if (albums.isNotEmpty) {
+      print('07');
+      List<AssetEntity> photos = await albums[0].getAssetListRange(
+        start: 0,
+        end: 6, // Load the first 100 images
+      );
+
+      print('06');
+      setState(() {
+        _images = photos;
+      });
+    }
   }
 
   @override
@@ -390,10 +447,22 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                     prefixIcon: Padding(
                                       padding: EdgeInsets.only(
                                           bottom: 70.h, right: 12.w),
-                                      child: Image.asset(
-                                        'images/userIcon.png',
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50.sp)
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
                                         width: 40.w,
                                         height: 40.w,
+                                        child: CachedNetworkImage(
+                                          imageUrl:" _userProfileData!.profileImageUrl",
+                                          width: 40.w,
+                                          height: 40.w,
+                                          fit: BoxFit.cover,
+                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                              CircularProgressIndicator(value: downloadProgress.progress),
+                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -588,24 +657,27 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   fontFamily: 'BreeSerif'),
                             ),
                             Spacer(),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.seeMore,
-                                    style: TextStyle(
-                                        fontSize: 11.sp,
-                                        color: HexColor('#6699CC'),
-                                        fontFamily: 'BreeSerif'),
-                                  ),
-                                  SizedBox(width: 2.w),
-                                  SvgPicture.asset(
-                                    sharedPrefController.language == 'en' ? 'images/arrowForword.svg' : 'images/arrow_back.svg',
-                                    height: 10.h,
-                                    width: 10.w,
-                                    color: HexColor('#6699CC'),
-                                  ),
-                                ],
+                            InkWell(
+                              onTap: () => _pickImage(ImageSource.gallery),
+                              child: Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.seeMore,
+                                      style: TextStyle(
+                                          fontSize: 11.sp,
+                                          color: HexColor('#6699CC'),
+                                          fontFamily: 'BreeSerif'),
+                                    ),
+                                    SizedBox(width: 2.w),
+                                    SvgPicture.asset(
+                                      sharedPrefController.language == 'en' ? 'images/arrowForword.svg' : 'images/arrow_back.svg',
+                                      height: 10.h,
+                                      width: 10.w,
+                                      color: HexColor('#6699CC'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -626,35 +698,40 @@ class _NewPostScreenState extends State<NewPostScreen> {
                                   childAspectRatio: 52 / 48),
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                          itemCount: 10,
+                          itemCount: _images.length + 1,
                           itemBuilder: (context, index) {
                             if (index == 0) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.sp),
-                                  color: HexColor('#D6E0E6'),
-                                ),
-                                // height: 12.h,
-                                child: SvgPicture.asset(
-                                  'images/camera_icon.svg',
-                                  width: 24.w,
-                                  height: 24.h,
-                                  color: HexColor('#333333'),
+                              return InkWell(
+                                onTap: () =>  _takePhoto(),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.sp),
+                                    color: HexColor('#D6E0E6'),
+                                  ),
+                                  // height: 12.h,
+                                  child: SvgPicture.asset(
+                                    'images/camera_icon.svg',
+                                    width: 24.w,
+                                    height: 24.h,
+                                    color: HexColor('#333333'),
+                                  ),
                                 ),
                               );
                             } else {
-                              return Container(
+                              return
+                                Container(
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.sp),
                                   color: HexColor('#FFFFFF'),
                                 ),
                                 // height: 12.h,
-                                child: Image.asset(
-                                  'images/backgroundPost.png',
-                                  fit: BoxFit.fill,
+                                child: Image.file(
+                                  // File(_selectedImages![index - 1].path),
+                                  _images[index] as File,
+                                  fit: BoxFit.cover,
                                 ),
                               );
                             }
@@ -744,6 +821,26 @@ class _NewPostScreenState extends State<NewPostScreen> {
     // postsModel.commentId = '';
 
     return postsModel;
+  }
+
+
+
+  Future<void> _pickImage(ImageSource source) async {
+    final List<XFile>? images = await _picker.pickMultiImage();
+    if (images != null && images.isNotEmpty) {
+      setState(() {
+        _selectedImages = images;
+      });
+    }
+  }
+
+  Future<void> _takePhoto() async {
+    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    if (photo != null) {
+      setState(() {
+        _selectedImages!.add(photo);
+      });
+    }
   }
 
   // Future<void> _pickImage() async {

@@ -9,7 +9,7 @@ class UserProfileDataModel {
   late String userIdRegistration ;
   // late String gender ;
   late String backgroundImage ;
-  late String profileImage ;
+  late String profileImageUrl ;
 
   UserProfileDataModel();
 
@@ -27,7 +27,7 @@ class UserProfileDataModel {
     print('04');
     // gender = documentMap['gender'];
     backgroundImage = documentMap['backgroundImageUrl'];
-    profileImage = documentMap['profileImageUrl'];
+    profileImageUrl = documentMap['profileImageUrl'];
     print('endForm');
   }
 
@@ -42,7 +42,7 @@ class UserProfileDataModel {
     map['userIdRegistration'] = userIdRegistration;
     // map['gender'] = gender;
     map['backgroundImageUrl'] = backgroundImage;
-    map['profileImageUrl'] = profileImage;
+    map['profileImageUrl'] = profileImageUrl;
     print('endToMap');
     return map;
   }

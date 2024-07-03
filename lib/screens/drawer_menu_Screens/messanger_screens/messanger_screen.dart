@@ -1,3 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:difaf_al_wafa_app/controllers/firebase_controllers/fb_storage_controller.dart';
+import 'package:difaf_al_wafa_app/models/message_models/conversation_model.dart';
+import 'package:difaf_al_wafa_app/models/message_models/message_model.dart';
+import 'package:difaf_al_wafa_app/models/user_models/user_profile_data_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/messanger_screens/single_messanger_screen.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:intl/intl.dart';
 
+import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../widgets/add_story_widget.dart';
 import '../../widgets/users_storys_widget.dart';
 
@@ -22,6 +29,38 @@ class _MessangerScreenState extends State<MessangerScreen> {
   bool isActive = true;
   bool isClickOnMoreIcon = false;
   SharedPrefController sharedPrefController = SharedPrefController();
+  UserProfileDataModel? _userProfileData;
+  MessageModel? _messageModel;
+  late ConversationModel? _conversationModel;
+  int unreadMessagesCount=0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadUserData();
+  }
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
+    List<ConversationModel> conversationData = await FbFireStoreController().getAllConversationData();
+    List<MessageModel> messageData = await FbFireStoreController().getAllMessageData();
+    // for(int i=0 ; i <= userData.length; i++){
+    //   for(int i=0 ; i <= conversationData.length; i++){
+    //     if(userData[i].userDataId == conversationData[i].receiveID){
+    //       list = userData;
+    //     }
+    //   }
+    // }
+
+    int unreadMessages = await FbFireStoreController().countUnreadMessages();
+    setState(() {
+      _userProfileData = userData.firstWhere((user) => user.userDataId == conversationData.first.receiveID);
+      _messageModel = messageData.firstWhere((message) => message.userDataId == conversationData.first.userDataId);
+      _messageModel = messageData.firstWhere((message) => message.receiveID == conversationData.first.receiveID);
+      unreadMessagesCount = unreadMessages;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -342,95 +381,141 @@ class _MessangerScreenState extends State<MessangerScreen> {
                             return AddStoryWidget(
                                 hasAddedStory: hasAddedStory);
                           } else {
-                            return UsersStorysWidget(
-                              index: index,
-                              isActive: isActive,
+                            return InkWell(
+                              onTap: () {
+                                // FbFireStoreController().createConversation(conversationModel: mapConversationModel(document[index]));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return SingleMessangerScreen();
+                                },));
+                              },
+                              child: UsersStorysWidget(
+                                index: index,
+                                isActive: isActive,
+                              ),
                             );
                           }
                         },
                       ),
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: 15,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            onTap: () {
-                              print('object');
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return SingleMessangerScreen();
-                                },
-                              ));
-                            },
-                            contentPadding:
-                            EdgeInsets.symmetric(horizontal: 24.w),
-                            leading: Stack(
-                              alignment: AlignmentDirectional.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: HexColor('#21CED9'),
-                                    borderRadius:
-                                    BorderRadius.circular(56.sp),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FbFireStoreController().readConversation(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                          List<QueryDocumentSnapshot> document =
+                              snapshot.data!.docs;
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: document.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+
+                                return ListTile(
+                                  onTap: () {
+                                    print('object');
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return SingleMessangerScreen(conversationModel: mapConversationModel(document[index]));
+                                      },
+                                    ));
+                                  },
+                                  contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 24.w),
+                                  leading: Stack(
+                                    alignment: AlignmentDirectional.center,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: HexColor('#21CED9'),
+                                          borderRadius:
+                                          BorderRadius.circular(56.sp),
+                                        ),
+                                        width: 50.w,
+                                        height: 50.h,
+                                      ),
+                                      Container(
+                                        width: 46.w,
+                                        height: 46.w,
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.h)),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Image.network(
+                                          _userProfileData!.profileImageUrl,
+                                          width: 46.w,
+                                          height: 46.w,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  width: 50.w,
-                                  height: 50.h,
-                                ),
-                                Image.asset(
-                                  'images/userIcon.png',
-                                  width: 46.w,
-                                  height: 46.w,
-                                ),
-                              ],
-                            ),
-                            title: Text(
-                              'Mohammed Yusef',
-                              style: TextStyle(
-                                  fontSize: 13.sp,
-                                  color: HexColor('#333333'),
-                                  fontFamily: 'BreeSerif'),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Text(
-                                  'Hello Yasser .How are you?',
-                                  style: TextStyle(
-                                      fontSize: 11.sp,
-                                      color: HexColor('#6699CC'),
-                                      fontFamily: 'BreeSerif'),
-                                ),
-                                SizedBox(width: 6.w),
-                                Text(
-                                  '09:23 PM',
-                                  style: TextStyle(
-                                      fontSize: 11.sp,
-                                      color: HexColor('#FF555F'),
-                                      fontFamily: 'BreeSerif'),
-                                ),
-                              ],
-                            ),
-                            trailing: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w, vertical: 6.h),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.sp),
-                                color: HexColor('#333333'),
-                              ),
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: HexColor('#FFFFFF'),
-                                    fontFamily: 'BreeSerif'),
-                              ),
+                                  title: Text(
+                                    _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
+                                    style: TextStyle(
+                                        fontSize: 13.sp,
+                                        color: HexColor('#333333'),
+                                        fontFamily: 'BreeSerif'),
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      Text(
+                                        // 'Hello Yasser .How are you?',
+                                  _messageModel!.content,
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: HexColor('#6699CC'),
+                                            fontFamily: 'BreeSerif'),
+                                      ),
+                                      // SizedBox(width: 6.w),
+                                      Spacer(),
+                                      Text(
+                                        // _messageModel!.timeStamp,
+                                        formatTimestamp(_messageModel!.timeStamp),
+                                        style: TextStyle(
+                                            fontSize: 11.sp,
+                                            color: HexColor('#FF555F'),
+                                            fontFamily: 'BreeSerif'),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w, vertical: 6.h),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20.sp),
+                                      color: HexColor('#333333'),
+                                    ),
+                                    child: Text(
+
+                                        unreadMessagesCount.toString(),
+                                      style: TextStyle(
+                                          fontSize: 10.sp,
+                                          color: HexColor('#FFFFFF'),
+                                          fontFamily: 'BreeSerif'),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           );
-                        },
-                      ),
+                        } else {
+                          return Center(
+                            child: Column(
+                              children: const [
+                                Icon(
+                                  Icons.signal_cellular_nodata,
+                                  size: 85,
+                                ),
+                                Text('No Data'),
+                              ],
+                            ),
+                          );
+                        }
+                      },
                     ),
+
                     SizedBox(height: 18.h),
                   ],
                 ),
@@ -442,5 +527,24 @@ class _MessangerScreenState extends State<MessangerScreen> {
         ],
       ),
     );
+  }
+
+  String formatTimestamp(String timestamp) {
+    // Parse the string to DateTime
+    DateTime dateTime = DateTime.parse(timestamp);
+    // Format to hour and minute
+    return DateFormat('hh:mm a').format(dateTime);
+  }
+
+  ConversationModel mapConversationModel(QueryDocumentSnapshot documentSnapshot) {
+
+    ConversationModel conversationModel = ConversationModel();
+
+    // initiativeDataModel.iD = documentSnapshot.get('iD');
+    conversationModel.conversationId = documentSnapshot.get('conversationId');
+    conversationModel.userDataId = documentSnapshot.get('userDataId');
+    conversationModel.receiveID = documentSnapshot.get('receiveID');
+
+    return conversationModel;
   }
 }

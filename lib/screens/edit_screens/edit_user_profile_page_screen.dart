@@ -338,7 +338,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
                                                 : CachedNetworkImage(
                                                     imageUrl: widget
                                                         .userProfileDataModel!
-                                                        .profileImage,
+                                                        .profileImageUrl,
                                                     width: 84.w,
                                                     height: 84.w,
                                                     fit: BoxFit.cover,
@@ -775,7 +775,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
     userProfileDataModel.bio = _bioTextEditingController.text;
     userProfileDataModel.dateOfBirth = _dateOfBirth.toString();
     userProfileDataModel.backgroundImage = SharedPrefController().coverImageUrl;
-    userProfileDataModel.profileImage = SharedPrefController().profileImageUrl;
+    userProfileDataModel.profileImageUrl = SharedPrefController().profileImageUrl;
     userProfileDataModel.userIdRegistration =
         SharedPrefController().userIdRegistration;
     return userProfileDataModel;

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:flutter/material.dart';
@@ -73,11 +74,15 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.sp),
                                 color: Colors.red),
-                            child: Image.asset(
-                              'images/coverImage.png',
-                              fit: BoxFit.fill,
+                            child: CachedNetworkImage(
+                              imageUrl: document[index].get('backgroundImage'),
                               height: double.infinity,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(value: downloadProgress.progress),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
+
                             clipBehavior: Clip.antiAlias,
                           ),
                           Container(
@@ -586,8 +591,8 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                             clipBehavior: Clip.antiAlias,
                             width: 64.w,
                             height: 64.h,
-                            child: Image.asset(
-                              'images/backgroundPost.png',
+                            child: Image.network(
+                              document[index].get('backgroundImage'),
                               width: double.infinity,
                               fit: BoxFit.fill,
                             ),

@@ -161,7 +161,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                     color: Colors.white,
                   ),
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.all(16.0),
+                    // padding: EdgeInsets.all(16.0),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -207,10 +207,16 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                       height: 370.h,
                                       fit: BoxFit.cover,
                                     )
-                                        : CachedNetworkImage(
-                                      imageUrl: widget
-                                          .groupDataModel!
-                                          .backgroundImage,
+                                        : groupDataModel == null ? Image.asset(
+                                      'images/AA.png',
+                                      width: double.infinity,
+                                      height: 370.h,
+                                      fit: BoxFit.cover,
+                                    ):CachedNetworkImage(
+                                      imageUrl:'',
+                                      // widget
+                                      //     .groupDataModel!
+                                      //     .backgroundImage,
                                       width: double.infinity,
                                       height: 370.h,
                                       fit: BoxFit.cover,
@@ -265,7 +271,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                               ],
                             ),
 
-                      SizedBox(height: 50),
+                      SizedBox(height: 18.h),
 
                             Padding(
                               padding: EdgeInsets.symmetric(

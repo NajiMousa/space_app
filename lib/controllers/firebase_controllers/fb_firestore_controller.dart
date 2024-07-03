@@ -5,7 +5,9 @@ import 'package:difaf_al_wafa_app/models/martyr_models/martyr_request_data_model
 import 'package:difaf_al_wafa_app/models/posta_models/posts_model.dart';
 import 'package:difaf_al_wafa_app/models/posta_models/reposts_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
+import '../../models/message_models/conversation_model.dart';
 import '../../models/group_models/group_data_model.dart';
+import '../../models/message_models/message_model.dart';
 import '../../models/initiative_models/initiative_data_model.dart';
 import '../../models/martyr_models/martyr_profile_data_model.dart';
 import '../../models/user_models/user_profile_data_model.dart';
@@ -191,6 +193,99 @@ class FbFireStoreController {
     yield* _firebaseFireStore
         .collection('initiative')
         .snapshots(); // عشان اي تحديث يصير على هذا الجدول يكون عنده علم فيه
+  }
+
+  Future<List<InitiativeDataModel>> getAllInitiative() async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseFireStore.collection(
+          'initiative').get();
+      List<InitiativeDataModel> initiativeList = querySnapshot.docs.map((doc) {
+        return InitiativeDataModel.fromJson(
+            doc.data() as Map<String, dynamic>);
+      }).toList();
+      return initiativeList;
+    } catch (e) {
+      print('Error getting user data: $e');
+      return [];
+    }
+  }
+
+  Future<bool> createConversation({required ConversationModel conversationModel}) {
+    // SharedPrefController().saveInitiativeId(initiativeId: conversationModel.conversationId);
+    return _firebaseFireStore
+        .collection('conversations')
+        .add(conversationModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Stream<QuerySnapshot> readConversation() async* {
+    yield* _firebaseFireStore
+        .collection('conversations')
+        .snapshots();
+  }
+
+  Future<List<ConversationModel>> getAllConversationData() async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseFireStore.collection(
+          'conversations').get();
+      List<ConversationModel> conversationsList = querySnapshot.docs.map((doc) {
+        return ConversationModel.fromJson(
+            doc.data() as Map<String, dynamic>);
+      }).toList();
+      return conversationsList;
+    } catch (e) {
+      print('Error getting user data: $e');
+      return [];
+    }
+  }
+
+  Future<bool> createMessage({required MessageModel messageModel}) {
+    // SharedPrefController().saveInitiativeId(initiativeId: conversationModel.conversationId);
+    return _firebaseFireStore
+        .collection('messages')
+        .add(messageModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Stream<QuerySnapshot> readMessage() async* {
+    yield* _firebaseFireStore
+        .collection('messages')
+        .snapshots();
+  }
+
+  Future<bool> deleteMessage({required String path}) {
+    return _firebaseFireStore
+        .collection('messages')
+        .doc(path)
+        .delete()
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<List<MessageModel>> getAllMessageData() async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseFireStore.collection(
+          'messages').get();
+      List<MessageModel> conversationsList = querySnapshot.docs.map((doc) {
+        return MessageModel.fromJson(
+            doc.data() as Map<String, dynamic>);
+      }).toList();
+      return conversationsList;
+    } catch (e) {
+      print('Error getting user data: $e');
+      return [];
+    }
+  }
+
+  Future<int> countUnreadMessages() async {
+    QuerySnapshot querySnapshot = await _firebaseFireStore
+        .collection('messages')
+        .where('isRead', isEqualTo: false)
+        .get();
+
+    return querySnapshot.docs.length;
   }
 
   ///CRUD

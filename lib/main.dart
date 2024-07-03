@@ -1,4 +1,5 @@
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
+import 'package:difaf_al_wafa_app/providers/chat_provider.dart';
 import 'package:difaf_al_wafa_app/providers/language_provider.dart';
 import 'package:difaf_al_wafa_app/providers/theme_provider.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/add_group_screen.dart';
@@ -7,10 +8,7 @@ import 'package:difaf_al_wafa_app/screens/add_new_screens/add_user_story_screen.
 import 'package:difaf_al_wafa_app/screens/add_new_screens/new%20_martyrs_profile_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/login_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/otp_code_screen.dart';
-import 'package:difaf_al_wafa_app/screens/display_screens/initiative_details_page.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/other_main_screens/activities_log_screen.dart';
-import 'package:difaf_al_wafa_app/screens/image_screens/image_screen.dart';
-import 'package:difaf_al_wafa_app/screens/image_screens/upload_images_screen.dart';
 import 'package:difaf_al_wafa_app/screens/other_text_screens/about_us_screen.dart';
 import 'package:difaf_al_wafa_app/screens/edit_screens/edit_user_profile_page_screen.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/other_main_screens/saved_screen.dart';
@@ -66,10 +64,9 @@ void main() async {
     MultiProvider(
       providers: [
         // ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(), child: MyApp(),),
-        ChangeNotifierProvider<LanguageProvider>(
-            create: (_) => LanguageProvider()),
-        ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(),
+        ChangeNotifierProvider<LanguageProvider>(create: (_) => LanguageProvider()),
+        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(),
+          // child: ChangeNotifierProvider<ChatProvider>(create: (_) => ChatProvider()),
         ),
       ],
       child: MyApp(),

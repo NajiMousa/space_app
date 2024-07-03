@@ -148,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 100.w,
                     height: 120.h,
                     child: CachedNetworkImage(
-                      imageUrl: _userProfileData.profileImage,
+                      imageUrl: _userProfileData.profileImageUrl,
                       width: double.infinity,
                       // height: 370.h,
                       fit: BoxFit.cover,

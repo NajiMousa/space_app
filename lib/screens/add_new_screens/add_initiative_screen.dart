@@ -179,7 +179,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                     color: Colors.white,
                   ),
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.all(16.0),
+                    // padding: EdgeInsets.all(16.0),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -225,8 +225,13 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                                     height: 370.h,
                                     fit: BoxFit.cover,
                                   )
-                                      : CachedNetworkImage(
-                                    imageUrl: '',
+                                      : initiativeDataModel == null ? Image.asset(
+                                    'images/AA.png',
+                                    width: double.infinity,
+                                    height: 370.h,
+                                    fit: BoxFit.cover,
+                                  ): CachedNetworkImage(
+                                    imageUrl:'',
                                     // widget
                                     //     .initiativeDataModel!
                                     //     .backgroundImage,
@@ -283,6 +288,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
                               ),
                             ],
                           ),
+                          SizedBox(height: 18.h,),
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 24.w, vertical: 6.h),
@@ -594,7 +600,7 @@ class _AddInitiativeScreenState extends State<AddInitiativeScreen> {
     InitiativeDataModel initiativeDataModel =
     widget.initiativeDataModel == null ? InitiativeDataModel() : widget.initiativeDataModel!;
     // InitiativeDataModel initiativeDataModel =  InitiativeDataModel();
-    initiativeDataModel.initiativeId =  initiativeDataModel.initiativeId == null ? uuid.v4(): SharedPrefController().initiativeId;
+    initiativeDataModel.initiativeId =  initiativeDataModel == null ? uuid.v4(): SharedPrefController().initiativeId;
     initiativeDataModel.initiativeName = _initiativeNameTextEditingController.text;
     initiativeDataModel.classification = _classificationTextEditingController.text;
     initiativeDataModel.description = _descriptionTextEditingController.text;

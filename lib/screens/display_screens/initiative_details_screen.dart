@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:difaf_al_wafa_app/models/initiative_models/initiative_data_model.dart';
 import 'package:difaf_al_wafa_app/models/message_models/conversation_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/messanger_screens/single_messanger_screen.dart';
@@ -12,14 +14,15 @@ import 'package:uuid/uuid.dart';
 import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../models/user_models/user_profile_data_model.dart';
 
-class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+class InitiativeDetailsScreen extends StatefulWidget {
+  InitiativeDetailsScreen({Key? key, required this.initiativeDataModel}) : super(key: key);
 
+  InitiativeDataModel initiativeDataModel;
   @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
+  State<InitiativeDetailsScreen> createState() => _InitiativeDetailsScreenState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
   int _selectedTypeMessanger = 0;
   SharedPrefController sharedPrefController = SharedPrefController();
   UserProfileDataModel? _userProfileData;
@@ -487,9 +490,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ],
         ),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          :Stack(
+      body:Stack(
         alignment: sharedPrefController.language == 'en'
             ? Alignment.topLeft
             : Alignment.topRight,
@@ -507,219 +508,34 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               padding: EdgeInsets.zero,
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 260.h,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: sharedPrefController.language == 'en'
-                              ? Radius.circular(42.sp)
-                              : Radius.circular(0.sp),
-                          bottomRight: sharedPrefController.language == 'en'
-                              ? Radius.circular(0.sp)
-                              : Radius.circular(42.sp),
-                        ),
-                        // color: Colors.red,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 10,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: _userProfileData!.backgroundImage,
-                        width: double.infinity,
-                        height: 370.h,
-                        fit: BoxFit.cover,
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            CircularProgressIndicator(value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
+                Container(
+                  width: double.infinity,
+                  height: 260.h,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(42.sp),
+                      bottomRight: Radius.circular(42.sp),
                     ),
-                    Padding(
-                      padding: sharedPrefController.language == 'en'
-                          ? EdgeInsets.only(left: 24.w, top: 215.h)
-                          : EdgeInsets.only(right: 24.w, top: 215.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Stack(
-                            alignment: AlignmentDirectional.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: HexColor('#21CED9'),
-                                  borderRadius: BorderRadius.circular(56.sp),
-                                ),
-
-                                width: 90.w,
-                                height: 90.h,
-
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: HexColor('#21CED9'),
-                                  borderRadius: BorderRadius.circular(56.sp),
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: CachedNetworkImage(
-                                  imageUrl: _userProfileData!.profileImageUrl,
-                                  width: 84.w,
-                                  height: 84.w,
-                                  fit: BoxFit.cover,
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 70.w,
-                                    right: 4.w,
-                                    top: 62.h,
-                                    bottom: 4.h),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 8.h),
-                                // margin: EdgeInsets.only(left: 24.w),
-                                width: 32.w,
-                                height: 32.h,
-                                decoration: BoxDecoration(
-                                  color: HexColor('#E0EBF2'),
-                                  // Background color
-                                  shape: BoxShape
-                                      .circle, // Make it a circle if desired
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    // Navigator.pop(context);
-                                  },
-                                  child: SvgPicture.asset(
-                                    'images/camera_icon.svg',
-                                    width: 6.w,
-                                    height: 10.h,
-                                    color: HexColor('#333333'),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 16.w,
-                              top: 18.h,
-                              right: 18.w,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '20.3K',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.post,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '205.6K',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.follower,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '10.6K',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.following,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '03',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.linkPages,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                    // color: Colors.red,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 10,
+                        offset: Offset(0, 3), // changes position of shadow
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: 'widget.initiativeDataModel!.backgroundImage',
+                    width: double.infinity,
+                    height: 370.h,
+                    fit: BoxFit.cover,
+                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                        CircularProgressIndicator(value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 ),
                 SizedBox(height: 18.h),
                 Padding(
@@ -729,174 +545,351 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
+                        widget.initiativeDataModel.initiativeName,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 16.sp,
                           color: HexColor('#333333'),
                         ),
                       ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        _userProfileData!.dateOfBirth,
-                        style: TextStyle(
-                          fontFamily: 'BreeSerif',
-                          fontSize: 11.sp,
-                          color: HexColor('#8C9EA0'),
-                        ),
-                      ),
                       SizedBox(height: 8.h),
                       Text(
-                        _userProfileData!.bio,
+                        widget.initiativeDataModel.responsiblePerson,
                         style: TextStyle(
                           fontFamily: 'BreeSerif',
                           fontSize: 11.sp,
                           color: HexColor('#333333'),
                         ),
                       ),
+                      SizedBox(height: 8.h),
+                      LinearProgressIndicator(
+                        value: 0.8,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            HexColor('#333333')),
+                        backgroundColor: HexColor('#D9D9D9'),
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        widget.initiativeDataModel.targetAmount,
+                        style: TextStyle(
+                          fontFamily: 'BreeSerif',
+                          fontSize: 11.sp,
+                          color: HexColor('#6699CC'),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 9.h),
+                        child: ElevatedButton(
+                          onPressed: () {
+                          },
+                          style: ElevatedButton.styleFrom(
+                            // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
+                            minimumSize: Size(double.infinity, 45.h),
+                            backgroundColor: HexColor('#6699CC'),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.sp),
+                            ),
+                          ),
+                          child: Text(
+                            // AppLocalizations.of(context)!.logIn,
+                            'Share',
+                            style: TextStyle(
+                              color: HexColor('#FFFFFF'),
+                              fontSize: 16.sp,
+                              fontFamily: 'BreeSerif',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 3.h),
+                        child: ElevatedButton(
+                          onPressed: () {
+                          },
+                          style: ElevatedButton.styleFrom(
+                            // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
+                            minimumSize: Size(double.infinity, 45.h),
+                            backgroundColor: HexColor('#333333'),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.sp),
+                            ),
+                          ),
+                          child: Text(
+                            // AppLocalizations.of(context)!.logIn,
+                            'Donate now',
+                            style: TextStyle(
+                              color: HexColor('#FFFFFF'),
+                              fontSize: 16.sp,
+                              fontFamily: 'BreeSerif',
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.w),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Row(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return SingleMessangerScreen(conversationModel: conversationModel,userProfileDataModel: _userProfileData,);
-                          },));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.h, horizontal: 18.w),
-                          backgroundColor: HexColor('#333333'),
-                          minimumSize: Size(100.w, 24.h),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(50.sp)),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.sp)
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              'images/addPost.svg',
-                              height: 12.h,
-                              width: 12.w,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 5.w),
-                            Text(
-                              AppLocalizations.of(context)!.addStory,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 11.sp,
-                                fontFamily: 'BreeSerif',
-                              ),
-                            ),
-                          ],
+                        clipBehavior: Clip.antiAlias,
+                        width: 40.w,
+                        height: 40.w,
+                        child: CachedNetworkImage(
+                          imageUrl: '_userProfileData!.profileImageUrl',
+                          width: 40.w,
+                          height: 40.w,
+                          fit: BoxFit.cover,
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              CircularProgressIndicator(value: downloadProgress.progress),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
                         ),
                       ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-
-                            // Navigator.pushNamed(
-                            //     context, '/edit_user_profile_page_screen');
-                            // List<UserProfileDataModel> listUserData = await FbFireStoreController().getDataUser();
-                            // print('01');
-                            // for (int i = -1; i <= listUserData.length; i++){
-                            //   print(SharedPrefController().phone);
-                            //   print('SharedPrefController().phone');
-                            //   print('SharedPrefController().userIdRegistration');
-                            //   print(SharedPrefController().userIdRegistration);
-                            //   print(listUserData.length);
-                            //   print('listUserData.length');
-                            //   print(listUserData[0].bio);
-                            //   print('istUserData[i].userIdRegistration');
-                            //   print('00001');
-                            //   if(listUserData[i].userIdRegistration == SharedPrefController().userIdRegistration ){
-                            //     Navigator.push(
-                            //         context, MaterialPageRoute(builder: (context) {
-                            //       return EditUserProfilePageScreen(userProfileDataModel: listUserData[i]);
-                            //     },));
-                            //   }
-                            // }
-
-                            // CollectionReference users = _firebaseFireStore.collection('users');
-                            // QuerySnapshot querySnapshot = SharedPrefController().phone != null
-                            //     ? await users.where('phone', isEqualTo: SharedPrefController().phone).get()
-                            //     : await users.where('email', isEqualTo: SharedPrefController().email).get();
-                            // if (querySnapshot.docs.isNotEmpty) {
-                            //   String docId = querySnapshot.docs.first.id;
-                            //
-                            // }
-
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) {
-                              return EditUserProfilePageScreen(userProfileDataModel: _userProfileData);
-                            },));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8.h, horizontal: 12.w),
-                            backgroundColor: HexColor('#6699CC'),
-                            minimumSize: Size(double.infinity, 24.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(50.sp)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'images/addPost.svg',
-                                height: 12.h,
-                                width: 12.w,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                AppLocalizations.of(context)!.editProfile,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                  fontFamily: 'BreeSerif',
-                                ),
-                              ),
-                            ],
-                          ),
+                      Text(
+                        widget.initiativeDataModel.responsiblePerson,
+                        style: TextStyle(
+                          color: HexColor('#333333'),
+                          fontSize: 11.sp,
+                          fontFamily: 'BreeSerif',
                         ),
                       ),
-                      SizedBox(width: 5.w),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.h, horizontal: 8.w),
-                          backgroundColor: HexColor('#333333'),
-                          minimumSize: Size(24.w, 24.h),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(50.sp)),
-                        ),
-                        child: SvgPicture.asset(
-                          'images/icons.svg',
-                          height: 12.h,
-                          width: 12.w,
-                          color: Colors.white,
+                      Text(
+                        ' is organizing this fundraiser.',
+                        style: TextStyle(
+                          color: HexColor('#559FEA'),
+                          fontSize: 11.sp,
+                          fontFamily: 'BreeSerif',
                         ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 6.h),
                 Divider(
-                  thickness: 2,
+                  thickness: 1,
                   indent: 32.w,
                   endIndent: 32.w,
                 ),
-                SizedBox(height: 12.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 12.h),
+                  child: Text(
+                    widget.initiativeDataModel.description,
+                    style: TextStyle(
+                      color: HexColor('#333333'),
+                      fontSize: 11.sp,
+                      fontFamily: 'BreeSerif',
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 1,
+                  indent: 32.w,
+                  endIndent: 32.w,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 6.h),
+                  child: Text(
+                    'Donations (10.8K)',
+                    style: TextStyle(
+                      color: HexColor('#333333'),
+                      fontSize: 11.sp,
+                      fontFamily: 'BreeSerif',
+                    ),
+                  ),
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: FbFireStoreController().readInitiativePage(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                      List<QueryDocumentSnapshot> document =
+                          snapshot.data!.docs; // عشان اقدر اجيب طولها
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: document.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                                leading: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50.sp)
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  width: 40.w,
+                                  height: 40.w,
+                                  child: CachedNetworkImage(
+                                    imageUrl: '_userProfileData!.profileImageUrl',
+                                    width: 40.w,
+                                    height: 40.w,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                  ),
+                                ),
+                                title: Text(
+                                  widget.initiativeDataModel.responsiblePerson,
+                                  style: TextStyle(
+                                    color: HexColor('#8C9EA0'),
+                                    fontSize: 11.sp,
+                                    fontFamily: 'BreeSerif',
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '\$3.068',
+                                  style: TextStyle(
+                                    color: HexColor('#333333'),
+                                    fontSize: 11.sp,
+                                    fontFamily: 'BreeSerif',
+                                  ),
+                                ),
+                                trailing: Text(
+                                  '1day',
+                                  style: TextStyle(
+                                    color: HexColor('#8C9EA0'),
+                                    fontSize: 11.sp,
+                                    fontFamily: 'BreeSerif',
+                                  ),
+                                ),
+                              );
+                              // Stack(
+                              //   children: [
+                              //     Container(
+                              //       decoration: BoxDecoration(
+                              //         borderRadius: BorderRadius.circular(15.sp),
+                              //         color: HexColor('#E0EBF2'),
+                              //       ),
+                              //       child: Container(
+                              //         clipBehavior: Clip.antiAlias,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(15.sp),
+                              //           color: HexColor('#FFFFFF'),
+                              //           boxShadow: [
+                              //             BoxShadow(
+                              //               color: Colors.black.withOpacity(0.2),
+                              //               spreadRadius: 1,
+                              //               blurRadius: 2,
+                              //               offset: Offset(0, 1), // changes position of shadow
+                              //             ),
+                              //           ],
+                              //         ),
+                              //         child: Column(
+                              //           crossAxisAlignment: CrossAxisAlignment.center,
+                              //           children: [
+                              //             CachedNetworkImage(
+                              //               imageUrl: document[index].get('backgroundImage'),
+                              //               height: 110.h,
+                              //               width: double.infinity,
+                              //               fit: BoxFit.cover,
+                              //               progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              //                   CircularProgressIndicator(value: downloadProgress.progress),
+                              //               errorWidget: (context, url, error) => Icon(Icons.error),
+                              //             ),
+                              //             SizedBox(height: 18.h),
+                              //             Padding(
+                              //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              //               child: Text(
+                              //                 document[index].get('initiativeName'),
+                              //                 style: TextStyle(
+                              //                     fontSize: 12.sp,
+                              //                     color: HexColor('#333333'),
+                              //                     fontFamily: 'BreeSerif'),
+                              //               ),
+                              //             ),
+                              //             SizedBox(height: 6.h),
+                              //             // Center(
+                              //             //   child: LinearProgressIndicator(),
+                              //             // ),
+                              //             Padding(
+                              //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              //               child: Divider(
+                              //                 height: 0.5.h,
+                              //                 color: HexColor('#D9D9D9'),
+                              //                 thickness: 1.h,
+                              //               ),
+                              //             ),
+                              //             SizedBox(height: 6.h),
+                              //             Padding(
+                              //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              //               child: Row(
+                              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //                 children: [
+                              //                   Text(
+                              //                     document[index].get('targetAmount'),
+                              //                     style: TextStyle(
+                              //                         fontSize: 10.sp,
+                              //                         color: HexColor('#3396F9'),
+                              //                         fontFamily: 'BreeSerif'),
+                              //                   ),
+                              //                   Container(
+                              //                     child: Row(
+                              //                       children: [
+                              //                         SvgPicture.asset(
+                              //                           'images/healthcare.svg',
+                              //                           height: 20.h,
+                              //                           width: 20.w,
+                              //                           color: HexColor('#333333'),
+                              //                         ),
+                              //                         SizedBox(width: 6.w,),
+                              //                         Text(
+                              //                           document[index].get('classification'),
+                              //                           style: TextStyle(
+                              //                               fontSize: 8.sp,
+                              //                               color: HexColor('#333333'),
+                              //                               fontFamily: 'BreeSerif'),
+                              //                         ),
+                              //                       ],
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //             )
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     Container(
+                              //       decoration: BoxDecoration(
+                              //         borderRadius: BorderRadius.circular(50.sp),
+                              //         color: Colors.white,
+                              //       ),
+                              //       margin: EdgeInsets.only(top: 72.h, left: 15.w),
+                              //       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                              //       child: Text(
+                              //         '11.2K donayions',
+                              //         style: TextStyle(
+                              //             fontSize: 9.sp,
+                              //             color: HexColor('#333333'),
+                              //             fontFamily: 'BreeSerif'),
+                              //       ),
+                              //     )
+                              //   ],
+                              // );
+                          },
+                        );
+                    } else {
+                      return Center(
+                        child: Column(
+                          children: const [
+                            Icon(
+                              Icons.signal_cellular_nodata,
+                              size: 85,
+                            ),
+                            Text('No Data'),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),
