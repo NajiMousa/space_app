@@ -1,12 +1,12 @@
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/main_screen.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/show_log_out_messages_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/contact_us_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/show_log_out_messages_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../widgets/show_link_page_widget.dart';
+import '../widgets/app_widgets/show_link_page_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class DrawerMenuScreen extends StatefulWidget {

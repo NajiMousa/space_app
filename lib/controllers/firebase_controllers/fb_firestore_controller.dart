@@ -1,15 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:difaf_al_wafa_app/models/posta_models/comments_model.dart';
-import 'package:difaf_al_wafa_app/models/posta_models/likes_model.dart';
+import 'package:difaf_al_wafa_app/models/collecter_models/follow_model.dart';
+import 'package:difaf_al_wafa_app/models/article_models/article_data_model.dart';
 import 'package:difaf_al_wafa_app/models/martyr_models/martyr_request_data_model.dart';
-import 'package:difaf_al_wafa_app/models/posta_models/posts_model.dart';
-import 'package:difaf_al_wafa_app/models/posta_models/reposts_model.dart';
+import 'package:difaf_al_wafa_app/models/strory_models/story_data_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
+import '../../models/martyr_models/martyr_stories_data_model.dart';
 import '../../models/message_models/conversation_model.dart';
 import '../../models/group_models/group_data_model.dart';
 import '../../models/message_models/message_model.dart';
 import '../../models/initiative_models/initiative_data_model.dart';
 import '../../models/martyr_models/martyr_profile_data_model.dart';
+import '../../models/post_models/comments_model.dart';
+import '../../models/post_models/likes_model.dart';
+import '../../models/post_models/posts_model.dart';
+import '../../models/post_models/reposts_model.dart';
+import '../../models/post_models/saved_model.dart';
 import '../../models/user_models/user_profile_data_model.dart';
 import '../../models/user_models/users_registeration_model.dart';
 
@@ -45,6 +50,7 @@ class FbFireStoreController {
       String docId = querySnapshot.docs.first.id;
     }
     await _firebaseFireStore.collection('users').add(userRegisterationModel.toMap());
+    SharedPrefController().saveUserIdRegistration(userIdRegistration: userRegisterationModel.usersRegisterationId);
   }
 
   Future<List<UsersRegisterationModel>> getUser() async {
@@ -153,6 +159,12 @@ class FbFireStoreController {
     });
   }
 
+  Stream<QuerySnapshot> readUserDataStream() async* {
+    yield* _firebaseFireStore
+        .collection('userData')
+        .snapshots();
+  }
+
 
   ///CRUD
   Future<bool> createInitiativePage({required InitiativeDataModel initiativeDataModel}) {
@@ -252,6 +264,7 @@ class FbFireStoreController {
   Stream<QuerySnapshot> readMessage() async* {
     yield* _firebaseFireStore
         .collection('messages')
+        .orderBy('timeStamp', descending: true)
         .snapshots();
   }
 
@@ -328,12 +341,14 @@ class FbFireStoreController {
   Stream<QuerySnapshot> readMartyrRequest() async* {
     yield* _firebaseFireStore
         .collection('martyrRequestData')
+        .where('status', isEqualTo: 'pending')
         .snapshots(); // عشان اي تحديث يصير على هذا الجدول يكون عنده علم فيه
   }
 
   ///CRUD
   Future<bool> createMartyrData(
       {required MartyrProfileDataModel martyrProfileDataModel}) {
+    print('create');
     return _firebaseFireStore
         .collection('martyrDta')
         .add(martyrProfileDataModel.toMap())
@@ -386,6 +401,71 @@ class FbFireStoreController {
     yield* _firebaseFireStore
         .collection('martyrDta')
         .snapshots(); // عشان اي تحديث يصير على هذا الجدول يكون عنده علم فيه
+  }
+
+  Stream<QuerySnapshot> readMartyrStories() async* {
+    yield* _firebaseFireStore
+        .collection('martyrDta')
+    .where('writeStory', isNotEqualTo: '')
+        .snapshots(); // عشان اي تحديث يصير على هذا الجدول يكون عنده علم فيه
+  }
+
+  ///CRUD
+  Future<bool> createMartyrStory(
+      {required MartyrStoriesDataModel martyrStoriesDataModel}) {
+    print('create');
+    return _firebaseFireStore
+        .collection('martyrStories')
+        .add(martyrStoriesDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> deleteMartyrStory({required String path}) {
+    return _firebaseFireStore
+        .collection('martyrStories')
+        .doc(path)
+        .delete()
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> updateMartyrStory(
+      {required MartyrStoriesDataModel martyrStoriesDataModel}) async {
+    try {
+      final postsCollection = _firebaseFireStore.collection('martyrStories');
+      QuerySnapshot querySnapshot = await postsCollection.where('martyrDataId', isEqualTo: martyrStoriesDataModel.martyrDataId).get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        await postsCollection.doc(doc.id).update(martyrStoriesDataModel.toMap());
+        print('Post ${doc.id} updated successfully.');
+      }
+      print('All posts updated successfully.');
+      return true;
+    } catch (e) {
+      print('Error updating posts: $e');
+      return false;
+    }
+  }
+
+  Future<List<MartyrStoriesDataModel>> getAllMartyrStories() async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseFireStore.collection(
+          'martyrStories').get();
+      List<MartyrStoriesDataModel> martyrStoriesList = querySnapshot.docs.map((doc) {
+        return MartyrStoriesDataModel.fromJson(
+            doc.data() as Map<String, dynamic>);
+      }).toList();
+      return martyrStoriesList;
+    } catch (e) {
+      print('Error getting user data: $e');
+      return [];
+    }
+  }
+
+  Stream<QuerySnapshot> readMartyrStory() async* {
+    yield* _firebaseFireStore
+        .collection('martyrStories')
+        .snapshots();
   }
 
   ///CRUD
@@ -511,12 +591,16 @@ class FbFireStoreController {
 
   Stream<QuerySnapshot> readPosts() async* {
     yield* _firebaseFireStore
-        .collection('posts').snapshots();
+        .collection('posts')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+
   }
 
   ///CRUD
   Future<bool> addLike(
       {required LikesModel likesModel}) {
+
     return _firebaseFireStore
         .collection('likes')
         .add(likesModel.toMap())
@@ -524,13 +608,42 @@ class FbFireStoreController {
         .catchError((error) => false);
   }
 
-  Future<bool> deleteLike({required String path}) {
-    return _firebaseFireStore
-        .collection('likes')
-        .doc(path)
-        .delete()
-        .then((value) => true)
-        .catchError((error) => false);
+  // Future<bool> deleteLike({required String path}) {
+  //   return _firebaseFireStore
+  //       .collection('likes')
+  //       .doc(path)
+  //       .delete()
+  //       .then((value) => true)
+  //       .catchError((error) => false);
+  // }
+
+  Future<bool> deleteLike({required String postId, required String userId}) async {
+    try {
+      print('01');
+      // Query the document(s) that match the specific field value
+      QuerySnapshot querySnapshot = await _firebaseFireStore
+          .collection('likes')
+          .where('postId', isEqualTo: postId )
+          .where('userId', isEqualTo: userId )
+          .get();
+      print('02');
+      // Check if any documents match the query
+      if (querySnapshot.docs.isEmpty) {
+        print('03');
+        return false; // No matching documents found
+      }
+      print('04');
+      // Iterate through the matching documents and delete them
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        print('05');
+        await _firebaseFireStore.collection('likes').doc(doc.id).delete();
+      }
+      print('06');
+      return true; // Deletion successful
+    } catch (error) {
+      print('Error deleting document: $error');
+      return false; // Deletion failed
+    }
   }
 
   Stream<QuerySnapshot> readLikes() async* {
@@ -556,6 +669,58 @@ class FbFireStoreController {
         .then((value) => true)
         .catchError((error) => false);
   }
+
+  // Future<List<CommentsModel>> fetchComments(String postId) async {
+  //   QuerySnapshot querySnapshot = await _firebaseFireStore
+  //       .collection('comments')
+  //       .where('postId', isEqualTo: postId)
+  //       .orderBy('timestamp', descending: true)
+  //       .get();
+  //
+  //   return querySnapshot.docs.map((doc) {
+  //     return CommentsModel.fromJson( doc.data() as Map<String, dynamic>);
+  //   }).toList();
+  // }
+
+  // Future<List<CommentsModel>> fetchComments(String postId) async {
+  //   try {
+  //     QuerySnapshot querySnapshot = await _firebaseFireStore
+  //         .collection('comments')
+  //         .where('postId', isEqualTo: postId)
+  //         .orderBy('timestamp', descending: true)
+  //         .get();
+  //     List<CommentsModel> commentList = querySnapshot.docs.map((doc) {
+  //       return CommentsModel.fromJson(
+  //           doc.data() as Map<String, dynamic>);
+  //     }).toList();
+  //     return commentList;
+  //   } catch (e) {
+  //     print('Error getting Posts data: $e');
+  //     return [];
+  //   }
+  // }
+
+  Stream<QuerySnapshot> readComment(String postId) async* {
+    yield* _firebaseFireStore
+        .collection('comments').where('postId', isEqualTo: postId)
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+  }
+
+  // Future<List<CommentsModel>> getAllComments() async {
+  //   try {
+  //     QuerySnapshot querySnapshot = await _firebaseFireStore.collection(
+  //         'comments').get();
+  //     List<CommentsModel> commentList = querySnapshot.docs.map((doc) {
+  //       return CommentsModel.fromJson(
+  //           doc.data() as Map<String, dynamic>);
+  //     }).toList();
+  //     return commentList;
+  //   } catch (e) {
+  //     print('Error getting Posts data: $e');
+  //     return [];
+  //   }
+  // }
 
   // Future<bool> updateComment(
   //     {required CommentsModel commentsModel}) {
@@ -584,10 +749,10 @@ class FbFireStoreController {
     }
   }
 
-  Stream<QuerySnapshot> readComment() async* {
-    yield* _firebaseFireStore
-        .collection('comments').snapshots();
-  }
+  // Stream<QuerySnapshot> readComment() async* {
+  //   yield* _firebaseFireStore
+  //       .collection('comments').snapshots();
+  // }
 
   ///CRUD
   Future<bool> doRepost(
@@ -612,4 +777,188 @@ class FbFireStoreController {
     yield* _firebaseFireStore
         .collection('reposts').snapshots();
   }
+
+  ///CRUD
+  Future<bool> addSaved(
+      {required SavedModel savedModel}) {
+
+    return _firebaseFireStore
+        .collection('saved')
+        .add(savedModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  // Future<bool> deleteLike({required String path}) {
+  //   return _firebaseFireStore
+  //       .collection('likes')
+  //       .doc(path)
+  //       .delete()
+  //       .then((value) => true)
+  //       .catchError((error) => false);
+  // }
+
+  Future<bool> deleteSaved({required String postId, required String userId}) async {
+    try {
+      print('01');
+      print(postId);
+      print('postId');
+      print(userId);
+      print('userId');
+      // Query the document(s) that match the specific field value
+      QuerySnapshot querySnapshot = await _firebaseFireStore
+          .collection('saved')
+          .where('postId', isEqualTo: postId )
+          .where('userId', isEqualTo: userId )
+          .get();
+      print('02');
+      // Check if any documents match the query
+      if (querySnapshot.docs.isEmpty) {
+        print('03');
+        return false; // No matching documents found
+      }
+      print('04');
+      // Iterate through the matching documents and delete them
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        print('05');
+        await _firebaseFireStore.collection('saved').doc(doc.id).delete();
+      }
+      print('06');
+      return true; // Deletion successful
+    } catch (error) {
+      print('Error deleting document: $error');
+      return false; // Deletion failed
+    }
+  }
+
+  Stream<QuerySnapshot> readSaved() async* {
+    yield* _firebaseFireStore
+        .collection('saved').snapshots();
+  }
+
+
+  ///CRUD
+  Future<bool> createUserStory(
+      {required StoryDataModel storyDataModel}) {
+    return _firebaseFireStore
+        .collection('stories')
+        .add(storyDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> deleteUserStory({required String path}) {
+    return _firebaseFireStore
+        .collection('stories')
+        .doc(path)
+        .delete()
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<List<StoryDataModel>> getAllUserStory() async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseFireStore.collection(
+          'stories').get();
+      List<StoryDataModel> storyDataModel = querySnapshot.docs.map((doc) {
+        return StoryDataModel.fromJson(
+            doc.data() as Map<String, dynamic>);
+      }).toList();
+      return storyDataModel;
+    } catch (e) {
+      print('Error getting Posts data: $e');
+      return [];
+    }
+  }
+
+  Stream<QuerySnapshot> readUserStory() async* {
+    yield* _firebaseFireStore
+        .collection('stories')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+
+  }
+
+  ///CRUD
+  Future<bool> doFollow(
+      {required FollowModel followModel}) {
+
+    return _firebaseFireStore
+        .collection('follow')
+        .add(followModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> unFollow({required String followingId, required String userId}) async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseFireStore
+          .collection('follow')
+          .where('followingId', isEqualTo: followingId )
+          .where('userId', isEqualTo: userId )
+          .get();
+      if (querySnapshot.docs.isEmpty) {
+        print('03');
+        return false; // No matching documents found
+      }
+      print('04');
+      // Iterate through the matching documents and delete them
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        print('05');
+        await _firebaseFireStore.collection('follow').doc(doc.id).delete();
+      }
+      print('06');
+      return true; // Deletion successful
+    } catch (error) {
+      print('Error deleting document: $error');
+      return false; // Deletion failed
+    }
+  }
+
+  Stream<QuerySnapshot> readFollower() async* {
+    yield* _firebaseFireStore
+        .collection('follow').snapshots();
+  }
+
+  ///CRUD
+  Future<bool> createArticle({required ArticleDataModel articleDataModel}) {
+    return _firebaseFireStore
+        .collection('articles')
+        .add(articleDataModel.toMap())
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> deleteArticle({required String path}) {
+    return _firebaseFireStore
+        .collection('articles')
+        .doc(path)
+        .delete()
+        .then((value) => true)
+        .catchError((error) => false);
+  }
+
+  Future<bool> updateArticle({required ArticleDataModel articleDataModel}) async {
+    try {
+      final postsCollection = _firebaseFireStore.collection('articles');
+      QuerySnapshot querySnapshot = await postsCollection.where('articleId', isEqualTo: articleDataModel.articleId).get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        await postsCollection.doc(doc.id).update(articleDataModel.toMap());
+        print('Post ${doc.id} updated successfully.');
+      }
+      print('All posts updated successfully.');
+      return true;
+    } catch (e) {
+      print('Error updating posts: $e');
+      return false;
+    }
+  }
+
+  Stream<QuerySnapshot> readArticles() async* {
+    yield* _firebaseFireStore
+        .collection('articles')
+        .orderBy('timeStamp', descending: true)
+        .snapshots();
+  }
+
 }

@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 
-import '../profile_screens/martyr_profile_screen.dart';
+import '../../profile_screens/martyr_profile_screen.dart';
 
 class ShowMoreActionMessageWidget extends StatelessWidget {
   ShowMoreActionMessageWidget({Key? key}) : super(key: key);

@@ -63,22 +63,19 @@ class FbAuthController with Helper {
         verificationId: SharedPrefController().verificationId!,
         smsCode: verificationCode,
       );
-      UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
+      UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       print('011');
       User? user = userCredential.user;
       if (user != null) {
-        UsersRegisterationModel usersRegisterationModel =
-        UsersRegisterationModel(
+        UsersRegisterationModel usersRegisterationModel = UsersRegisterationModel(
           userAuthId: user.uid,
           email: sharedPrefController.email,
           password: sharedPrefController.password,
           phone: sharedPrefController.phone,
           usersRegisterationId: uuid.v4(),
         );
-        SharedPrefController().saveUserIdRegistration(userIdRegistration: usersRegisterationModel.usersRegisterationId);
-        sharedPrefController.singUp ? await FbFireStoreController()
-            .addUser(userRegisterationModel: usersRegisterationModel):null;
+
+        sharedPrefController.singUp ? await FbFireStoreController().addUser(userRegisterationModel: usersRegisterationModel):null;
 
         print(firstTime);
         // print(users);

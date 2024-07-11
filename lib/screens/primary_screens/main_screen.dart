@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/community_screens/initiatives_screen.dart';
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/community_screens/support_groups_screen.dart';
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/martyrs_screens/martyrs_profiles_screen.dart';
@@ -6,14 +7,22 @@ import 'package:difaf_al_wafa_app/screens/nav_bar_screens/resources_screens/arti
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/resources_screens/documented_event_screen.dart';
 import 'package:difaf_al_wafa_app/screens/nav_bar_screens/other_main_screens/settings_screen.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/drawer_menu_screen.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/app_text_field_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../models/screen_models/primary_page_model.dart';
+import '../../models/user_models/user_profile_data_model.dart';
+import '../../prefs/shared_pref_controller.dart';
+import '../../providers/data_provider.dart';
 import '../nav_bar_screens/other_main_screens/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+
+import '../widgets/app_widgets/loader_widgets/shimmer_placeholder.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key, required this.selectedIndex}) : super(key: key);
@@ -28,15 +37,29 @@ class _MainScreenState extends State<MainScreen> {
   late TextEditingController _searchTextEditingController;
   String? _emailErrorText;
   String? _passwordErrorText;
+  UserProfileDataModel? _userProfileData;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // SharedPrefController().saveUserIdRegistration(userIdRegistration: '2cb4b32c-81c0-4b2d-bc78-c471d7f8ca1e');
+    // SharedPrefController().saveUserDataId(userDataId: '3abd8c17-1983-4423-bdb0-8c79f436ea4f');
+    // _loadUserData();
     _newPostTextEditingController = TextEditingController();
     _searchTextEditingController = TextEditingController();
   }
 
+  // Future<void> _loadUserData() async {
+  //   List<UserProfileDataModel> userData =
+  //   await FbFireStoreController().getAllUserData();
+  //   print(SharedPrefController().userDataId);
+  //   print('SharedPrefController().userDataId');
+  //   setState(() {
+  //     _userProfileData = userData
+  //         .firstWhere((user) => user.userDataId == SharedPrefController().userDataId);
+  //   });
+  // }
   @override
   void dispose() {
     // TODO: implement dispose
@@ -63,6 +86,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProfileData = Provider.of<DataProvider>(context).userProfileData;
     return Scaffold(
       backgroundColor: HexColor("#333333"),
       // Bottom Navigation Bar
@@ -430,98 +454,153 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   color: Colors.white,
                 ),
-                child: ListView(
+                child:
+                // _userProfileData == null ? ShimmerPlaceholder() :
+                ListView(
                   // shrinkWrap: true,
                   children: [
                     // SizedBox(height: 10.h),
                     widget.selectedIndex == 0
                         // todo: Create new Post in HomeScreen
                         ? InkWell(
-                      onTap: () => Navigator.pushNamed(
-                          context, '/new_post_screen'),
-                          child: AppTextFieldWidget(
-                              textEditingController:
-                                  _newPostTextEditingController,
-                              prefixIcon: Icons.add,
-                              hintText: AppLocalizations.of(
-                                  context)!
-                                  .whatIsOnYorMind,
-                              obsecure: false,
-                              textInputType: TextInputType.emailAddress,
-                              errorText: _emailErrorText,
-                            ),
-                        ): widget.selectedIndex == 4 ? SizedBox()
-                        // InkWell(
-                        //         onTap: () => Navigator.pushNamed(
-                        //             context, '/new_post_screen'),
-                        //         child: Column(
-                        //           children: [
-                        //             Container(
-                        //               margin: EdgeInsets.only(
-                        //                   top: 15.h, right: 24.w, left: 24.w),
-                        //               width: double.infinity,
-                        //               decoration: BoxDecoration(
-                        //                 // color: HexColor('#D6E0E6'),
-                        //                 borderRadius: BorderRadius.circular(15.sp),
-                        //               ),
-                        //               child: Row(
-                        //                 mainAxisAlignment: MainAxisAlignment.start,
-                        //                 children: [
-                        //                   Image.asset(
-                        //                     'images/userIcon.png',
-                        //                     width: 32.w,
-                        //                     height: 32.h,
-                        //                   ),
-                        //                   SizedBox(width: 15.w),
-                        //                   Text(
-                        //                     'What is on yor mind?',
-                        //                     style: TextStyle(
-                        //                       fontFamily: 'BreeSerif',
-                        //                       fontSize: 14.sp,
-                        //                       color: HexColor('#999999'),
-                        //                     ),
-                        //                   ),
-                        //                   Spacer(),
-                        //                   SvgPicture.asset(
-                        //                     'images/audioIcon.svg',
-                        //                     width: 24.w,
-                        //                     height: 24.h,
-                        //                     color: HexColor('#333333'),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             ),
-                        //             SizedBox(
-                        //               height: 8.h,
-                        //             ),
-                        //             Divider(
-                        //               thickness: 1,
-                        //               endIndent: 24.w,
-                        //               indent: 24.w,
-                        //             )
-                        //           ],
-                        //         ),
-                        //       )
-                        // : widget.selectedIndex == 4
-                        //     ? SizedBox()
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/new_post_screen'),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          top: 15.h, right: 24.w, left: 24.w),
+                                      padding: EdgeInsets.symmetric(vertical: 12.h,horizontal: 18.w),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: HexColor('#333333'),
+                                          width: 1.sp,
+                                        ),
+                                        // color: HexColor('#D6E0E6'),
+                                        borderRadius: BorderRadius.circular(15.sp),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            // margin: EdgeInsets.only(left: 18.w),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(50.sp)),
+                                            clipBehavior: Clip.antiAlias,
+                                            width: 32.w,
+                                            height: 32.w,
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                              userProfileData!.profileImageUrl,
+                                              width: 32.w,
+                                              height: 32.w,
+                                              fit: BoxFit.cover,
+                                              progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>Shimmer.fromColors(
+                                                  baseColor: Colors.grey.shade300,
+                                                  highlightColor: Colors.grey.shade100,
+                                                  enabled: true,
+                                                  child: Container(
+                                                    width: 50.w,
+                                                    height: 50.w,
+                                                    clipBehavior: Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(50.sp)),)
+                                              ),
+                                              errorWidget: (context, url, error) =>
+                                                  Icon(Icons.error),
+                                            ),
+                                          ),
+                                          // Image.asset(
+                                          //   'images/userIcon.png',
+                                          //   width: 32.w,
+                                          //   height: 32.h,
+                                          // ),
+                                          SizedBox(width: 15.w),
+                                          Text(
+                                            'What is on yor mind?',
+                                            style: TextStyle(
+                                              fontFamily: 'BreeSerif',
+                                              fontSize: 14.sp,
+                                              color: HexColor('#999999'),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          SvgPicture.asset(
+                                            'images/audioIcon.svg',
+                                            width: 24.w,
+                                            height: 24.h,
+                                            color: HexColor('#333333'),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   height: 8.h,
+                                    // ),
+                                    // Divider(
+                                    //   thickness: 1,
+                                    //   endIndent: 24.w,
+                                    //   indent: 24.w,
+                                    // )
+                                  ],
+                                ),
+                              )
+                        : widget.selectedIndex == 4
+                        ? SizedBox()
                         // todo: add Search container in other Screens
-                        : InkWell(
-                      onTap: ()  {
-                        print('object');
-                        Navigator.pushNamed(
-                            context, '/search_screen');
-                      },
-                          child: AppTextFieldWidget(
-                              textEditingController: _searchTextEditingController,
-                              prefixIcon: Icons.search,
-                              hintText: AppLocalizations.of(
-                                  context)!
-                                  .findWhatOnYourMind,
-                              obsecure: false,
-                              textInputType: TextInputType.emailAddress,
-                              errorText: _emailErrorText,
+                        :
+                    InkWell(
+                      onTap: () => Navigator.pushNamed(
+                          context, '/search_screen'),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: 15.h, right: 24.w, left: 24.w),
+                            padding: EdgeInsets.symmetric(vertical: 12.h,horizontal: 18.w),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: HexColor('#333333'),
+                                width: 1.sp,
+                              ),
+                              // color: HexColor('#D6E0E6'),
+                              borderRadius: BorderRadius.circular(15.sp),
                             ),
-                        ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  'images/searchIcon.svg',
+                                  width: 24.w,
+                                  height: 24.h,
+                                  color: HexColor('#333333'),
+                                ),
+                                SizedBox(width: 15.w),
+                                Text(
+                                  'What is on yor mind?',
+                                  style: TextStyle(
+                                    fontFamily: 'BreeSerif',
+                                    fontSize: 14.sp,
+                                    color: HexColor('#999999'),
+                                  ),
+                                ),
+                                Spacer(),
+                            SvgPicture.asset(
+                                            'images/filterIcon.svg',
+                                            width: 24.w,
+                                            height: 24.h,
+                                            color: HexColor('#333333'),
+                                          ),
+                                        ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     // InkWell(
                     //             onTap: () => Navigator.pushNamed(
                     //                 context, 'search_screen'),
@@ -567,6 +646,13 @@ class _MainScreenState extends State<MainScreen> {
                     //               ),
                     //             ),
                     //           ),
+                    Divider(
+                      endIndent: 50,
+                      indent: 50,
+                      thickness: 1,
+                      color: Colors.white,
+                    ),
+
                     // todo: Show content Screen
                     _primaryPageModel[widget.selectedIndex].widget,
                   ],
@@ -806,9 +892,10 @@ class _MainScreenState extends State<MainScreen> {
             borderRadius: BorderRadius.circular(15),
           ),
           content: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            // padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+            padding: EdgeInsets.only(top: 5.h),
             width: 360.w,
-            height: 85.h,
+            height: 70.h,
             child: Column(
               children: [
                 InkWell(
@@ -897,3 +984,8 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+
+
+
+
+

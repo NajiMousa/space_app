@@ -40,6 +40,36 @@ class FbStorageController {
       return null;
     }
   }
+
+  static Future<String> uploadFiles(String filePath, String fileName) async {
+    File file = File(filePath);
+    try {
+      TaskSnapshot snapshot = await FirebaseStorage.instance
+          .ref('uploads/$fileName')
+          .putFile(file);
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      print('Error uploading file: $e');
+      return '';
+    }
+  }
+
+  // Future<List<String>> uploadXFiles(List<XFile> files) async {
+  //   List<String> downloadUrls = [];
+  //   for (XFile file in files) {
+  //     String fileName = uuid.v4();
+  //     try {
+  //       TaskSnapshot snapshot = await FirebaseStorage.instance
+  //           .ref('uploads/$fileName')
+  //           .putFile(File(file.path));
+  //       String downloadUrl = await snapshot.ref.getDownloadURL();
+  //       downloadUrls.add(downloadUrl);
+  //     } catch (e) {
+  //       print('Error uploading file: $e');
+  //     }
+  //   }
+  //   return downloadUrls;
+  // }
   // Future<String> pickImage(
   //     {required XFile pickedFile, required String folderName}) async {
   //   try {
@@ -67,7 +97,7 @@ class FbStorageController {
   //   return '';
   // }
 
-  Future<String?> pickVideo(
+  Future<String?> uploadVideo(
       {required XFile pickedFile, required String folderName}) async {
     print('firstPickVideo');
     print('01');
@@ -92,7 +122,7 @@ class FbStorageController {
 
   }
 
-  Future<String?> pickAudio({required File pickedFile, required String folderName}) async {
+  Future<String?> uploadAudio({required File pickedFile, required String folderName}) async {
     print('firstPickFile');
       final result = await FilePicker.platform.pickFiles(type: FileType.audio);
       pickedFile = (result != null ? File(result.files.single.path!) : null)!;

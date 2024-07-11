@@ -1,15 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/models/martyr_models/martyr_request_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../../models/martyr_models/martyr_profile_data_model.dart';
 
 class MartyrsProfileWidget extends StatelessWidget {
-  MartyrsProfileWidget({Key? key, required this.martyrRequestDataModel }) : super(key: key);
+  MartyrsProfileWidget({Key? key, required this.martyrProfileDataModel})
+      : super(key: key);
 
-  final MartyrRequestDataModel martyrRequestDataModel;
+  final MartyrProfileDataModel martyrProfileDataModel;
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +39,41 @@ class MartyrsProfileWidget extends StatelessWidget {
               ],
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  'images/coverImage.png',
-                  width: double.infinity,
-                  fit: BoxFit.fill,
+                Container(
+                  height: 90.h,
+                  child: CachedNetworkImage(
+                    imageUrl: martyrProfileDataModel.backgroundImage,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            enabled: true,
+                            child: Container(
+                              width: 53.w,
+                              height: 53.w,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.sp)),
+                            )),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 ),
+                // Image.asset(
+                //   'images/coverImage.png',
+                //   width: double.infinity,
+                //   fit: BoxFit.fill,
+                // ),
                 SizedBox(height: 18.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    martyrRequestDataModel.fullMartyrName,
+                    martyrProfileDataModel.firstName +
+                        ' ' +
+                        martyrProfileDataModel.lastName,
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: HexColor('#474747'),
@@ -57,7 +84,7 @@ class MartyrsProfileWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    martyrRequestDataModel.martyrIdNumber,
+                    martyrProfileDataModel.bio,
                     style: TextStyle(
                         fontSize: 11.sp,
                         color: HexColor('#474747').withOpacity(0.7),
@@ -121,17 +148,36 @@ class MartyrsProfileWidget extends StatelessWidget {
           ),
         ),
         Container(
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50.sp),
           ),
-          child: Image.asset(
-            'images/userIcon.png',
+          child: CachedNetworkImage(
+            imageUrl: martyrProfileDataModel.profileImage,
             width: double.infinity,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    enabled: true,
+                    child: Container(
+                      width: 53.w,
+                      height: 53.w,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.sp)),
+                    )),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
+          // Image.asset(
+          //   'images/userIcon.png',
+          //   width: double.infinity,
+          //   fit: BoxFit.fill,
+          // ),
           width: 40.w,
           height: 40.h,
-          margin: EdgeInsets.only(top: 45.h, left: 15.w),
+          margin: EdgeInsets.only(top: 65.h, left: 15.w),
         )
       ],
     );

@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:provider/provider.dart';
 
 import '../../controllers/firebase_controllers/fb_auth_controller.dart';
+import '../../providers/data_provider.dart';
 import '../auth_screens/main_auth_screen.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -26,6 +28,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _loadData();
     Future.delayed(const Duration(seconds: 3), () {
       _streamSubscription = FbAuthController().checkUserState(
         listener: ({required bool state}) {
@@ -46,6 +49,10 @@ class _LaunchScreenState extends State<LaunchScreen> {
         },
       );
     });
+  }
+
+  Future<void> _loadData() async {
+    await Provider.of<DataProvider>(context, listen: false).loadUserData();
   }
 
   @override

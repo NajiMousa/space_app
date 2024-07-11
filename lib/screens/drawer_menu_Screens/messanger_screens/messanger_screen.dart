@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:difaf_al_wafa_app/controllers/firebase_controllers/fb_storage_controller.dart';
 import 'package:difaf_al_wafa_app/models/message_models/conversation_model.dart';
@@ -13,8 +14,8 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:intl/intl.dart';
 
 import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
-import '../../widgets/add_story_widget.dart';
-import '../../widgets/users_storys_widget.dart';
+import '../../widgets/story_widgets/add_story_widget.dart';
+import '../../widgets/story_widgets/users_storys_widget.dart';
 
 class MessangerScreen extends StatefulWidget {
   const MessangerScreen({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _MessangerScreenState extends State<MessangerScreen> {
   int _selectedTypeMessanger = 0;
   bool hasAddedStory = false;
   bool isActive = true;
+  bool isMessenger = false;
   bool isClickOnMoreIcon = false;
   SharedPrefController sharedPrefController = SharedPrefController();
   UserProfileDataModel? _userProfileData;
@@ -38,12 +40,16 @@ class _MessangerScreenState extends State<MessangerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      isMessenger = true;
+    });
     _loadUserData();
   }
   Future<void> _loadUserData() async {
     List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
     List<ConversationModel> conversationData = await FbFireStoreController().getAllConversationData();
     List<MessageModel> messageData = await FbFireStoreController().getAllMessageData();
+
     // for(int i=0 ; i <= userData.length; i++){
     //   for(int i=0 ; i <= conversationData.length; i++){
     //     if(userData[i].userDataId == conversationData[i].receiveID){
@@ -55,8 +61,7 @@ class _MessangerScreenState extends State<MessangerScreen> {
     int unreadMessages = await FbFireStoreController().countUnreadMessages();
     setState(() {
       _userProfileData = userData.firstWhere((user) => user.userDataId == conversationData.first.receiveID);
-      _messageModel = messageData.firstWhere((message) => message.userDataId == conversationData.first.userDataId);
-      _messageModel = messageData.firstWhere((message) => message.receiveID == conversationData.first.receiveID);
+      _messageModel = !isMessenger ?  messageData.firstWhere((message) => message.userDataId == conversationData.first.userDataId): messageData.firstWhere((message) => message.receiveID == conversationData.first.receiveID);
       unreadMessagesCount = unreadMessages;
     });
 
@@ -360,43 +365,43 @@ class _MessangerScreenState extends State<MessangerScreen> {
                   // shrinkWrap: true,
                   // physics: NeverScrollableScrollPhysics(),
                   children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        // maxWidth: double.infinity,
-                        maxHeight: 110.h,
-                      ),
-                      child: GridView.builder(
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1, // Number of columns
-                            crossAxisSpacing: 12.w,
-                            // mainAxisSpacing: 12.h,
-                            childAspectRatio: 76 / 56),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        padding: EdgeInsets.only(
-                            top: 18.h, left: 24.w, right: 24.w),
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return AddStoryWidget(
-                                hasAddedStory: hasAddedStory);
-                          } else {
-                            return InkWell(
-                              onTap: () {
-                                // FbFireStoreController().createConversation(conversationModel: mapConversationModel(document[index]));
-                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return SingleMessangerScreen();
-                                },));
-                              },
-                              child: UsersStorysWidget(
-                                index: index,
-                                isActive: isActive,
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ),
+                    // ConstrainedBox(
+                    //   constraints: BoxConstraints(
+                    //     // maxWidth: double.infinity,
+                    //     maxHeight: 110.h,
+                    //   ),
+                    //   child: GridView.builder(
+                    //     gridDelegate:
+                    //     SliverGridDelegateWithFixedCrossAxisCount(
+                    //         crossAxisCount: 1, // Number of columns
+                    //         crossAxisSpacing: 12.w,
+                    //         // mainAxisSpacing: 12.h,
+                    //         childAspectRatio: 76 / 56),
+                    //     scrollDirection: Axis.horizontal,
+                    //     itemCount: 10,
+                    //     padding: EdgeInsets.only(
+                    //         top: 18.h, left: 24.w, right: 24.w),
+                    //     itemBuilder: (context, index) {
+                    //       if (index == 0) {
+                    //         return AddStoryWidget(
+                    //             hasAddedStory: hasAddedStory);
+                    //       } else {
+                    //         return InkWell(
+                    //           onTap: () {
+                    //             // FbFireStoreController().createConversation(conversationModel: mapConversationModel(document[index]));
+                    //             Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    //               return SingleMessangerScreen();
+                    //             },));
+                    //           },
+                    //           child: UsersStorysWidget(
+                    //             index: index,
+                    //             isActive: isActive,
+                    //           ),
+                    //         );
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
                     StreamBuilder<QuerySnapshot>(
                       stream: FbFireStoreController().readConversation(),
                       builder: (context, snapshot) {
@@ -438,17 +443,35 @@ class _MessangerScreenState extends State<MessangerScreen> {
                                         height: 50.h,
                                       ),
                                       Container(
-                                        width: 46.w,
-                                        height: 46.w,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.h)),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50.sp)
+                                        ),
                                         clipBehavior: Clip.antiAlias,
-                                        child: Image.network(
-                                          _userProfileData!.profileImageUrl,
-                                          width: 46.w,
-                                          height: 46.w,
+                                        width: 44.w,
+                                        height: 44.w,
+                                        child: CachedNetworkImage(
+                                          imageUrl: _userProfileData!.profileImageUrl,
+                                          width: 40.w,
+                                          height: 40.w,
                                           fit: BoxFit.cover,
+                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                              CircularProgressIndicator(value: downloadProgress.progress),
+                                          errorWidget: (context, url, error) => Icon(Icons.error),
                                         ),
                                       ),
+                                      // Container(
+                                      //   width: 46.w,
+                                      //   height: 46.w,
+                                      //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(50.h)),
+                                      //   clipBehavior: Clip.antiAlias,
+                                      //   child: Image.network(
+                                      //     '',
+                                      //     // _userProfileData!.profileImageUrl,
+                                      //     width: 46.w,
+                                      //     height: 46.w,
+                                      //     fit: BoxFit.cover,
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                   title: Text(

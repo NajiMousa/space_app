@@ -7,13 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../../models/initiative_models/initiative_data_model.dart';
 import '../../../models/user_models/user_profile_data_model.dart';
+import '../../widgets/app_widgets/loader_widgets/shimmer_placeholder.dart';
 
 class InitiativesScreen extends StatefulWidget {
-   InitiativesScreen({Key? key,}) : super(key: key);
-
+  InitiativesScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<InitiativesScreen> createState() => _InitiativesScreenState();
@@ -30,13 +33,16 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
     super.initState();
     _loadUserData();
   }
-  Future<void> _loadUserData() async {
-    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
-    List<InitiativeDataModel> initiativeData = await FbFireStoreController().getAllInitiative();
-    setState(() {
-      _userProfileData = userData.firstWhere((user) => user.userDataId == initiativeData.first.userDataId);
-    });
 
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData =
+        await FbFireStoreController().getAllUserData();
+    List<InitiativeDataModel> initiativeData =
+        await FbFireStoreController().getAllInitiative();
+    setState(() {
+      _userProfileData = userData.firstWhere(
+          (user) => user.userDataId == initiativeData.first.userDataId);
+    });
   }
 
   @override
@@ -67,7 +73,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                 mainAxisSpacing: 12.h,
                 childAspectRatio: 1),
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.only(bottom: 18.h, left: 24.w,right: 24.w),
+            padding: EdgeInsets.only(bottom: 18.h, left: 24.w, right: 24.w),
             children: [
               Container(
                   clipBehavior: Clip.antiAlias,
@@ -78,7 +84,6 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       color: HexColor('#1877F2'), // border color
                       width: 2.0, // border width
                     ),
-
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -89,19 +94,21 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                         width: 24.w,
                         color: HexColor('#333333'),
                       ),
-                      SizedBox(height: 4.h,),
+                      SizedBox(
+                        height: 4.h,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.all,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
                             fontFamily: 'BreeSerif',
-                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold
-                        ),
+                            fontWeight: sharedPrefController.language == 'en'
+                                ? null
+                                : FontWeight.bold),
                       ),
                     ],
-                  )
-              ),
+                  )),
               Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
@@ -125,18 +132,21 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                         width: 24.w,
                         color: HexColor('#333333'),
                       ),
-                      SizedBox(height: 4.h,),
+                      SizedBox(
+                        height: 4.h,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.education,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
                             fontFamily: 'BreeSerif',
-                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
+                            fontWeight: sharedPrefController.language == 'en'
+                                ? null
+                                : FontWeight.bold),
                       ),
                     ],
-                  )
-              ),
+                  )),
               Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
@@ -162,18 +172,21 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                         width: 24.w,
                         color: HexColor('#333333'),
                       ),
-                      SizedBox(height: 4.h,),
+                      SizedBox(
+                        height: 4.h,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.charity,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
                             fontFamily: 'BreeSerif',
-                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
+                            fontWeight: sharedPrefController.language == 'en'
+                                ? null
+                                : FontWeight.bold),
                       ),
                     ],
-                  )
-              ),
+                  )),
               Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
@@ -197,18 +210,21 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                         width: 24.w,
                         color: HexColor('#333333'),
                       ),
-                      SizedBox(height: 4.h,),
+                      SizedBox(
+                        height: 4.h,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.events,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
                             fontFamily: 'BreeSerif',
-                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
+                            fontWeight: sharedPrefController.language == 'en'
+                                ? null
+                                : FontWeight.bold),
                       ),
                     ],
-                  )
-              ),
+                  )),
               Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
@@ -223,7 +239,6 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                     ],
                   ),
-
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -233,18 +248,21 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                         width: 24.w,
                         color: HexColor('#333333'),
                       ),
-                      SizedBox(height: 4.h,),
+                      SizedBox(
+                        height: 4.h,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.health,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
                             fontFamily: 'BreeSerif',
-                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
+                            fontWeight: sharedPrefController.language == 'en'
+                                ? null
+                                : FontWeight.bold),
                       ),
                     ],
-                  )
-              ),
+                  )),
               Container(
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
@@ -268,24 +286,26 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                         width: 24.w,
                         color: HexColor('#333333'),
                       ),
-                      SizedBox(height: 4.h,),
+                      SizedBox(
+                        height: 4.h,
+                      ),
                       Text(
                         AppLocalizations.of(context)!.ecological,
                         style: TextStyle(
                             fontSize: 10.sp,
                             color: HexColor('#333333'),
                             fontFamily: 'BreeSerif',
-                            fontWeight:  sharedPrefController.language == 'en' ? null : FontWeight.bold),
+                            fontWeight: sharedPrefController.language == 'en'
+                                ? null
+                                : FontWeight.bold),
                       ),
                     ],
-                  )
-              ),
+                  )),
             ],
           ),
         ),
         Padding(
-          padding:
-          EdgeInsets.only(bottom: 6.h, right: 24.w, left: 24.w),
+          padding: EdgeInsets.only(bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
             AppLocalizations.of(context)!.bestInitiative,
             style: TextStyle(
@@ -295,13 +315,20 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
           ),
         ),
         StreamBuilder<QuerySnapshot>(
-          // بناء حسب القتناة لرؤية كل تحديث يحصل
           stream: FbFireStoreController().readInitiativePage(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  enabled: true,
+                  child: Container(
+                    width: 53.w,
+                    height: 53.w,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.sp)),
+                  ));
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
               List<QueryDocumentSnapshot> document =
                   snapshot.data!.docs; // عشان اقدر اجيب طولها
@@ -315,15 +342,20 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       crossAxisCount: 1, // Number of columns
                       crossAxisSpacing: 12.w,
                       mainAxisSpacing: 12.h,
-                      childAspectRatio: 193/200),
+                      childAspectRatio: 193 / 200),
                   scrollDirection: Axis.horizontal,
                   itemCount: document.length,
-                  padding: EdgeInsets.only(bottom: 18.h, left: 24.w, right: 24.w),
+                  padding:
+                      EdgeInsets.only(bottom: 18.h, left: 24.w, right: 24.w),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
-                      return InitiativeDetailsScreen(initiativeDataModel: mapInitiativeDataModel(document[index]));
-                    },)),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return InitiativeDetailsScreen(
+                              initiativeDataModel:
+                                  mapInitiativeDataModel(document[index]));
+                        },
+                      )),
                       child: Stack(
                         children: [
                           Container(
@@ -341,7 +373,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                     color: Colors.black.withOpacity(0.2),
                                     spreadRadius: 1,
                                     blurRadius: 2,
-                                    offset: Offset(0, 1), // changes position of shadow
+                                    offset: Offset(
+                                        0, 1), // changes position of shadow
                                   ),
                                 ],
                               ),
@@ -349,17 +382,20 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   CachedNetworkImage(
-                                    imageUrl: document[index].get('backgroundImage'),
+                                    imageUrl:
+                                        document[index].get('backgroundImage'),
                                     height: 110.h,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(value: downloadProgress.progress),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>ShimmerPlaceholder(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                   SizedBox(height: 18.h),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.w),
                                     child: Text(
                                       document[index].get('initiativeName'),
                                       style: TextStyle(
@@ -373,7 +409,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                   //   child: LinearProgressIndicator(),
                                   // ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.w),
                                     child: Divider(
                                       height: 0.5.h,
                                       color: HexColor('#D9D9D9'),
@@ -382,9 +419,11 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                   ),
                                   SizedBox(height: 6.h),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16.w),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           document[index].get('targetAmount'),
@@ -402,9 +441,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                                 width: 20.w,
                                                 color: HexColor('#333333'),
                                               ),
-                                              SizedBox(width: 6.w,),
+                                              SizedBox(
+                                                width: 6.w,
+                                              ),
                                               Text(
-                                                document[index].get('classification'),
+                                                document[index]
+                                                    .get('classification'),
                                                 style: TextStyle(
                                                     fontSize: 8.sp,
                                                     color: HexColor('#333333'),
@@ -426,7 +468,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                               color: Colors.white,
                             ),
                             margin: EdgeInsets.only(top: 72.h, left: 15.w),
-                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12.w, vertical: 6.h),
                             child: Text(
                               '11.2K donayions',
                               style: TextStyle(
@@ -457,8 +500,7 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
           },
         ),
         Padding(
-          padding:
-          EdgeInsets.only( bottom: 6.h, right: 24.w, left: 24.w),
+          padding: EdgeInsets.only(bottom: 6.h, right: 24.w, left: 24.w),
           child: Text(
             AppLocalizations.of(context)!.recentAddition,
             style: TextStyle(
@@ -468,16 +510,13 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
           ),
         ),
         StreamBuilder<QuerySnapshot>(
-          // بناء حسب القتناة لرؤية كل تحديث يحصل
           stream: FbFireStoreController().readInitiativePage(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return ShimmerPlaceholder();
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
               List<QueryDocumentSnapshot> document =
-                  snapshot.data!.docs; // عشان اقدر اجيب طولها
+                  snapshot.data!.docs;
               return ListView.builder(
                 padding: EdgeInsets.only(bottom: 90.h),
                 shrinkWrap: true,
@@ -485,12 +524,16 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                 itemCount: document.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
-                      return InitiativeDetailsScreen(initiativeDataModel: mapInitiativeDataModel(document[index]));
-                    },)),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return InitiativeDetailsScreen(
+                            initiativeDataModel:
+                                mapInitiativeDataModel(document[index]));
+                      },
+                    )),
                     child: Padding(
-                      padding:
-                      EdgeInsets.only(top: 6.h, bottom: 12.h, right: 24.w, left: 24.w),
+                      padding: EdgeInsets.only(
+                          top: 6.h, bottom: 12.h, right: 24.w, left: 24.w),
                       child: Stack(
                         children: [
                           Container(
@@ -511,25 +554,30 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                 borderRadius: BorderRadius.circular(15.sp),
                                 color: HexColor('#FFFFFF'),
                               ),
-
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   CachedNetworkImage(
-                                    imageUrl: document[index].get('backgroundImage'),
+                                    imageUrl:
+                                        document[index].get('backgroundImage'),
                                     height: 76.h,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(value: downloadProgress.progress),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>ShimmerPlaceholder(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
-                                                                    SizedBox(height: 18.h),
+                                  SizedBox(height: 18.h),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        right: 18.w, left: 18.w, top: 24.h, bottom: 10.h),
+                                        right: 18.w,
+                                        left: 18.w,
+                                        top: 24.h,
+                                        bottom: 10.h),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           document[index].get('initiativeName'),
@@ -538,12 +586,15 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                               color: HexColor('#333333'),
                                               fontFamily: 'BreeSerif'),
                                         ),
-                                        SizedBox(height: 6.h,),
+                                        SizedBox(
+                                          height: 6.h,
+                                        ),
                                         Text(
                                           document[index].get('description'),
                                           style: TextStyle(
                                               fontSize: 10.sp,
-                                              color: HexColor('#474747').withOpacity(0.8),
+                                              color: HexColor('#474747')
+                                                  .withOpacity(0.8),
                                               fontFamily: 'BreeSerif'),
                                         ),
                                         SizedBox(height: 6.h),
@@ -554,10 +605,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                         ),
                                         SizedBox(height: 6.h),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              document[index].get('targetAmount'),
+                                              document[index]
+                                                  .get('targetAmount'),
                                               style: TextStyle(
                                                   fontSize: 10.sp,
                                                   color: HexColor('#3396F9'),
@@ -572,13 +625,18 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                                     width: 20.w,
                                                     color: HexColor('#333333'),
                                                   ),
-                                                  SizedBox(width: 4.w,),
+                                                  SizedBox(
+                                                    width: 4.w,
+                                                  ),
                                                   Text(
-                                                    document[index].get('classification'),
+                                                    document[index]
+                                                        .get('classification'),
                                                     style: TextStyle(
                                                         fontSize: 8.sp,
-                                                        color: HexColor('#333333'),
-                                                        fontFamily: 'BreeSerif'),
+                                                        color:
+                                                            HexColor('#333333'),
+                                                        fontFamily:
+                                                            'BreeSerif'),
                                                   ),
                                                 ],
                                               ),
@@ -593,7 +651,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 30.h, left: 18.w, right: 24.w),
+                            padding: EdgeInsets.only(
+                                top: 30.h, left: 18.w, right: 24.w),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -611,17 +670,23 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                   width: 72.w,
                                   height: 72.h,
                                   child: CachedNetworkImage(
-                                    imageUrl: _userProfileData!.profileImageUrl,
+                                    imageUrl: '',
+                                    // _userProfileData!.profileImageUrl,
                                     width: double.infinity,
                                     fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(value: downloadProgress.progress),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            ShimmerPlaceholder(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                   // margin: EdgeInsets.only(top: 35.h, left: 18.w),
                                 ),
                                 Text(
-                                  _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
+                                  '',
+                                  // _userProfileData!.firstName +
+                                  //     ' ' +
+                                  //     _userProfileData!.lastName,
                                   style: TextStyle(
                                       fontSize: 13.sp,
                                       color: HexColor('#6699CC'),
@@ -640,10 +705,12 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                                           minimumSize: Size(100.w, 24.h),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadiusDirectional.circular(50.sp)),
+                                                  BorderRadiusDirectional
+                                                      .circular(50.sp)),
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             SvgPicture.asset(
                                               'images/donation_icon.svg',
@@ -673,7 +740,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
                       ),
                     ),
                   );
-                },);
+                },
+              );
             } else {
               return Center(
                 child: Column(
@@ -693,8 +761,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
     );
   }
 
-  InitiativeDataModel mapInitiativeDataModel(QueryDocumentSnapshot documentSnapshot) {
-
+  InitiativeDataModel mapInitiativeDataModel(
+      QueryDocumentSnapshot documentSnapshot) {
     InitiativeDataModel initiativeDataModel = InitiativeDataModel();
 
     // initiativeDataModel.iD = documentSnapshot.get('iD');
@@ -704,8 +772,8 @@ class _InitiativesScreenState extends State<InitiativesScreen> {
     initiativeDataModel.targetAmount = documentSnapshot.get('targetAmount');
     initiativeDataModel.mechanismOfWork = documentSnapshot.get('mechanismOfWork');
     initiativeDataModel.responsiblePerson = documentSnapshot.get('responsiblePerson');
+    initiativeDataModel.backgroundImage = documentSnapshot.get('backgroundImage');
 
     return initiativeDataModel;
   }
-
 }

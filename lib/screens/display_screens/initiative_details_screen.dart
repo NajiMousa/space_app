@@ -10,16 +10,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:uuid/uuid.dart';
 import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../models/user_models/user_profile_data_model.dart';
+import '../widgets/app_widgets/loader_widgets/shimmer_placeholder.dart';
 
 class InitiativeDetailsScreen extends StatefulWidget {
-  InitiativeDetailsScreen({Key? key, required this.initiativeDataModel}) : super(key: key);
+  InitiativeDetailsScreen({Key? key, required this.initiativeDataModel})
+      : super(key: key);
 
   InitiativeDataModel initiativeDataModel;
+
   @override
-  State<InitiativeDetailsScreen> createState() => _InitiativeDetailsScreenState();
+  State<InitiativeDetailsScreen> createState() =>
+      _InitiativeDetailsScreenState();
 }
 
 class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
@@ -28,6 +33,7 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
   UserProfileDataModel? _userProfileData;
   bool _isLoading = true;
   var uuid = Uuid();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -36,14 +42,17 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
   }
 
   Future<void> _loadUserData() async {
-    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
+    List<UserProfileDataModel> userData =
+        await FbFireStoreController().getAllUserData();
     print(SharedPrefController().userIdRegistration);
     print('SharedPrefController().userIdRegistration');
     setState(() {
-      _userProfileData = userData.firstWhere((user) => user.userIdRegistration == SharedPrefController().userIdRegistration);
+      _userProfileData = userData.firstWhere((user) =>
+          user.userIdRegistration == SharedPrefController().userIdRegistration);
       _isLoading = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -490,7 +499,7 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
           ],
         ),
       ),
-      body:Stack(
+      body: Stack(
         alignment: sharedPrefController.language == 'en'
             ? Alignment.topLeft
             : Alignment.topRight,
@@ -528,12 +537,12 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                     ],
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: 'widget.initiativeDataModel!.backgroundImage',
+                    imageUrl: widget.initiativeDataModel.backgroundImage,
                     width: double.infinity,
                     height: 370.h,
                     fit: BoxFit.cover,
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        CircularProgressIndicator(value: downloadProgress.progress),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => ShimmerPlaceholder(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
@@ -564,8 +573,8 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                       SizedBox(height: 8.h),
                       LinearProgressIndicator(
                         value: 0.8,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            HexColor('#333333')),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(HexColor('#333333')),
                         backgroundColor: HexColor('#D9D9D9'),
                       ),
                       SizedBox(height: 6.h),
@@ -580,8 +589,7 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 9.h),
                         child: ElevatedButton(
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                             minimumSize: Size(double.infinity, 45.h),
@@ -604,8 +612,7 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 3.h),
                         child: ElevatedButton(
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                             minimumSize: Size(double.infinity, 45.h),
@@ -634,8 +641,7 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50.sp)
-                        ),
+                            borderRadius: BorderRadius.circular(50.sp)),
                         clipBehavior: Clip.antiAlias,
                         width: 40.w,
                         height: 40.w,
@@ -644,9 +650,11 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                           width: 40.w,
                           height: 40.w,
                           fit: BoxFit.cover,
-                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                              CircularProgressIndicator(value: downloadProgress.progress),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  ShimmerPlaceholder(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                       ),
                       Text(
@@ -675,7 +683,8 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                   endIndent: 32.w,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 12.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 12.h),
                   child: Text(
                     widget.initiativeDataModel.description,
                     style: TextStyle(
@@ -691,7 +700,8 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                   endIndent: 32.w,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 6.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 6.h),
                   child: Text(
                     'Donations (10.8K)',
                     style: TextStyle(
@@ -705,176 +715,186 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
                   stream: FbFireStoreController().readInitiativePage(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                      return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          enabled: true,
+                          child: Container(
+                            width: 53.w,
+                            height: 53.w,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50.sp)),
+                          ));
+                    } else if (snapshot.hasData &&
+                        snapshot.data!.docs.isNotEmpty) {
                       List<QueryDocumentSnapshot> document =
                           snapshot.data!.docs; // عشان اقدر اجيب طولها
                       return ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: document.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                                leading: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50.sp)
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  width: 40.w,
-                                  height: 40.w,
-                                  child: CachedNetworkImage(
-                                    imageUrl: '_userProfileData!.profileImageUrl',
-                                    width: 40.w,
-                                    height: 40.w,
-                                    fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(value: downloadProgress.progress),
-                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                  ),
-                                ),
-                                title: Text(
-                                  widget.initiativeDataModel.responsiblePerson,
-                                  style: TextStyle(
-                                    color: HexColor('#8C9EA0'),
-                                    fontSize: 11.sp,
-                                    fontFamily: 'BreeSerif',
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  '\$3.068',
-                                  style: TextStyle(
-                                    color: HexColor('#333333'),
-                                    fontSize: 11.sp,
-                                    fontFamily: 'BreeSerif',
-                                  ),
-                                ),
-                                trailing: Text(
-                                  '1day',
-                                  style: TextStyle(
-                                    color: HexColor('#8C9EA0'),
-                                    fontSize: 11.sp,
-                                    fontFamily: 'BreeSerif',
-                                  ),
-                                ),
-                              );
-                              // Stack(
-                              //   children: [
-                              //     Container(
-                              //       decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(15.sp),
-                              //         color: HexColor('#E0EBF2'),
-                              //       ),
-                              //       child: Container(
-                              //         clipBehavior: Clip.antiAlias,
-                              //         decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(15.sp),
-                              //           color: HexColor('#FFFFFF'),
-                              //           boxShadow: [
-                              //             BoxShadow(
-                              //               color: Colors.black.withOpacity(0.2),
-                              //               spreadRadius: 1,
-                              //               blurRadius: 2,
-                              //               offset: Offset(0, 1), // changes position of shadow
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         child: Column(
-                              //           crossAxisAlignment: CrossAxisAlignment.center,
-                              //           children: [
-                              //             CachedNetworkImage(
-                              //               imageUrl: document[index].get('backgroundImage'),
-                              //               height: 110.h,
-                              //               width: double.infinity,
-                              //               fit: BoxFit.cover,
-                              //               progressIndicatorBuilder: (context, url, downloadProgress) =>
-                              //                   CircularProgressIndicator(value: downloadProgress.progress),
-                              //               errorWidget: (context, url, error) => Icon(Icons.error),
-                              //             ),
-                              //             SizedBox(height: 18.h),
-                              //             Padding(
-                              //               padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              //               child: Text(
-                              //                 document[index].get('initiativeName'),
-                              //                 style: TextStyle(
-                              //                     fontSize: 12.sp,
-                              //                     color: HexColor('#333333'),
-                              //                     fontFamily: 'BreeSerif'),
-                              //               ),
-                              //             ),
-                              //             SizedBox(height: 6.h),
-                              //             // Center(
-                              //             //   child: LinearProgressIndicator(),
-                              //             // ),
-                              //             Padding(
-                              //               padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              //               child: Divider(
-                              //                 height: 0.5.h,
-                              //                 color: HexColor('#D9D9D9'),
-                              //                 thickness: 1.h,
-                              //               ),
-                              //             ),
-                              //             SizedBox(height: 6.h),
-                              //             Padding(
-                              //               padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              //               child: Row(
-                              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //                 children: [
-                              //                   Text(
-                              //                     document[index].get('targetAmount'),
-                              //                     style: TextStyle(
-                              //                         fontSize: 10.sp,
-                              //                         color: HexColor('#3396F9'),
-                              //                         fontFamily: 'BreeSerif'),
-                              //                   ),
-                              //                   Container(
-                              //                     child: Row(
-                              //                       children: [
-                              //                         SvgPicture.asset(
-                              //                           'images/healthcare.svg',
-                              //                           height: 20.h,
-                              //                           width: 20.w,
-                              //                           color: HexColor('#333333'),
-                              //                         ),
-                              //                         SizedBox(width: 6.w,),
-                              //                         Text(
-                              //                           document[index].get('classification'),
-                              //                           style: TextStyle(
-                              //                               fontSize: 8.sp,
-                              //                               color: HexColor('#333333'),
-                              //                               fontFamily: 'BreeSerif'),
-                              //                         ),
-                              //                       ],
-                              //                     ),
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             )
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     Container(
-                              //       decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(50.sp),
-                              //         color: Colors.white,
-                              //       ),
-                              //       margin: EdgeInsets.only(top: 72.h, left: 15.w),
-                              //       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                              //       child: Text(
-                              //         '11.2K donayions',
-                              //         style: TextStyle(
-                              //             fontSize: 9.sp,
-                              //             color: HexColor('#333333'),
-                              //             fontFamily: 'BreeSerif'),
-                              //       ),
-                              //     )
-                              //   ],
-                              // );
-                          },
-                        );
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: document.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.sp)),
+                              clipBehavior: Clip.antiAlias,
+                              width: 40.w,
+                              height: 40.w,
+                              child: CachedNetworkImage(
+                                imageUrl: '_userProfileData!.profileImageUrl',
+                                width: 40.w,
+                                height: 40.w,
+                                fit: BoxFit.cover,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        ShimmerPlaceholder(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            ),
+                            title: Text(
+                              widget.initiativeDataModel.responsiblePerson,
+                              style: TextStyle(
+                                color: HexColor('#8C9EA0'),
+                                fontSize: 11.sp,
+                                fontFamily: 'BreeSerif',
+                              ),
+                            ),
+                            subtitle: Text(
+                              '\$3.068',
+                              style: TextStyle(
+                                color: HexColor('#333333'),
+                                fontSize: 11.sp,
+                                fontFamily: 'BreeSerif',
+                              ),
+                            ),
+                            trailing: Text(
+                              '1day',
+                              style: TextStyle(
+                                color: HexColor('#8C9EA0'),
+                                fontSize: 11.sp,
+                                fontFamily: 'BreeSerif',
+                              ),
+                            ),
+                          );
+                          // Stack(
+                          //   children: [
+                          //     Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(15.sp),
+                          //         color: HexColor('#E0EBF2'),
+                          //       ),
+                          //       child: Container(
+                          //         clipBehavior: Clip.antiAlias,
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(15.sp),
+                          //           color: HexColor('#FFFFFF'),
+                          //           boxShadow: [
+                          //             BoxShadow(
+                          //               color: Colors.black.withOpacity(0.2),
+                          //               spreadRadius: 1,
+                          //               blurRadius: 2,
+                          //               offset: Offset(0, 1), // changes position of shadow
+                          //             ),
+                          //           ],
+                          //         ),
+                          //         child: Column(
+                          //           crossAxisAlignment: CrossAxisAlignment.center,
+                          //           children: [
+                          //             CachedNetworkImage(
+                          //               imageUrl: document[index].get('backgroundImage'),
+                          //               height: 110.h,
+                          //               width: double.infinity,
+                          //               fit: BoxFit.cover,
+                          //               progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          //                   CircularProgressIndicator(value: downloadProgress.progress),
+                          //               errorWidget: (context, url, error) => Icon(Icons.error),
+                          //             ),
+                          //             SizedBox(height: 18.h),
+                          //             Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          //               child: Text(
+                          //                 document[index].get('initiativeName'),
+                          //                 style: TextStyle(
+                          //                     fontSize: 12.sp,
+                          //                     color: HexColor('#333333'),
+                          //                     fontFamily: 'BreeSerif'),
+                          //               ),
+                          //             ),
+                          //             SizedBox(height: 6.h),
+                          //             // Center(
+                          //             //   child: LinearProgressIndicator(),
+                          //             // ),
+                          //             Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          //               child: Divider(
+                          //                 height: 0.5.h,
+                          //                 color: HexColor('#D9D9D9'),
+                          //                 thickness: 1.h,
+                          //               ),
+                          //             ),
+                          //             SizedBox(height: 6.h),
+                          //             Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          //               child: Row(
+                          //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //                 children: [
+                          //                   Text(
+                          //                     document[index].get('targetAmount'),
+                          //                     style: TextStyle(
+                          //                         fontSize: 10.sp,
+                          //                         color: HexColor('#3396F9'),
+                          //                         fontFamily: 'BreeSerif'),
+                          //                   ),
+                          //                   Container(
+                          //                     child: Row(
+                          //                       children: [
+                          //                         SvgPicture.asset(
+                          //                           'images/healthcare.svg',
+                          //                           height: 20.h,
+                          //                           width: 20.w,
+                          //                           color: HexColor('#333333'),
+                          //                         ),
+                          //                         SizedBox(width: 6.w,),
+                          //                         Text(
+                          //                           document[index].get('classification'),
+                          //                           style: TextStyle(
+                          //                               fontSize: 8.sp,
+                          //                               color: HexColor('#333333'),
+                          //                               fontFamily: 'BreeSerif'),
+                          //                         ),
+                          //                       ],
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             )
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Container(
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(50.sp),
+                          //         color: Colors.white,
+                          //       ),
+                          //       margin: EdgeInsets.only(top: 72.h, left: 15.w),
+                          //       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                          //       child: Text(
+                          //         '11.2K donayions',
+                          //         style: TextStyle(
+                          //             fontSize: 9.sp,
+                          //             color: HexColor('#333333'),
+                          //             fontFamily: 'BreeSerif'),
+                          //       ),
+                          //     )
+                          //   ],
+                          // );
+                        },
+                      );
                     } else {
                       return Center(
                         child: Column(
@@ -924,8 +944,7 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
     );
   }
 
-  ConversationModel get conversationModel{
-
+  ConversationModel get conversationModel {
     ConversationModel conversationModel = ConversationModel();
     conversationModel.conversationId = uuid.v4();
     conversationModel.userDataId = SharedPrefController().userDataId;
@@ -933,5 +952,4 @@ class _InitiativeDetailsScreenState extends State<InitiativeDetailsScreen> {
 
     return conversationModel;
   }
-
 }

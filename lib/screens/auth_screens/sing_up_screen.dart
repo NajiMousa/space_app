@@ -9,7 +9,7 @@ import '../../controllers/firebase_controllers/fb_auth_controller.dart';
 import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../helpers/helper.dart';
 import '../../models/user_models/users_registeration_model.dart';
-import '../widgets/app_text_field_widget.dart';
+import '../widgets/app_widgets/app_text_field_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 import 'otp_code_screen.dart';

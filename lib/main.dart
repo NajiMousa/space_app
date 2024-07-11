@@ -1,11 +1,13 @@
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/providers/chat_provider.dart';
+import 'package:difaf_al_wafa_app/providers/data_provider.dart';
 import 'package:difaf_al_wafa_app/providers/language_provider.dart';
 import 'package:difaf_al_wafa_app/providers/theme_provider.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/add_group_screen.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/add_initiative_screen.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/add_user_story_screen.dart';
 import 'package:difaf_al_wafa_app/screens/add_new_screens/new%20_martyrs_profile_screen.dart';
+import 'package:difaf_al_wafa_app/screens/admin_screen/main_admin_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/login_screen.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/otp_code_screen.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/other_main_screens/activities_log_screen.dart';
@@ -17,6 +19,7 @@ import 'package:difaf_al_wafa_app/screens/add_new_screens/new_post_screen.dart';
 import 'package:difaf_al_wafa_app/screens/profile_screens/martyr_profile_screen.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/notifications_screen.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/search_screen.dart';
+import 'package:difaf_al_wafa_app/screens/add_new_screens/new_article_screen.dart';
 import 'package:difaf_al_wafa_app/screens/profile_screens/user_profile_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -64,8 +67,10 @@ void main() async {
     MultiProvider(
       providers: [
         // ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(), child: MyApp(),),
+        ChangeNotifierProvider(create: (_) => DataProvider()),
         ChangeNotifierProvider<LanguageProvider>(create: (_) => LanguageProvider()),
         ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider(),
+
           // child: ChangeNotifierProvider<ChatProvider>(create: (_) => ChatProvider()),
         ),
       ],
@@ -170,7 +175,7 @@ class MyApp extends StatelessWidget {
             // '/main_screen': (context) => const MainScreen(),
             // '/single_messanger_screen': (context) => const SingleMessangerScreen(),
             '/new_post_screen': (context) => NewPostScreen(),
-            '/user_profile_screen': (context) => const UserProfileScreen(),
+            // '/user_profile_screen': (context) => UserProfileScreen(),
             // '/martyr_profile_screen': (context) => MartyrProfileScreen(),
             '/login_screen': (context) => LoginScreen(),
             // '/main_auth_screen': (context) => MainAuthScreen(),
@@ -193,9 +198,11 @@ class MyApp extends StatelessWidget {
             '/add_initiative_screen': (context) => AddInitiativeScreen(),
             '/add_group_screen': (context) => AddGroupScreen(),
             '/add_story_screen': (context) => AddStoryScreen(),
+            '/main_request_screen': (context) => MainRequestScreen(selectedIndex: 0,),
             // '/images_screen': (context) => ImagesScreen(),
             // '/upload_images_screen': (context) => UploadImagesScreen(),
             // '/initiative_details_page': (context) => InitiativeDetailsPage(),
+            '/new_article_screen': (context) => NewArticleScreen(),
           },
 
         );

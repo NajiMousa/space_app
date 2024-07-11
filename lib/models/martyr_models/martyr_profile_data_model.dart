@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MartyrProfileDataModel {
   // late String id ;
   late String martyrDataId ;
@@ -8,9 +10,11 @@ class MartyrProfileDataModel {
   late String dateOfBirth ;
   late String userDataId ;
   late String martyrRequestDataId ;
-  // late String gender ;
   late String backgroundImage ;
   late String profileImage ;
+  late String writeStory ;
+  late String dateOfBirthMartyr ;
+  late String dateOfMartyrdom ;
 
   MartyrProfileDataModel();
 
@@ -30,6 +34,9 @@ class MartyrProfileDataModel {
     // gender = documentMap['gender'];
     backgroundImage = documentMap['backgroundImage'];
     profileImage = documentMap['profileImage'];
+    writeStory = documentMap['writeStory'];
+    dateOfMartyrdom = documentMap['dateOfMartyrdom'];
+    dateOfBirthMartyr = documentMap['dateOfBirthMartyr'];
     print('endForm');
   }
 
@@ -46,7 +53,12 @@ class MartyrProfileDataModel {
     // map['gender'] = gender;
     map['backgroundImage'] = backgroundImage;
     map['profileImage'] = profileImage;
+    map['writeStory'] = writeStory;
+    map['dateOfBirthMartyr'] = dateOfBirthMartyr;
+    map['dateOfMartyrdom'] = dateOfMartyrdom;
     print('endToMap');
     return map;
   }
+
+
 }

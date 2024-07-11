@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:difaf_al_wafa_app/models/message_models/conversation_model.dart';
 import 'package:difaf_al_wafa_app/models/message_models/message_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/show_more_action_message_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/show_more_action_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,7 +43,7 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
     List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
     List<ConversationModel> conversationData = await FbFireStoreController().getAllConversationData();
     setState(() {
-      widget.userProfileDataModel == null ? _userProfileData = userData.firstWhere((user) => user.userDataId == conversationData.first.receiveID) :null ;
+      widget.userProfileDataModel == null ? _userProfileData = userData.firstWhere((user) => user.userDataId == conversationData.first.userDataId) :null ;
     });
 
   }
@@ -312,7 +312,7 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
                             // final message = _messages[index];
                             return ChatBubble(
                               message: document[index].get('content'),
-                              isSentByMe: SharedPrefController().userDataId == document[index].get('receiveID') ? true : false,
+                              isSentByMe: document[index].get('isSentByMe'),
                               userProfileData: widget.userProfileDataModel == null ? _userProfileData : widget.userProfileDataModel,
                             );
                           },
@@ -390,12 +390,15 @@ class _SingleMessangerScreenState extends State<SingleMessangerScreen> {
 
   MessageModel get messageModel {
     MessageModel messageModel = MessageModel();
+    print('SharedPrefController().userDataId');
+    print(SharedPrefController().userDataId);
     messageModel.messageId = uuid.v4();
     messageModel.userDataId = SharedPrefController().userDataId;
     messageModel.receiveID = widget.userProfileDataModel == null ? _userProfileData!.userDataId : widget.userProfileDataModel!.userDataId;
     messageModel.conversationId = widget.conversationModel!.conversationId;
     messageModel.content = _messageTextEditingController.text;
     messageModel.timeStamp = DateTime.now().toString();
+    messageModel.isSentByMe = SharedPrefController().userDataId == widget.conversationModel!.userDataId ? true : false;
     messageModel.isRead = false;
     return messageModel;
   }
@@ -414,46 +417,77 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Padding(
-        padding: EdgeInsets.only(left: 24.w),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.sp)
-              ),
-              clipBehavior: Clip.antiAlias,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child: Row(
+        mainAxisAlignment: isSentByMe ? MainAxisAlignment.start: MainAxisAlignment.end,
+        children: [
+          isSentByMe ? Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.sp)
+            ),
+            clipBehavior: Clip.antiAlias,
+            width: 32.w,
+            height: 32.w,
+            child: CachedNetworkImage(
+              imageUrl: userProfileData!.profileImageUrl,
               width: 32.w,
               height: 32.w,
-              child: CachedNetworkImage(
-                imageUrl: userProfileData!.profileImageUrl,
-                width: 32.w,
-                height: 32.w,
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
+              fit: BoxFit.cover,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-              margin: EdgeInsets.only(bottom: 5.h, top: 5.h, left: 6.w),
-              decoration: BoxDecoration(
-                color: isSentByMe ? HexColor('#D6E0E6') : HexColor('#E0EBF2'),
-                borderRadius: BorderRadius.circular(15.sp),
-              ),
-              child: Text(
-                message,
-                style: TextStyle(
-                    fontSize: 11.sp,
-                    color: HexColor('#333333'),
-                    fontFamily: 'BreeSerif'),
-              ),
+          ):
+          Container(
+            // width: 200.w,
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+            margin: EdgeInsets.only(bottom: 5.h, top: 5.h, left: 6.w,right: 6.w),
+            decoration: BoxDecoration(
+              color: isSentByMe ? HexColor('#D6E0E1') : HexColor('#E0EBF9'),
+              borderRadius: BorderRadius.circular(15.sp),
             ),
-          ],
-        ),
+            child: Text(
+              message,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  color: HexColor('#333333'),
+                  fontFamily: 'BreeSerif'),
+            ),
+          ),
+          isSentByMe ? Container(
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+            margin: EdgeInsets.only(bottom: 5.h, top: 5.h, left: 6.w, right: 6.w),
+            decoration: BoxDecoration(
+              color: isSentByMe ? HexColor('#D6E0E1') : HexColor('#E0EBF9'),
+              borderRadius: BorderRadius.circular(15.sp),
+            ),
+            child: Text(
+              message,
+              style: TextStyle(
+                  fontSize: 11.sp,
+                  color: HexColor('#333333'),
+                  fontFamily: 'BreeSerif'),
+            ),
+          ):
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.sp)
+            ),
+            clipBehavior: Clip.antiAlias,
+            width: 32.w,
+            height: 32.w,
+            child: CachedNetworkImage(
+              imageUrl: userProfileData!.profileImageUrl,
+              width: 32.w,
+              height: 32.w,
+              fit: BoxFit.cover,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:difaf_al_wafa_app/models/collecter_models/follow_model.dart';
 import 'package:difaf_al_wafa_app/models/message_models/conversation_model.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/drawer_menu_Screens/messanger_screens/single_messanger_screen.dart';
@@ -11,9 +12,13 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:uuid/uuid.dart';
 import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../models/user_models/user_profile_data_model.dart';
+import '../widgets/app_widgets/loader_widgets/shimmer_placeholder.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+  UserProfileScreen({Key? key, required this.userProfileData})
+      : super(key: key);
+
+  UserProfileDataModel userProfileData;
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -22,25 +27,18 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   int _selectedTypeMessanger = 0;
   SharedPrefController sharedPrefController = SharedPrefController();
-  UserProfileDataModel? _userProfileData;
-  bool _isLoading = true;
+
+  // UserProfileDataModel? _userProfileData;
+  bool _isLoading = false;
+  bool _isFollow = false;
   var uuid = Uuid();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _loadUserData();
   }
 
-  Future<void> _loadUserData() async {
-    List<UserProfileDataModel> userData = await FbFireStoreController().getAllUserData();
-    print(SharedPrefController().userIdRegistration);
-    print('SharedPrefController().userIdRegistration');
-    setState(() {
-      _userProfileData = userData.firstWhere((user) => user.userIdRegistration == SharedPrefController().userIdRegistration);
-      _isLoading = false;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -489,456 +487,632 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          :Stack(
-        alignment: sharedPrefController.language == 'en'
-            ? Alignment.topLeft
-            : Alignment.topRight,
-        children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(42.sp),
-                bottomRight: Radius.circular(42.sp),
-              ),
-              color: Colors.white,
-            ),
-            child: ListView(
-              padding: EdgeInsets.zero,
-              // crossAxisAlignment: CrossAxisAlignment.start,
+          : Stack(
+              alignment: sharedPrefController.language == 'en'
+                  ? Alignment.topLeft
+                  : Alignment.topRight,
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 260.h,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: sharedPrefController.language == 'en'
-                              ? Radius.circular(42.sp)
-                              : Radius.circular(0.sp),
-                          bottomRight: sharedPrefController.language == 'en'
-                              ? Radius.circular(0.sp)
-                              : Radius.circular(42.sp),
-                        ),
-                        // color: Colors.red,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 10,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: _userProfileData!.backgroundImage,
-                        width: double.infinity,
-                        height: 370.h,
-                        fit: BoxFit.cover,
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            CircularProgressIndicator(value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(42.sp),
+                      bottomRight: Radius.circular(42.sp),
                     ),
-                    Padding(
-                      padding: sharedPrefController.language == 'en'
-                          ? EdgeInsets.only(left: 24.w, top: 215.h)
-                          : EdgeInsets.only(right: 24.w, top: 215.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    color: Colors.white,
+                  ),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
                         children: [
-                          Stack(
-                            alignment: AlignmentDirectional.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: HexColor('#21CED9'),
-                                  borderRadius: BorderRadius.circular(56.sp),
-                                ),
-
-                                width: 90.w,
-                                height: 90.h,
-
+                          Container(
+                            width: double.infinity,
+                            height: 260.h,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft:
+                                    sharedPrefController.language == 'en'
+                                        ? Radius.circular(42.sp)
+                                        : Radius.circular(0.sp),
+                                bottomRight:
+                                    sharedPrefController.language == 'en'
+                                        ? Radius.circular(0.sp)
+                                        : Radius.circular(42.sp),
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: HexColor('#21CED9'),
-                                  borderRadius: BorderRadius.circular(56.sp),
-                                ),
-                                clipBehavior: Clip.antiAlias,
-                                child: CachedNetworkImage(
-                                  imageUrl: _userProfileData!.profileImageUrl,
-                                  width: 84.w,
-                                  height: 84.w,
-                                  fit: BoxFit.cover,
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 70.w,
-                                    right: 4.w,
-                                    top: 62.h,
-                                    bottom: 4.h),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 8.h),
-                                // margin: EdgeInsets.only(left: 24.w),
-                                width: 32.w,
-                                height: 32.h,
-                                decoration: BoxDecoration(
-                                  color: HexColor('#E0EBF2'),
-                                  // Background color
-                                  shape: BoxShape
-                                      .circle, // Make it a circle if desired
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    // Navigator.pop(context);
-                                  },
-                                  child: SvgPicture.asset(
-                                    'images/camera_icon.svg',
-                                    width: 6.w,
-                                    height: 10.h,
-                                    color: HexColor('#333333'),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 16.w,
-                              top: 18.h,
-                              right: 18.w,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '20.3K',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.post,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '205.6K',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.follower,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '10.6K',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.following,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                InkWell(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '03',
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 13.sp,
-                                          color: HexColor('#333333'),
-                                        ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.linkPages,
-                                        style: TextStyle(
-                                          fontFamily: 'BreeSerif',
-                                          fontSize: 10.sp,
-                                          color: HexColor('#8C9EA0'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              // color: Colors.red,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  spreadRadius: 1,
+                                  blurRadius: 10,
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
                                 ),
                               ],
                             ),
-                          )
+                            child: CachedNetworkImage(
+                              imageUrl: widget.userProfileData.backgroundImage,
+                              width: double.infinity,
+                              height: 370.h,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>ShimmerPlaceholder(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
+                          ),
+                          Padding(
+                            padding: sharedPrefController.language == 'en'
+                                ? EdgeInsets.only(left: 24.w, top: 215.h)
+                                : EdgeInsets.only(right: 24.w, top: 215.h),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Stack(
+                                  alignment: AlignmentDirectional.center,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: HexColor('#21CED9'),
+                                        borderRadius:
+                                            BorderRadius.circular(56.sp),
+                                      ),
+                                      width: 90.w,
+                                      height: 90.h,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: HexColor('#21CED9'),
+                                        borderRadius:
+                                            BorderRadius.circular(56.sp),
+                                      ),
+                                      clipBehavior: Clip.antiAlias,
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget
+                                            .userProfileData.profileImageUrl,
+                                        width: 84.w,
+                                        height: 84.w,
+                                        fit: BoxFit.cover,
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>ShimmerPlaceholder(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          left: 70.w,
+                                          right: 4.w,
+                                          top: 62.h,
+                                          bottom: 4.h),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8.w, vertical: 8.h),
+                                      // margin: EdgeInsets.only(left: 24.w),
+                                      width: 32.w,
+                                      height: 32.h,
+                                      decoration: BoxDecoration(
+                                        color: HexColor('#E0EBF2'),
+                                        // Background color
+                                        shape: BoxShape
+                                            .circle, // Make it a circle if desired
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          // Navigator.pop(context);
+                                        },
+                                        child: SvgPicture.asset(
+                                          'images/camera_icon.svg',
+                                          width: 6.w,
+                                          height: 10.h,
+                                          color: HexColor('#333333'),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 16.w,
+                                    top: 18.h,
+                                    right: 18.w,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '20.3K',
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 13.sp,
+                                                color: HexColor('#333333'),
+                                              ),
+                                            ),
+                                            SizedBox(height: 4.h),
+                                            Text(
+                                              AppLocalizations.of(context)!
+                                                  .post,
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 10.sp,
+                                                color: HexColor('#8C9EA0'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      InkWell(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '205.6K',
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 13.sp,
+                                                color: HexColor('#333333'),
+                                              ),
+                                            ),
+                                            SizedBox(height: 4.h),
+                                            Text(
+                                              AppLocalizations.of(context)!
+                                                  .follower,
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 10.sp,
+                                                color: HexColor('#8C9EA0'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      InkWell(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '10.6K',
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 13.sp,
+                                                color: HexColor('#333333'),
+                                              ),
+                                            ),
+                                            SizedBox(height: 4.h),
+                                            Text(
+                                              AppLocalizations.of(context)!
+                                                  .following,
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 10.sp,
+                                                color: HexColor('#8C9EA0'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      InkWell(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              '03',
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 13.sp,
+                                                color: HexColor('#333333'),
+                                              ),
+                                            ),
+                                            SizedBox(height: 4.h),
+                                            Text(
+                                              AppLocalizations.of(context)!
+                                                  .linkPages,
+                                              style: TextStyle(
+                                                fontFamily: 'BreeSerif',
+                                                fontSize: 10.sp,
+                                                color: HexColor('#8C9EA0'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 18.h),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 32.w, bottom: 12.h, right: 32.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
-                        style: TextStyle(
-                          fontFamily: 'BreeSerif',
-                          fontSize: 16.sp,
-                          color: HexColor('#333333'),
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        _userProfileData!.dateOfBirth,
-                        style: TextStyle(
-                          fontFamily: 'BreeSerif',
-                          fontSize: 11.sp,
-                          color: HexColor('#8C9EA0'),
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        _userProfileData!.bio,
-                        style: TextStyle(
-                          fontFamily: 'BreeSerif',
-                          fontSize: 11.sp,
-                          color: HexColor('#333333'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.w),
-                  child: Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return SingleMessangerScreen(conversationModel: conversationModel,userProfileDataModel: _userProfileData,);
-                          },));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.h, horizontal: 18.w),
-                          backgroundColor: HexColor('#333333'),
-                          minimumSize: Size(100.w, 24.h),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(50.sp)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      SizedBox(height: 18.h),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 32.w, bottom: 12.h, right: 32.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SvgPicture.asset(
-                              'images/addPost.svg',
-                              height: 12.h,
-                              width: 12.w,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 5.w),
                             Text(
-                              AppLocalizations.of(context)!.addStory,
+                              widget.userProfileData.firstName +
+                                  ' ' +
+                                  widget.userProfileData.lastName,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 11.sp,
                                 fontFamily: 'BreeSerif',
+                                fontSize: 16.sp,
+                                color: HexColor('#333333'),
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              widget.userProfileData.dateOfBirth,
+                              style: TextStyle(
+                                fontFamily: 'BreeSerif',
+                                fontSize: 11.sp,
+                                color: HexColor('#8C9EA0'),
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Text(
+                              widget.userProfileData.bio,
+                              style: TextStyle(
+                                fontFamily: 'BreeSerif',
+                                fontSize: 11.sp,
+                                color: HexColor('#333333'),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-
-                            // Navigator.pushNamed(
-                            //     context, '/edit_user_profile_page_screen');
-                            // List<UserProfileDataModel> listUserData = await FbFireStoreController().getDataUser();
-                            // print('01');
-                            // for (int i = -1; i <= listUserData.length; i++){
-                            //   print(SharedPrefController().phone);
-                            //   print('SharedPrefController().phone');
-                            //   print('SharedPrefController().userIdRegistration');
-                            //   print(SharedPrefController().userIdRegistration);
-                            //   print(listUserData.length);
-                            //   print('listUserData.length');
-                            //   print(listUserData[0].bio);
-                            //   print('istUserData[i].userIdRegistration');
-                            //   print('00001');
-                            //   if(listUserData[i].userIdRegistration == SharedPrefController().userIdRegistration ){
-                            //     Navigator.push(
-                            //         context, MaterialPageRoute(builder: (context) {
-                            //       return EditUserProfilePageScreen(userProfileDataModel: listUserData[i]);
-                            //     },));
-                            //   }
-                            // }
-
-                            // CollectionReference users = _firebaseFireStore.collection('users');
-                            // QuerySnapshot querySnapshot = SharedPrefController().phone != null
-                            //     ? await users.where('phone', isEqualTo: SharedPrefController().phone).get()
-                            //     : await users.where('email', isEqualTo: SharedPrefController().email).get();
-                            // if (querySnapshot.docs.isNotEmpty) {
-                            //   String docId = querySnapshot.docs.first.id;
-                            //
-                            // }
-
-                            Navigator.push(
-                                context, MaterialPageRoute(builder: (context) {
-                              return EditUserProfilePageScreen(userProfileDataModel: _userProfileData);
-                            },));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 8.h, horizontal: 12.w),
-                            backgroundColor: HexColor('#6699CC'),
-                            minimumSize: Size(double.infinity, 24.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(50.sp)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'images/addPost.svg',
-                                height: 12.h,
-                                width: 12.w,
-                                color: Colors.white,
+                      widget.userProfileData.userDataId ==
+                              SharedPrefController().userDataId
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 32.w),
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return SingleMessangerScreen(
+                                            conversationModel:
+                                                conversationModel,
+                                            userProfileDataModel:
+                                                widget.userProfileData,
+                                          );
+                                        },
+                                      ));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.h, horizontal: 18.w),
+                                      backgroundColor: HexColor('#333333'),
+                                      minimumSize: Size(100.w, 24.h),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  50.sp)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'images/addPost.svg',
+                                          height: 12.h,
+                                          width: 12.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 5.w),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .addStory,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11.sp,
+                                            fontFamily: 'BreeSerif',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return EditUserProfilePageScreen(
+                                                userProfileDataModel:
+                                                    widget.userProfileData);
+                                          },
+                                        ));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8.h, horizontal: 12.w),
+                                        backgroundColor: HexColor('#6699CC'),
+                                        minimumSize:
+                                            Size(double.infinity, 24.h),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadiusDirectional
+                                                    .circular(50.sp)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            'images/addPost.svg',
+                                            height: 12.h,
+                                            width: 12.w,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width: 5.w),
+                                          Text(
+                                            AppLocalizations.of(context)!
+                                                .editProfile,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11.sp,
+                                              fontFamily: 'BreeSerif',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5.w),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.h, horizontal: 8.w),
+                                      backgroundColor: HexColor('#333333'),
+                                      minimumSize: Size(24.w, 24.h),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  50.sp)),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'images/icons.svg',
+                                      height: 12.h,
+                                      width: 12.w,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                AppLocalizations.of(context)!.editProfile,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                  fontFamily: 'BreeSerif',
-                                ),
+                            )
+                          : Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 32.w),
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      print('01');
+                                      _performProcess();
+                                      print('02');
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.h, horizontal: 18.w),
+                                      backgroundColor: _isFollow ? Colors.black12 : HexColor('#333333'),
+                                      minimumSize: Size(100.w, 24.h),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  50.sp)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        _isFollow ? SizedBox() : SvgPicture.asset(
+                                          'images/addPost.svg',
+                                          height: 12.h,
+                                          width: 12.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 5.w),
+                                        Text(
+                                          _isFollow ? 'UnFollow' : 'Follow',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11.sp,
+                                            fontFamily: 'BreeSerif',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return SingleMessangerScreen(
+                                              conversationModel:
+                                                  conversationModel,
+                                              userProfileDataModel:
+                                                  widget.userProfileData,
+                                            );
+                                          },
+                                        ));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8.h, horizontal: 12.w),
+                                        backgroundColor: HexColor('#6699CC'),
+                                        minimumSize:
+                                            Size(double.infinity, 24.h),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadiusDirectional
+                                                    .circular(50.sp)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            'images/messengerIcon.svg',
+                                            height: 12.h,
+                                            width: 12.w,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(width: 5.w),
+                                          Text(
+                                            'Message',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11.sp,
+                                              fontFamily: 'BreeSerif',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 5.w),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.h, horizontal: 8.w),
+                                      backgroundColor: HexColor('#333333'),
+                                      minimumSize: Size(24.w, 24.h),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  50.sp)),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'images/icons.svg',
+                                      height: 12.h,
+                                      width: 12.w,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                      Divider(
+                        thickness: 2,
+                        indent: 32.w,
+                        endIndent: 32.w,
                       ),
-                      SizedBox(width: 5.w),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.h, horizontal: 8.w),
-                          backgroundColor: HexColor('#333333'),
-                          minimumSize: Size(24.w, 24.h),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(50.sp)),
-                        ),
-                        child: SvgPicture.asset(
-                          'images/icons.svg',
-                          height: 12.h,
-                          width: 12.w,
-                          color: Colors.white,
-                        ),
-                      ),
+                      SizedBox(height: 12.h),
                     ],
                   ),
                 ),
-                Divider(
-                  thickness: 2,
-                  indent: 32.w,
-                  endIndent: 32.w,
+                Container(
+                  margin: sharedPrefController.language == 'en'
+                      ? EdgeInsets.only(left: 40.w, top: 50.h)
+                      : EdgeInsets.only(right: 40.w, top: 50.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  // margin: EdgeInsets.only(left: 24.w),
+                  width: 32.w,
+                  height: 32.h,
+                  decoration: BoxDecoration(
+                    color: HexColor('#333333'), // Background color
+                    shape: BoxShape.circle, // Make it a circle if desired
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      // Navigator.pop(context);
+                    },
+                    child: SvgPicture.asset(
+                      sharedPrefController.language == 'en'
+                          ? 'images/arrow_back.svg'
+                          : 'images/arrowForword.svg',
+                      width: 6.w,
+                      height: 10.h,
+                      color: HexColor('#FFFFFF'),
+                    ),
+                  ),
                 ),
-                SizedBox(height: 12.h),
               ],
             ),
-          ),
-          Container(
-            margin: sharedPrefController.language == 'en'
-                ? EdgeInsets.only(left: 40.w, top: 50.h)
-                : EdgeInsets.only(right: 40.w, top: 50.h),
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            // margin: EdgeInsets.only(left: 24.w),
-            width: 32.w,
-            height: 32.h,
-            decoration: BoxDecoration(
-              color: HexColor('#333333'), // Background color
-              shape: BoxShape.circle, // Make it a circle if desired
-            ),
-            child: InkWell(
-              onTap: () {
-                // Navigator.pop(context);
-              },
-              child: SvgPicture.asset(
-                sharedPrefController.language == 'en'
-                    ? 'images/arrow_back.svg'
-                    : 'images/arrowForword.svg',
-                width: 6.w,
-                height: 10.h,
-                color: HexColor('#FFFFFF'),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
-  ConversationModel get conversationModel{
+  Future<void> _performProcess() async {
+    // if (checkData()) {
+    await process();
+    // }
+  }
 
+  Future<void> process() async {
+    if (_isFollow) {
+      bool status = await FbFireStoreController().unFollow(
+          userId: SharedPrefController().userDataId,
+          followingId: widget.userProfileData.userDataId);
+      // if(status){
+      //   bool status = await FbFireStoreController().updateUserData(userProfileDataModel: userData);
+        if(status){
+          setState(() {
+            _isFollow = false;
+          });
+        }
+      // }
+    } else {
+      bool status = await FbFireStoreController().doFollow(followModel: followModel);
+      // if(status){
+        // bool status = await FbFireStoreController().updateUserData(userProfileDataModel: userData);
+        if(status){
+          setState(() {
+            _isFollow = true;
+          });
+        }
+      // }
+    }
+
+    ///showSnackBar(context : context , message : status ? 'Process Success' : 'Process Failed', error : true);
+  }
+
+  ConversationModel get conversationModel {
     ConversationModel conversationModel = ConversationModel();
     conversationModel.conversationId = uuid.v4();
     conversationModel.userDataId = SharedPrefController().userDataId;
-    conversationModel.receiveID = SharedPrefController().userDataId;
+    conversationModel.receiveID = widget.userProfileData.userDataId;
 
     return conversationModel;
   }
 
+  FollowModel get followModel {
+    FollowModel followModel = FollowModel();
+    followModel.followTableId = uuid.v4();
+    followModel.userId = SharedPrefController().userDataId;
+    followModel.timestamp = DateTime.now().toString();
+    followModel.followingId = widget.userProfileData.userDataId;
+    followModel.martyrDataId = '';
+
+    return followModel;
+  }
+
+  UserProfileDataModel get userData {
+
+    UserProfileDataModel userProfileDataModel = UserProfileDataModel();
+    userProfileDataModel.userDataId = widget.userProfileData.userDataId;
+    userProfileDataModel.firstName = widget.userProfileData.firstName;
+    userProfileDataModel.lastName = widget.userProfileData.lastName;
+    userProfileDataModel.bio = widget.userProfileData.bio;
+    userProfileDataModel.dateOfBirth = widget.userProfileData.dateOfBirth;
+    userProfileDataModel.backgroundImage = widget.userProfileData.backgroundImage;
+    userProfileDataModel.profileImageUrl = widget.userProfileData.profileImageUrl;
+    userProfileDataModel.userIdRegistration = widget.userProfileData.userIdRegistration;
+    // userProfileDataModel.followerCount = _isFollow ? widget.userProfileData.followerCount ++ : widget.userProfileData.followerCount --;
+    // userProfileDataModel.followingCount = widget.userProfileData.followingCount;
+    return userProfileDataModel;
+  }
 }

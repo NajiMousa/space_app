@@ -9,6 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../../models/group_models/group_data_model.dart';
+import '../../display_screens/group_details_screen.dart';
+import '../../widgets/app_widgets/loader_widgets/shimmer_placeholder.dart';
 
 class SupportGroupsScreen extends StatefulWidget {
   const SupportGroupsScreen({Key? key}) : super(key: key);
@@ -37,13 +39,10 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
           ),
         ),
         StreamBuilder<QuerySnapshot>(
-          // بناء حسب القتناة لرؤية كل تحديث يحصل
           stream: FbFireStoreController().readGroups(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return ShimmerPlaceholder();
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
               List<QueryDocumentSnapshot> document =
                   snapshot.data!.docs; // عشان اقدر اجيب طولها
@@ -64,9 +63,9 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                       EdgeInsets.only(bottom: 18.h, left: 24.w, right: 24.w),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
-                      //   return GroupScreen(initiativeDataModel: mapGroupDataModel(document[index]));
-                      // },)),
+                      onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
+                        return GroupDetailsScreen(groupDataModel: mapGroupDataModel(document[index]));
+                      },)),
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: [
@@ -78,11 +77,12 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                               imageUrl: document[index].get('backgroundImage'),
                               height: double.infinity,
                               fit: BoxFit.cover,
-                              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(value: downloadProgress.progress),
-                              errorWidget: (context, url, error) => Icon(Icons.error),
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      ShimmerPlaceholder(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
-
                             clipBehavior: Clip.antiAlias,
                           ),
                           Container(
@@ -93,6 +93,7 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                                   bottomRight: Radius.circular(15.sp)),
                               color: HexColor('#333333').withOpacity(0.4),
                             ),
+
                             child: Text(
                               document[index].get('groupName'),
                               style: TextStyle(
@@ -100,6 +101,8 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                                   color: HexColor('#FFFFFF'),
                                   fontFamily: 'BreeSerif'),
                             ),
+                            width: double.infinity,
+                            // height: 24.h,
                           ),
                         ],
                       ),
@@ -556,16 +559,13 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
           ),
         ),
         StreamBuilder<QuerySnapshot>(
-          // بناء حسب القتناة لرؤية كل تحديث يحصل
           stream: FbFireStoreController().readGroups(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return ShimmerPlaceholder();
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
               List<QueryDocumentSnapshot> document =
-                  snapshot.data!.docs; // عشان اقدر اجيب طولها
+                  snapshot.data!.docs;
               return ListView.builder(
                 padding: EdgeInsets.only(bottom: 90.h),
                 shrinkWrap: true,
@@ -573,9 +573,9 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                 itemCount: document.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
-                    //   return GroupScreen(initiativeDataModel: mapGroupDataModel(document[index]));
-                    // },)),
+                    onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) {
+                      return GroupDetailsScreen(groupDataModel: mapGroupDataModel(document[index]));
+                    },)),
                     child: Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
@@ -591,18 +591,28 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
                             clipBehavior: Clip.antiAlias,
                             width: 64.w,
                             height: 64.h,
-                            child: Image.network(
-                              document[index].get('backgroundImage'),
-                              width: double.infinity,
-                              fit: BoxFit.fill,
+                            child: CachedNetworkImage(
+                              imageUrl: document[index].get('backgroundImage'),
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      ShimmerPlaceholder(),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
+                            // Image.network(
+                            //   document[index].get('backgroundImage'),
+                            //   width: double.infinity,
+                            //   fit: BoxFit.fill,
+                            // ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // SizedBox(height: 10.h,),
                               Text(
-                  document[index].get('groupBio'),
+                                document[index].get('groupBio'),
                                 style: TextStyle(
                                     fontSize: 13.sp,
                                     color: HexColor('#333333'),
@@ -958,10 +968,13 @@ class _SupportGroupsScreenState extends State<SupportGroupsScreen> {
   GroupDataModel mapGroupDataModel(QueryDocumentSnapshot documentSnapshot) {
     GroupDataModel groupDataModel = GroupDataModel();
 
-    // initiativeDataModel.iD = documentSnapshot.get('iD');
     groupDataModel.groupName = documentSnapshot.get('groupName');
     groupDataModel.groupBio = documentSnapshot.get('groupBio');
     groupDataModel.groupType = documentSnapshot.get('groupType');
+    groupDataModel.backgroundImage = documentSnapshot.get('backgroundImage');
+    groupDataModel.userDataId = documentSnapshot.get('userDataId');
+    groupDataModel.groupMembersCount = documentSnapshot.get('groupMembersCount');
+    groupDataModel.groupId = documentSnapshot.get('groupId');
 
     return groupDataModel;
   }

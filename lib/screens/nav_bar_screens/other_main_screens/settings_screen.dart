@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
 import 'package:difaf_al_wafa_app/screens/auth_screens/main_auth_screen.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/contact_us_widget.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/show_log_out_messages_widget.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/show_more_action_message_widget.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/show_notfication_setting_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/contact_us_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/show_log_out_messages_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/show_more_action_message_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/show_notfication_setting_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,7 +16,8 @@ import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
 import '../../../models/user_models/user_profile_data_model.dart';
 import '../../../providers/theme_provider.dart';
 import '../../edit_screens/edit_user_profile_page_screen.dart';
-import '../../widgets/choose_language_widget.dart';
+import '../../widgets/app_widgets/choose_language_widget.dart';
+import '../../widgets/app_widgets/loader_widgets/shimmer_placeholder.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -31,10 +32,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool isClickOnCantactUs = false;
   SharedPrefController sharedPrefController = SharedPrefController();
 
-  UserProfileDataModel _userProfileData = UserProfileDataModel();
+  UserProfileDataModel? _userProfileData;
   void initState() {
     // TODO: implement initState
     super.initState();
+    ShimmerPlaceholder();
     _loadUserData();
   }
 
@@ -50,14 +52,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Stack(
+    return  Stack(
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
               onTap: () => Navigator.pushNamed(context, '/user_profile_screen'),
-              child: Stack(
+              child: _userProfileData == null ? ShimmerPlaceholder() : Stack(
                 children: [
                   Container(
                     margin: EdgeInsets.only(
@@ -79,6 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
+                                  _userProfileData == null ? '' :
                                   _userProfileData!.firstName + ' ' + _userProfileData!.lastName,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
@@ -93,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 // ),
                                 SizedBox(height: 6.h),
                                 Text(
-                                  _userProfileData.dateOfBirth,
+                                  _userProfileData!.dateOfBirth,
                                   style: TextStyle(
                                     fontFamily: 'BreeSerif',
                                     fontSize: 9.sp,
@@ -148,12 +151,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     width: 100.w,
                     height: 120.h,
                     child: CachedNetworkImage(
-                      imageUrl: _userProfileData.profileImageUrl,
+                      imageUrl: _userProfileData!.profileImageUrl,
                       width: double.infinity,
                       // height: 370.h,
                       fit: BoxFit.cover,
-                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                          CircularProgressIndicator(value: downloadProgress.progress),
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>ShimmerPlaceholder(),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),

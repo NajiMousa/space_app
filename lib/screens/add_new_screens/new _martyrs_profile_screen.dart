@@ -8,7 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../controllers/firebase_controllers/fb_firestore_controller.dart';
-import '../widgets/app_text_field_widget.dart';
+import '../widgets/app_widgets/app_text_field_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class NewMartyrsProfileScreen extends StatefulWidget {

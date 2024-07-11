@@ -1,13 +1,15 @@
 
 class StoryDataModel {
   late String storyId;
-  late String content;
-  late String imageUrls;
-  late String videoUrls;
-  late String martyrIds;
+  late String text;
+  late List image;
+  late List video;
+  late List martyrIds;
+  late List mentionedFriendsId;
   late String userDataId;
   late String timestamp;
-  late List likes;
+  late int likes;
+  late bool withFollower;
 
 
   StoryDataModel();
@@ -15,12 +17,14 @@ class StoryDataModel {
   StoryDataModel.fromJson(Map<dynamic, dynamic> documentMap) {
     print('startForm');
     storyId = documentMap['storyId'];
-    content = documentMap['content'];
-    imageUrls = documentMap['imageUrls'];
-    videoUrls = documentMap['videoUrls'];
+    text = documentMap['text'];
+    image = documentMap['image'];
+    video = documentMap['video'];
     martyrIds = documentMap['martyrIds'];
     userDataId = documentMap['userDataId'];
     timestamp = documentMap['timestamp'];
+    mentionedFriendsId = documentMap['mentionedFriendsId'];
+    withFollower = documentMap['withFollower'];
     likes = documentMap['likes'];
     print('endForm');
   }
@@ -29,12 +33,15 @@ class StoryDataModel {
     print('startToMap');
     Map<String ,dynamic> map = <String ,dynamic> {};
     map['storyId'] = storyId;
-    map['content'] = content;
-    map['imageUrls'] = imageUrls;
-    map['videoUrls'] = videoUrls;
+    map['text'] = text;
+    map['image'] = image;
+    map['video'] = video;
     map['martyrIds'] = martyrIds;
     map['userDataId'] = userDataId;
     map['timestamp']  = timestamp;
+    map['mentionedFriendsId']  = mentionedFriendsId;
+    map['withFollower']  = withFollower;
+    map['likes']  = likes;
     print('endToMap');
     return map;
   }

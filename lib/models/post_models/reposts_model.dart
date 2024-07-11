@@ -1,8 +1,10 @@
 
+
 class RepostModel {
   late String repostId;
   late String postId;
   late String userId;
+  late String repostContent;
   late String timestamp;
 
   RepostModel();
@@ -13,6 +15,7 @@ class RepostModel {
     postId = documentMap['postId'];
     userId = documentMap['userId'];
     timestamp = documentMap['timestamp'];
+    repostContent = documentMap['repostContent'];
     print('endForm');
   }
 
@@ -23,6 +26,7 @@ class RepostModel {
     map['postId'] = postId;
     map['userId'] = userId;
     map['timestamp']  = timestamp;
+    map['repostContent']  = repostContent;
     print('endToMap');
     return map;
   }

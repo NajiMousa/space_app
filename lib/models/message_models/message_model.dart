@@ -7,6 +7,7 @@ class MessageModel {
   late String timeStamp;
   late String conversationId;
   late bool isRead;
+  late bool isSentByMe;
 
   MessageModel();
 
@@ -19,6 +20,7 @@ class MessageModel {
     content = documentMap['content'];
     timeStamp = documentMap['timeStamp'];
     isRead = documentMap['isRead'];
+    isSentByMe = documentMap['isSentByMe'];
 
     print('endForm');
   }
@@ -33,6 +35,7 @@ class MessageModel {
     map['content'] = content;
     map['timeStamp'] = timeStamp;
     map['isRead'] = isRead;
+    map['isSentByMe'] = isSentByMe;
     print('endToMap');
     return map;
   }

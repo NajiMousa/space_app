@@ -1,20 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:difaf_al_wafa_app/models/martyr_models/martyr_request_data_model.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/add_martyrs_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/martyr_widgets/add_martyrs_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../controllers/firebase_controllers/fb_firestore_controller.dart';
+import '../../../models/martyr_models/martyr_profile_data_model.dart';
 import '../../profile_screens/martyr_profile_screen.dart';
-import '../../widgets/martyrs_profile_widget.dart';
+import '../../widgets/martyr_widgets/martyrs_profile_widget.dart';
 
 class MartyrsProfilesScreen extends StatefulWidget {
-  MartyrsProfilesScreen({Key? key, })
-      : super(key: key);
-
-
+  MartyrsProfilesScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MartyrsProfilesScreen> createState() => _MartyrsProfilesScreenState();
@@ -42,16 +44,22 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
         ),
         // Featured Martyrs Content
         StreamBuilder<QuerySnapshot>(
-          // بناء حسب القتناة لرؤية كل تحديث يحصل
-          stream: FbFireStoreController().readMartyrRequest(),
+          stream: FbFireStoreController().readMartyrData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  enabled: true,
+                  child: Container(
+                    width: 53.w,
+                    height: 53.w,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.sp)),
+                  ));
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-              List<QueryDocumentSnapshot> document =
-                  snapshot.data!.docs;
+              List<QueryDocumentSnapshot> document = snapshot.data!.docs;
               return ConstrainedBox(
                 constraints: BoxConstraints(
                   maxWidth: double.infinity,
@@ -75,25 +83,19 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                     // }
                     return InkWell(
                       child: MartyrsProfileWidget(
-                          martyrRequestDataModel:
-                          mapMartyrReuestDataModel(document[index])),
-                      onTap: () {
-                        print(mapMartyrReuestDataModel(document[index]));
-                        print(mapMartyrReuestDataModel(document[index]).martyrRequestId);
-                        print(mapMartyrReuestDataModel(document[index]).fullMartyrName);
-                        print('mapMartyrReuestDataModel(document[index])');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return MartyrProfileScreen(
-                                martyrRequestDataModel:
-                                mapMartyrReuestDataModel(document[index]),
-                              );
-                            },
-                          ),
-                        );
-                      }
+                          martyrProfileDataModel:
+                              mapMartyrProfileDataModel(document[index])),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return MartyrProfileScreen(
+                              martyrProfileDataModel:
+                                  mapMartyrProfileDataModel(document[index]),
+                            );
+                          },
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -126,163 +128,23 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                 fontFamily: 'BreeSerif'),
           ),
         ),
-        // Recent Additions Content
-
-        // Padding(
-        //   padding:
-        //   EdgeInsets.only(top: 6.h, bottom: 12.h, right: 24.w, left: 24.w),
-        //   child: Stack(
-        //     children: [
-        //       Container(
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(15.sp),
-        //           color: HexColor('#E0EBF2'),
-        //         ),
-        //         child: Container(
-        //           clipBehavior: Clip.antiAlias,
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(15.sp),
-        //             color: HexColor('#E0EBF2'),
-        //           ),
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             children: [
-        //               Image.asset(
-        //                 'images/coverImage.png',
-        //                 width: double.infinity,
-        //                 height: 105.h,
-        //                 fit: BoxFit.fill,
-        //               ),
-        //               SizedBox(height: 18.h),
-        //               Padding(
-        //                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-        //                 child: Row(
-        //                   children: [
-        //                     Text(
-        //                       'Yasser Mansoor',
-        //                       style: TextStyle(
-        //                           fontSize: 13.sp,
-        //                           color: HexColor('#333333'),
-        //                           fontFamily: 'BreeSerif'),
-        //                     ),
-        //                     SizedBox(width: 6.w),
-        //                     Text(
-        //                       '3.1K Candle || 1.2K follower',
-        //                       style: TextStyle(
-        //                           fontSize: 10.sp,
-        //                           color: HexColor('#3396F9'),
-        //                           fontFamily: 'BreeSerif'),
-        //                     ),
-        //                   ],
-        //                 ),
-        //               ),
-        //               Padding(
-        //                 padding: EdgeInsets.only(
-        //                     right: 18.w, left: 18.w, top: 5.h, bottom: 10.h),
-        //                 child: Text(
-        //                   'An adventurer at heart and storyteller by trade, Maya Thompson thrives on exploring the unknown and sharing her experiences with the world.',
-        //                   style: TextStyle(
-        //                       fontSize: 10.sp,
-        //                       color: HexColor('#474747'),
-        //                       fontFamily: 'BreeSerif'),
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: EdgeInsets.only(top: 50.h, left: 18.w, right: 16.w),
-        //         child: Row(
-        //           crossAxisAlignment: CrossAxisAlignment.end,
-        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //           children: [
-        //             Container(
-        //               decoration: BoxDecoration(
-        //                 borderRadius: BorderRadius.circular(50.sp),
-        //               ),
-        //               child: Image.asset(
-        //                 'images/userIcon.png',
-        //                 width: double.infinity,
-        //                 fit: BoxFit.fill,
-        //               ),
-        //               width: 72.w,
-        //               height: 72.h,
-        //               // margin: EdgeInsets.only(top: 35.h, left: 18.w),
-        //             ),
-        //             Container(
-        //               child: Row(
-        //                 children: [
-        //                   ElevatedButton(
-        //                     onPressed: () {},
-        //                     style: ElevatedButton.styleFrom(
-        //                       padding: EdgeInsets.symmetric(
-        //                           vertical: 8.h, horizontal: 12.w),
-        //                       backgroundColor: HexColor('#333333'),
-        //                       minimumSize: Size(100.w, 24.h),
-        //                       shape: RoundedRectangleBorder(
-        //                           borderRadius:
-        //                           BorderRadiusDirectional.circular(50.sp)),
-        //                     ),
-        //                     child: Row(
-        //                       mainAxisAlignment: MainAxisAlignment.center,
-        //                       children: [
-        //                         SvgPicture.asset(
-        //                           'images/addFollow.svg',
-        //                           height: 16.h,
-        //                           width: 16.w,
-        //                           color: Colors.white,
-        //                         ),
-        //                         SizedBox(width: 5.w),
-        //                         Text(
-        //                           'Light a Candle',
-        //                           style: TextStyle(
-        //                             color: Colors.white,
-        //                             fontSize: 10.sp,
-        //                             fontFamily: 'BreeSerif',
-        //                           ),
-        //                         ),
-        //                       ],
-        //                     ),
-        //                   ),
-        //                   ElevatedButton(
-        //                     onPressed: () {},
-        //                     style: ElevatedButton.styleFrom(
-        //                       padding: EdgeInsets.symmetric(
-        //                           vertical: 8.h, horizontal: 8.w),
-        //                       backgroundColor: HexColor('#333333'),
-        //                       minimumSize: Size(24.w, 24.h),
-        //                       shape: RoundedRectangleBorder(
-        //                           borderRadius:
-        //                           BorderRadiusDirectional.circular(50.sp)),
-        //                     ),
-        //                     child: SvgPicture.asset(
-        //                       'images/addFollow.svg',
-        //                       height: 16.h,
-        //                       width: 16.w,
-        //                       color: Colors.white,
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
         StreamBuilder<QuerySnapshot>(
-          // بناء حسب القتناة لرؤية كل تحديث يحصل
-          stream: FbFireStoreController().readMartyrRequest(),
+          stream: FbFireStoreController().readMartyrData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  enabled: true,
+                  child: Container(
+                    width: 53.w,
+                    height: 53.w,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.sp)),
+                  ));
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-              List<QueryDocumentSnapshot> document =
-                  snapshot.data!.docs;
+              List<QueryDocumentSnapshot> document = snapshot.data!.docs;
               return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -290,18 +152,17 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                 itemCount: document.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () =>
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return MartyrProfileScreen(
-                                martyrRequestDataModel:
-                                mapMartyrReuestDataModel(document[index]),
-                              );
-                            },
-                          ),
-                        ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return MartyrProfileScreen(
+                            martyrProfileDataModel:
+                                mapMartyrProfileDataModel(document[index]),
+                          );
+                        },
+                      ),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.only(
                           top: 6.h, bottom: 12.h, right: 24.w, left: 24.w),
@@ -328,14 +189,39 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                                 ],
                               ),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    'images/coverImage.png',
+                                  CachedNetworkImage(
+                                    imageUrl:
+                                        document[index].get('backgroundImage'),
                                     width: double.infinity,
-                                    height: 105.h,
-                                    fit: BoxFit.fill,
+                                    height: 102.h,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade300,
+                                                highlightColor:
+                                                    Colors.grey.shade100,
+                                                enabled: true,
+                                                child: Container(
+                                                  width: 53.w,
+                                                  height: 53.w,
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50.sp)),
+                                                )),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
+                                  // Image.asset(
+                                  //   'images/coverImage.png',
+                                  //   width: double.infinity,
+                                  //   height: 105.h,
+                                  //   fit: BoxFit.fill,
+                                  // ),
                                   SizedBox(height: 18.h),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
@@ -343,7 +229,9 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          document[index].get('fullMartyrName'),
+                                          document[index].get('firstName') +
+                                              ' ' +
+                                              document[index].get('lastName'),
                                           style: TextStyle(
                                               fontSize: 12.sp,
                                               color: HexColor('#333333'),
@@ -364,10 +252,10 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                                     padding: EdgeInsets.only(
                                         right: 18.w,
                                         left: 18.w,
-                                        top: 5.h,
+                                        // top: 5.h,
                                         bottom: 15.h),
                                     child: Text(
-                                      document[index].get('martyrIdNumber'),
+                                      document[index].get('bio'),
                                       style: TextStyle(
                                           fontSize: 9.sp,
                                           color: HexColor('#819395')
@@ -387,13 +275,33 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
+                                  clipBehavior: Clip.antiAlias,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50.sp),
                                   ),
-                                  child: Image.asset(
-                                    'images/userIcon.png',
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        document[index].get('profileImage'),
                                     width: double.infinity,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            Shimmer.fromColors(
+                                                baseColor: Colors.grey.shade300,
+                                                highlightColor:
+                                                    Colors.grey.shade100,
+                                                enabled: true,
+                                                child: Container(
+                                                  width: 53.w,
+                                                  height: 53.w,
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50.sp)),
+                                                )),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                   width: 72.w,
                                   height: 72.h,
@@ -487,27 +395,25 @@ class _MartyrsProfilesScreenState extends State<MartyrsProfilesScreen> {
     );
   }
 
-  MartyrRequestDataModel mapMartyrReuestDataModel(
+  MartyrProfileDataModel mapMartyrProfileDataModel(
       QueryDocumentSnapshot documentSnapshot) {
-    MartyrRequestDataModel martyrRequestDataModel = MartyrRequestDataModel();
-    // martyrRequestDataModel.martyrRequestId = documentSnapshot.get('martyrRequestId');
-    martyrRequestDataModel.dateOfBirthMartyr = documentSnapshot.get('dateOfBirthMartyr');
-    martyrRequestDataModel.dateOfMartyrdom = documentSnapshot.get('dateOfMartyrdom');
-    martyrRequestDataModel.deathCertificate = documentSnapshot.get('deathCertificate');
-    martyrRequestDataModel.firstIdentifiersIDNumber = documentSnapshot.get('firstIdentifiersIDNumber');
-    martyrRequestDataModel.firstIdentifiersPhoneNumber = documentSnapshot.get('firstIdentifiersPhoneNumber');
-    martyrRequestDataModel.fullFirstIdentifiersName = documentSnapshot.get('fullFirstIdentifiersName');
-    martyrRequestDataModel.fullMartyrName = documentSnapshot.get('fullMartyrName');
-    martyrRequestDataModel.fullUserName = documentSnapshot.get('fullUserName');
-    martyrRequestDataModel.martyrIdNumber = documentSnapshot.get('martyrIdNumber');
-    martyrRequestDataModel.placeOfMartyrdom = documentSnapshot.get('placeOfMartyrdom');
-    martyrRequestDataModel.status = documentSnapshot.get('status');
-    martyrRequestDataModel.userIDCertificate = documentSnapshot.get('userIDCertificate');
-    martyrRequestDataModel.userIDNumber = documentSnapshot.get('userIDNumber');
-    martyrRequestDataModel.userPhoneNumber = documentSnapshot.get('userPhoneNumber');
-    martyrRequestDataModel.userDataId = documentSnapshot.get('userDataId');
-    martyrRequestDataModel.martyrRequestId = documentSnapshot.get('martyrRequestId');
+    MartyrProfileDataModel martyrProfileDataModel = MartyrProfileDataModel();
 
-    return martyrRequestDataModel;
+    martyrProfileDataModel.martyrDataId = documentSnapshot.get('martyrDataId');
+    martyrProfileDataModel.firstName = documentSnapshot.get('firstName');
+    martyrProfileDataModel.lastName = documentSnapshot.get('lastName');
+    martyrProfileDataModel.bio = documentSnapshot.get('bio');
+    martyrProfileDataModel.dateOfBirth = documentSnapshot.get('dateOfBirth');
+    martyrProfileDataModel.userDataId = documentSnapshot.get('userDataId');
+    martyrProfileDataModel.martyrRequestDataId =
+        documentSnapshot.get('martyrRequestDataId');
+    martyrProfileDataModel.backgroundImage =
+        documentSnapshot.get('backgroundImage');
+    martyrProfileDataModel.profileImage = documentSnapshot.get('profileImage');
+    martyrProfileDataModel.writeStory = documentSnapshot.get('writeStory');
+    martyrProfileDataModel.dateOfBirthMartyr = documentSnapshot.get('dateOfBirthMartyr');
+    martyrProfileDataModel.dateOfMartyrdom = documentSnapshot.get('dateOfMartyrdom');
+
+    return martyrProfileDataModel;
   }
 }

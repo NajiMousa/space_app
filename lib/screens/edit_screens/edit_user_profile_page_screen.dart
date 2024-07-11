@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:difaf_al_wafa_app/helpers/helper.dart';
 import 'package:difaf_al_wafa_app/screens/primary_screens/main_screen.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/app_text_field_widget.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,8 +22,7 @@ class EditUserProfilePageScreen extends StatefulWidget {
       : super(key: key);
 
   final String title;
-  String coverImageUrl = '';
-  String profileImageUrl = '';
+
   final UserProfileDataModel? userProfileDataModel;
 
   @override
@@ -34,6 +32,7 @@ class EditUserProfilePageScreen extends StatefulWidget {
 
 class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
     with Helper {
+
   final ImagePicker _picker = ImagePicker();
   double _linerProgress = 0;
   double _progress = 0;
@@ -104,16 +103,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
                 //   return MainScreen(selectedIndex: 0);
                 // },));
               },
-              // {
-              //   if (_formKey.currentState!.validate()) {
-              //     _formKey.currentState!.save();
-              //     // Handle save logic here
-              //     ScaffoldMessenger.of(context).showSnackBar(
-              //       SnackBar(
-              //           content: Text('Profile Updated')),
-              //     );
-              //   }
-              // },
+
               style: ElevatedButton.styleFrom(
                 // padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                 minimumSize: Size(double.infinity, 56.h),
@@ -244,6 +234,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
                                               )
                                             : CachedNetworkImage(
                                                 imageUrl: widget
+                                                    .userProfileDataModel == null ? '' : widget
                                                     .userProfileDataModel!
                                                     .backgroundImage,
                                                 width: double.infinity,
@@ -337,6 +328,7 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
                                                   )
                                                 : CachedNetworkImage(
                                                     imageUrl: widget
+                                                        .userProfileDataModel == null ? '' : widget
                                                         .userProfileDataModel!
                                                         .profileImageUrl,
                                                     width: 84.w,
@@ -655,7 +647,6 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
         _coverImage = File(pickedFile.path);
         SharedPrefController().saveCoverImageUrl(coverImageUrl: fileURL);
       }
-
       setState(() {
         _isUploading = false;
       });
@@ -690,76 +681,6 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
     }
   }
 
-  // Future<void> _uploadFile(File file) async {
-  //   setState(() {
-  //     _isUploading = true;
-  //     _progress = 0;
-  //   });
-  //
-  //   String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-  //   Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$fileName');
-  //
-  //   UploadTask uploadTask = storageReference.putFile(file);
-  //
-  //   uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-  //     setState(() {
-  //       _progress = (snapshot.bytesTransferred / snapshot.totalBytes);
-  //     });
-  //   });
-  //
-  //   try {
-  //     await uploadTask.whenComplete(() async {
-  //       String fileURL = await storageReference.getDownloadURL();
-  //       print('File Uploaded: $fileURL');
-  //       setState(() {
-  //         _isUploading = false;
-  //       });
-  //     });
-  //   } catch (e) {
-  //     setState(() {
-  //       _isUploading = false;
-  //     });
-  //     print('Error: $e');
-  //   }
-  // }
-
-  // Future<void> _pickProfileImage() async {
-  //   print('101');
-  //   final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-  //   print('102');
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       print('103');
-  //       _profileImage = File(pickedFile.path);
-  //     });
-  //     print('104');
-  //     SharedPrefController().saveProfileImageUrl(profileImageUrl: await FbStorageController().pickImage(pickedFile: pickedFile, folderName: 'image'));
-  //     print('105');
-  //     profileImageUrl = FbStorageController().imageUrl;
-  //     print('106');
-  //   }
-  // }
-  //
-  // Future<void> _pickCoverImage() async {
-  //   print('firstPickCoverImage');
-  //   final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-  //   if (pickedFile != null) {
-  //     print('01');
-  //     setState(() {
-  //       print('02');
-  //       _coverImage = File(pickedFile.path);
-  //     });
-  //     print('03');
-  //     // bool status =
-  //     SharedPrefController().saveCoverImageUrl(coverImageUrl: await FbStorageController().pickImage(pickedFile: pickedFile, folderName: 'image'));
-  //     // if(status){
-  //     //   showSmackBar(context : context , message : status ? 'Process Success' : 'Process Failed', error : true);
-  //     // }
-  //     print('04');
-  //     coverImageUrl = FbStorageController().imageUrl;
-  //     print('05');
-  //   }
-  // }
 
   UserProfileDataModel get userProfileDataModel {
     print('widget.userProfileDataModel!.id');
@@ -776,8 +697,9 @@ class _EditUserProfilePageScreenState extends State<EditUserProfilePageScreen>
     userProfileDataModel.dateOfBirth = _dateOfBirth.toString();
     userProfileDataModel.backgroundImage = SharedPrefController().coverImageUrl;
     userProfileDataModel.profileImageUrl = SharedPrefController().profileImageUrl;
-    userProfileDataModel.userIdRegistration =
-        SharedPrefController().userIdRegistration;
+    userProfileDataModel.userIdRegistration = SharedPrefController().userIdRegistration;
+    // userProfileDataModel.followerCount = 0;
+    // userProfileDataModel.followingCount = 0;
     return userProfileDataModel;
   }
 

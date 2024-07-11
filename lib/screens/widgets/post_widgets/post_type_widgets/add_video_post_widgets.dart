@@ -1,25 +1,86 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/post_widgets/post_part_widgets/post_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
+import '../../../../controllers/firebase_controllers/fb_firestore_controller.dart';
+import '../../../../models/post_models/posts_model.dart';
+import '../../../../models/user_models/user_profile_data_model.dart';
+import '../../../post_screens/full_comment_screen.dart';
+import '../../app_widgets/loader_widgets/shimmer_placeholder.dart';
 
-class AddVideoPostWidgets extends StatelessWidget {
-  const AddVideoPostWidgets({Key? key}) : super(key: key);
+class AddVideoPostWidgets extends StatefulWidget {
+  AddVideoPostWidgets({Key? key, required this.postsModel}) : super(key: key);
+
+  PostsModel postsModel;
+
+  @override
+  State<AddVideoPostWidgets> createState() => _AddVideoPostWidgetsState();
+}
+
+class _AddVideoPostWidgetsState extends State<AddVideoPostWidgets> {
+  UserProfileDataModel? _userProfileData;
+
+  bool clickLike = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    List<UserProfileDataModel> userData =
+        await FbFireStoreController().getAllUserData();
+    setState(() {
+      _userProfileData = userData
+          .firstWhere((user) => user.userDataId == widget.postsModel.userId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
         Stack(
           alignment: AlignmentDirectional.topEnd,
           children: [
-            Image.asset(
-              'images/backgroundPost.png',
-              width: double.infinity,
-              height: 390.h,
-              fit: BoxFit.fill,
+            // Image.asset(
+            //   'images/backgroundPost.png',
+            //   width: double.infinity,
+            //   height: 390.h,
+            //   fit: BoxFit.fill,
+            // ),
+            ListView.builder(
+              // scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: widget.postsModel.imageUrl.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(15.sp)),
+                  clipBehavior: Clip.antiAlias,
+                  // margin: EdgeInsets.symmetric(vertical: 5.0),
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.sp)),
+                    child: CachedNetworkImage(
+                      imageUrl: _userProfileData!.profileImageUrl,
+                      fit: BoxFit.cover,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              ShimmerPlaceholder(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
+                );
+              },
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -38,10 +99,28 @@ class AddVideoPostWidgets extends StatelessWidget {
                         width: 34.w,
                         height: 34.h,
                       ),
-                      Image.asset(
-                        'images/userIcon.png',
+                      // Image.asset(
+                      //   'images/userIcon.png',
+                      //   width: 30.w,
+                      //   height: 30.w,
+                      // ),
+                      Container(
                         width: 30.w,
                         height: 30.w,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50.sp)),
+                        child: CachedNetworkImage(
+                          imageUrl: _userProfileData!.profileImageUrl,
+                          width: 30.w,
+                          height: 30.w,
+                          fit: BoxFit.cover,
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  ShimmerPlaceholder(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
                       ),
                     ],
                   ),
@@ -54,7 +133,9 @@ class AddVideoPostWidgets extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Yasser Mansoor',
+                            _userProfileData!.firstName +
+                                ' ' +
+                                _userProfileData!.lastName,
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: HexColor('#474747'),
@@ -115,87 +196,7 @@ class AddVideoPostWidgets extends StatelessWidget {
             ),
           ],
         ),
-        Column(
-          children: [
-            Padding(
-              padding:
-              EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    'images/likePost.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#FF0000'),
-                  ),
-                  SizedBox(width: 5.w),
-                  Text(
-                    '15.9K',
-                    style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#333333'),
-                        fontFamily: 'BreeSerif'),
-                  ),
-                  SizedBox(width: 16.w),
-                  SvgPicture.asset(
-                    'images/commentIcon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#333333'),
-                  ),
-                  SizedBox(width: 5.w),
-                  Text(
-                    '10.1K',
-                    style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#333333'),
-                        fontFamily: 'BreeSerif'),
-                  ),
-
-                  SvgPicture.asset(
-                    'images/repostIcon.svg',
-                    height: 40.h,
-                    width: 40.w,
-                    color: HexColor('#333333'),
-                  ),
-                  // SizedBox(width: 5.w),
-                  Text(
-                    '3.6K',
-                    style: TextStyle(
-                        fontSize: 9.sp,
-                        color: HexColor('#333333'),
-                        fontFamily: 'BreeSerif'),
-                  ),
-                  // SizedBox(
-                  //   width: 90.w,
-                  // ),
-                  Spacer(),
-                  SvgPicture.asset(
-                    'images/savedIcon.svg',
-                    height: 18.h,
-                    width: 18.w,
-                    color: HexColor('#8C9EA0'),
-                  ),
-                  SizedBox(width: 20.w),
-                  SvgPicture.asset(
-                    'images/messengerIcon.svg',
-                    height: 20.h,
-                    width: 20.w,
-                    color: HexColor('#8C9EA0'),
-                  ),
-                ],
-              ),
-            ),
-            Divider(
-              height: 0.5.h,
-              color: HexColor('#D9D9D9'),
-              thickness: 1.h,
-            ),
-            SizedBox(
-              height: 20.h,
-            )
-          ],
-        ),
+        PostActionWidget(postsModel: widget.postsModel),
       ],
     );
   }

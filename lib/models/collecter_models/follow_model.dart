@@ -1,31 +1,31 @@
 
-class RepostModel {
-  late String savedId;
-  late String postId;
+class FollowModel {
+  late String followTableId;
+  late String followingId;
   late String userId;
   late String martyrDataId;
   late String timestamp;
 
-  RepostModel();
+  FollowModel();
 
-  RepostModel.fromJson(Map<dynamic, dynamic> documentMap) {
+  FollowModel.fromJson(Map<dynamic, dynamic> documentMap) {
     print('startForm');
-    savedId = documentMap['savedId'];
-    postId = documentMap['postId'];
+    followTableId = documentMap['followTableId'];
+    followingId = documentMap['followingId'];
     userId = documentMap['userId'];
-    martyrDataId = documentMap['martyrDataId'];
     timestamp = documentMap['timestamp'];
+    martyrDataId = documentMap['martyrDataId'];
     print('endForm');
   }
 
   Map<String ,dynamic> toMap(){
     print('startToMap');
     Map<String ,dynamic> map = <String ,dynamic> {};
-    map['savedId'] = savedId;
-    map['postId'] = postId;
+    map['followingId'] = followingId;
     map['userId'] = userId;
-    map['martyrDataId'] = martyrDataId;
+    map['followTableId'] = followTableId;
     map['timestamp']  = timestamp;
+    map['martyrDataId']  = martyrDataId;
 
     print('endToMap');
     return map;

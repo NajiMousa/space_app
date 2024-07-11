@@ -14,7 +14,7 @@ import '../../controllers/firebase_controllers/fb_storage_controller.dart';
 import '../../models/initiative_models/initiative_data_model.dart';
 import '../../prefs/shared_pref_controller.dart';
 import '../primary_screens/main_screen.dart';
-import '../widgets/app_text_field_widget.dart';
+import '../widgets/app_widgets/app_text_field_widget.dart';
 
 class AddInitiativeScreen extends StatefulWidget {
   const AddInitiativeScreen({Key? key, this.initiativeDataModel}) : super(key: key);

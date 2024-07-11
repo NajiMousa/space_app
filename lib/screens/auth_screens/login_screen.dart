@@ -1,7 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:difaf_al_wafa_app/helpers/helper.dart';
 import 'package:difaf_al_wafa_app/prefs/shared_pref_controller.dart';
-import 'package:difaf_al_wafa_app/screens/widgets/app_text_field_widget.dart';
+import 'package:difaf_al_wafa_app/screens/widgets/app_widgets/app_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
